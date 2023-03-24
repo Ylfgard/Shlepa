@@ -6,7 +6,7 @@ namespace PlayerController
     {
         private const float JumpCooldown = 0.1f;
 
-        [Header("Movement")]
+        [Header("Moving")]
         [SerializeField] private float _speed;
 
         [Header("Jumping")]

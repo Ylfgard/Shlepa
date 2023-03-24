@@ -8,9 +8,11 @@ namespace PlayerController
         [SerializeField] private PlayerMovement _mover;
         [SerializeField] private PlayerCamera _camera;
         [SerializeField] private WeaponKeeper _weaponKeeper;
+        [SerializeField] private PlayerParameters _parameters;
 
         public PlayerMovement Mover => _mover;
         public PlayerCamera Camera => _camera;
+        public PlayerParameters Parameters => _parameters;
 
         // Singleton
         private static Player _instance;
