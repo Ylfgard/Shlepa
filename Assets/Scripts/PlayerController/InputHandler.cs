@@ -1,32 +1,47 @@
 using UnityEngine;
-using Global;
 
 namespace PlayerController
 {
     public class InputHandler : MonoBehaviour
     {
+        private const string HorizAxis = "Horizontal";
+        private const string VertAxis = "Vertical";
+        private const string JumpAxis = "Jump";
+        private const string MouseX = "Mouse X";
+        private const string MouseY = "Mouse Y";
+        private const string Shot = "Shot";
+
         [SerializeField] private float sensX;
         [SerializeField] private float sensY;
+
+        private Player _player;
+
+        private void Start()
+        {
+            _player = Player.Instance;
+        }
 
         private void Update()
         {
             Vector3 dir = Vector3.zero;
 
-            dir.x = Input.GetAxisRaw(GlobalConstants.HorizAxis);
-            dir.z = Input.GetAxisRaw(GlobalConstants.VertAxis);
-
+            dir.x = Input.GetAxisRaw(HorizAxis);
+            dir.z = Input.GetAxisRaw(VertAxis);
             dir = dir.normalized * Time.deltaTime;
-            Player.Instance.Move(dir);
 
-            float mouseX = Input.GetAxis(GlobalConstants.MouseX) * Time.deltaTime * sensX;
-            Player.Instance.RotateX(mouseX);
+            dir.y = Input.GetAxis(JumpAxis);
 
-            float mouseY = Input.GetAxis(GlobalConstants.MouseY) * Time.deltaTime * sensY;
-            PlayerCamera.Instance.Rotate(mouseX, mouseY);
-            PlayerCamera.Instance.TiltHead(dir.x, dir.z);
+            _player.Mover.Move(dir);
 
-            if (Input.GetAxis(GlobalConstants.JumpAxis) != 0)
-                Player.Instance.Jump();
+            float mouseX = Input.GetAxis(MouseX) * Time.deltaTime * sensX;
+            _player.Mover.RotateX(mouseX);
+
+            float mouseY = Input.GetAxis(MouseY) * Time.deltaTime * sensY;
+            _player.Camera.Rotate(mouseX, mouseY);
+            _player.Camera.TiltHead(dir.x, dir.z);
+
+            if (Input.GetButton(Shot))
+                _player.Shot();
         }
     }
 }

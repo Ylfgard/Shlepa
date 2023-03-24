@@ -1,28 +1,19 @@
 using UnityEngine;
+using PlayerController.WeaponSystem;
 
 namespace PlayerController
 {
     public class Player : MonoBehaviour
     {
-        private const float JumpCooldown = 0.1f;
+        [SerializeField] private PlayerMovement _mover;
+        [SerializeField] private PlayerCamera _camera;
+        [SerializeField] private WeaponKeeper _weaponKeeper;
 
-        [Header ("Movement")]
-        [SerializeField] private Transform _orientation;
-        [SerializeField] private float _speed;
+        public PlayerMovement Mover => _mover;
+        public PlayerCamera Camera => _camera;
 
-        [Header("Jumping")]
-        [SerializeField] private LayerMask _groundMask;
-        [SerializeField] private float _jumpForce;
-        
-
+        // Singleton
         private static Player _instance;
-
-        private Transform _transform;
-        private Rigidbody _rigidbody;
-        private float _rotateX;
-        private bool _grounded;
-        private bool _readyToJump;
-
         public static Player Instance => _instance;
 
         private void Awake()
@@ -31,42 +22,12 @@ namespace PlayerController
                 Destroy(gameObject);
             else
                 _instance = this;
-
-            _transform = transform;
-            _rigidbody = GetComponent<Rigidbody>();
-            _readyToJump = true;
         }
 
-        private void Update()
+        public void Shot()
         {
-            _grounded = Physics.Raycast(_orientation.position, Vector3.down, 1.25f, _groundMask);
-        }
-
-        public void Move(Vector3 dir)
-        {
-            dir = _orientation.right * dir.x + _orientation.forward * dir.z;
-            dir = _transform.position + dir * _speed;
-            _rigidbody.MovePosition(dir);
-        }
-
-        public void RotateX(float angle)
-        {
-            _rotateX += angle;
-            _orientation.rotation = Quaternion.Euler(0, _rotateX, 0);
-        }
-
-        public void Jump()
-        {
-            if (_grounded == false || _readyToJump == false) return;
-
-            _readyToJump = false;
-            Invoke("ReadyJump", JumpCooldown);
-            _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-        }
-
-        private void ReadyJump()
-        {
-            _readyToJump = true;
+            var weapon = _weaponKeeper.CurWeapon;
+            weapon.Shot(_camera.Transform);
         }
     }
 }

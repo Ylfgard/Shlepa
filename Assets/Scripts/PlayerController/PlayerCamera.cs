@@ -8,20 +8,13 @@ namespace  PlayerController
         [SerializeField] private float _minYAngle, _maxYAngle;
         [SerializeField] private float _tiltHeadAngle;
 
-        private static PlayerCamera _instance;
-
         private Transform _transform;
         private float _rotationX,_rotationY;
 
-        public static PlayerCamera Instance => _instance;
+        public Transform Transform => _transform;
 
         private void Awake()
         {
-            if (_instance != null && _instance != this)
-                Destroy(gameObject);
-            else
-                _instance = this;
-
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
