@@ -26,8 +26,17 @@ namespace PlayerController
 
         public void Shot()
         {
-            var weapon = _weaponKeeper.CurWeapon;
-            weapon.Shot(_camera.Transform);
+            _weaponKeeper.CurWeapon.Shot(_camera.Transform);
+        }
+
+        public void ChangeWeapon(int slot)
+        {
+            _weaponKeeper.ChangeWeapon(slot);
+        }
+
+        public void ReloadWeapon()
+        {
+            _weaponKeeper.CurWeapon.Reload();
         }
     }
 }

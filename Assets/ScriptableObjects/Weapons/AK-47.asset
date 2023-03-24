@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91a1aa0b814267d49aabee7ec9d916b8, type: 3}
-  m_Name: Shotgun
+  m_Name: AK-47
   m_EditorClassIdentifier: 
-  _damage: 5
-  _bullets: 25
-  _shotDelay: 0.5
-  _clipCapacity: 2
-  _distance: 50
-  _dispersionX: 7
-  _dispersionY: 3
+  _damage: 25
+  _bullets: 1
+  _shotDelay: 0.05
+  _clipCapacity: 30
+  _distance: 100
+  _dispersionX: 1
+  _dispersionY: 1
   _animController: {fileID: 9100000, guid: 9086320576b1f064e859c6772b7b503e, type: 2}
-  _slotIndex: 3
+  _slotIndex: 2
