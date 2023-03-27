@@ -40,5 +40,11 @@ namespace PlayerController
         {
             _weaponKeeper.CurWeapon.Reload();
         }
+
+        public void Aim(bool state)
+        {
+            if (_weaponKeeper.CurWeapon.AimValue == 1) return;
+            else _camera.Zoom(_weaponKeeper.CurWeapon.AimValue, state);
+        }
     }
 }

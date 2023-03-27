@@ -15,7 +15,9 @@ namespace PlayerController
         private const string Slot3 = "Slot3";
         private const string Slot4 = "Slot4";
         private const string Slot5 = "Slot5";
+        private const string Slot6 = "Slot6";
         private const string Reload = "Reload";
+        private const string Aim = "Aim";
 
         [SerializeField] private float sensX;
         [SerializeField] private float sensY;
@@ -52,6 +54,12 @@ namespace PlayerController
             if (Input.GetButtonDown(Reload))
                 _player.ReloadWeapon();
 
+            if (Input.GetButtonDown(Aim))
+                _player.Aim(true);
+
+            if (Input.GetButtonUp(Aim))
+                _player.Aim(false);
+
             if (Input.GetButtonDown(Slot1))
                 _player.ChangeWeapon(1);
             if (Input.GetButtonDown(Slot2))
@@ -62,6 +70,8 @@ namespace PlayerController
                 _player.ChangeWeapon(4);
             if (Input.GetButtonDown(Slot5))
                 _player.ChangeWeapon(5);
+            if (Input.GetButtonDown(Slot6))
+                _player.ChangeWeapon(6);
         }
     }
 }

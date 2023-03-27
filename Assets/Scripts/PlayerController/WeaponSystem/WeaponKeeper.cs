@@ -1,12 +1,16 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using TMPro;
+using System;
+
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace PlayerController.WeaponSystem
 {
     public class WeaponKeeper : MonoBehaviour
     {
-        private const int WeaponsCount = 5;
+        private const int WeaponsCount = 6;
 
         [SerializeField] private GameObject _hitMarker;
         [SerializeField] private Animator _animator;
@@ -17,6 +21,7 @@ namespace PlayerController.WeaponSystem
 
         private Weapon[] _weapons;
         private int _curWIndx;
+        private Action _updateCall;
 
         public Weapon CurWeapon => _weapons[_curWIndx];
 
@@ -30,22 +35,42 @@ namespace PlayerController.WeaponSystem
                     Debug.LogError("Error! Slot " + weapon.SlotIndex + " is taken!");
                     continue;
                 }
-                _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeShot, _animator, _hitMarker,
-                    _clipText, _ammoText, weapon);
+
+                if (weapon.Projectile != null)
+                {
+                    _weapons[weapon.SlotIndex - 1] = new WeaponProjectile(_canBeShot, _animator, _hitMarker, _clipText, _ammoText, weapon);
+                    continue;
+                }
+
+                if (weapon.DispersionSpeed > 0)
+                {
+                    var weaponAuto = new WeaponAuto(_canBeShot, _animator, _hitMarker, _clipText, _ammoText, weapon);
+                    _updateCall += weaponAuto.UpdateDisperion;
+                    _weapons[weapon.SlotIndex - 1] = weaponAuto;
+                    continue;
+                }
+
+                _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeShot, _animator, _hitMarker, _clipText, _ammoText, weapon);
             }
+
             _curWIndx = -1;
             ChangeWeapon(_availableWeapons[0].SlotIndex);
+        }
+
+        private void FixedUpdate()
+        {
+            _updateCall?.Invoke();
         }
 
         public async void ChangeWeapon(int slotNumber)
         {
             if (slotNumber <= 0 || slotNumber > WeaponsCount) return;
+            Debug.Log(_weapons[slotNumber - 1]);
             if (_curWIndx == slotNumber - 1 || _weapons[slotNumber - 1] == null) return;
-            if (_curWIndx != -1)
-                await _weapons[_curWIndx].PutAway();
+
+            if (_curWIndx != -1) await _weapons[_curWIndx].PutAway();
             _curWIndx = slotNumber - 1;
             await _weapons[_curWIndx].TakeInHand();
-            Debug.Log("changeWeapon");
         }
 
         public void ReloadEnded()
@@ -56,29 +81,32 @@ namespace PlayerController.WeaponSystem
 
     public class Weapon
     {
-        private LayerMask _canBeShot;
-        private int _damage;
-        private int _bullets;
-        private float _shotDelay;
-        private int _clipCapacity;
-        private float _distance;
-        private float _dispersionX;
-        private float _dispersionY;
-        private RuntimeAnimatorController _animController;
+        protected LayerMask _canBeShot;
+        protected int _damage;
+        protected int _bulletsPerShot;
+        protected float _shotDelay;
+        protected int _clipCapacity;
+        protected float _distance;
+        protected float _dispersionX;
+        protected float _dispersionY;
+        protected float _aimValue;
+        protected RuntimeAnimatorController _animController;
+        protected bool _infiniteAmmo;
 
-        private GameObject _hitMarker;
-        private Animator _animator;
-        private TextMeshProUGUI _clipText;
-        private TextMeshProUGUI _ammoText;
+        protected GameObject _hitMarker;
+        protected Animator _animator;
+        protected TextMeshProUGUI _clipText;
+        protected TextMeshProUGUI _ammoText;
 
-        private int _bulletsInClip;
-        private int _ammos;
-        private bool _readyToShot;
-        private bool _reloading;
+        protected int _bulletsInClip;
+        protected int _ammos;
+        protected bool _readyToShot;
+        protected bool _reloading;
         
 
         public int BulletsInClip => _bulletsInClip;
         public int Ammos => _ammos;
+        public float AimValue => _aimValue;
 
         public Weapon(LayerMask canBeShot, Animator animator, GameObject hitMarker,
             TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters)
@@ -89,13 +117,15 @@ namespace PlayerController.WeaponSystem
             _ammoText = ammoText;
 
             _damage = parameters.Damage;
-            _bullets = parameters.Bullets;
+            _bulletsPerShot = parameters.BulletsPerShot;
             _shotDelay = parameters.ShotDelay;
             _clipCapacity = parameters.ClipCapacity;
             _distance = parameters.Distance;
             _dispersionX = parameters.DispersionX;
             _dispersionY = parameters.DispersionY;
             _animController = parameters.AnimController;
+            _infiniteAmmo = parameters.InfiniteAmmo;
+            _aimValue = parameters.AimValue;
 
             // Debag part
             _hitMarker = hitMarker;
@@ -108,53 +138,74 @@ namespace PlayerController.WeaponSystem
 
         public void Shot(Transform weaponDir)
         {
-            if (_bulletsInClip == 0)
+            if (_clipCapacity == 0)
             {
-                if (_reloading == false) 
-                    Reload();
-            }
-            else
-            {
+                if (_ammos == 0 && _infiniteAmmo == false) return;
                 if (_readyToShot == false) return;
-                
-                if (_reloading) 
-                    _reloading = false;
-                
-                _bulletsInClip--;
+
+                _ammos--;
                 LaunchBullet(weaponDir);
-                _clipText.text = _bulletsInClip.ToString();
+                _ammoText.text = _ammos.ToString();
                 _animator.SetTrigger("Shot");
                 _readyToShot = false;
                 PrepareWeapon();
             }
+            else
+            {
+                if (_bulletsInClip == 0)
+                {
+                    if (_reloading == false) 
+                        Reload();
+                }
+                else
+                {
+                    if (_readyToShot == false) return;
+                
+                    if (_reloading) 
+                        _reloading = false;
+                
+                    _bulletsInClip--;
+                    LaunchBullet(weaponDir);
+                    _clipText.text = _bulletsInClip.ToString();
+                    _animator.SetTrigger("Shot");
+                    _readyToShot = false;
+                    PrepareWeapon();
+                }
+            }
         }
 
-        private void LaunchBullet(Transform weaponDir)
+        protected virtual void LaunchBullet(Transform weaponDir)
         {
-            for (int i = 0; i < _bullets; i++)
+            for (int i = 0; i < _bulletsPerShot; i++)
             {
-                Vector3 dir = weaponDir.forward * _distance;
-                if (_dispersionX != 0 || _dispersionY != 0)
-                {
-                    float x = Random.Range(-_dispersionX, _dispersionX);
-                    dir += weaponDir.right * x;
-
-                    float YRange = Mathf.Sqrt((1 - Mathf.Pow(x, 2) / Mathf.Pow(_dispersionX, 2)) * Mathf.Pow(_dispersionY, 2));
-                    dir += weaponDir.up * Random.Range(-YRange, YRange);
-                }
-                
+                Vector3 dir = CalculateDirecton(weaponDir);
                 RaycastHit hit;
-                if (Physics.Raycast(weaponDir.position, dir.normalized, out hit, _distance, _canBeShot))
+                if (Physics.Raycast(weaponDir.position, dir, out hit, _distance, _canBeShot))
                 {
                     var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
-                    Object.Destroy(marker, 10);
+                    Object.Destroy(marker, 3);
                 }
             }
 
             Debug.Log("Shot bullet");
         }
 
-        private async void PrepareWeapon()
+        protected virtual Vector3 CalculateDirecton(Transform weaponDir)
+        {
+            Vector3 dir = weaponDir.forward * _distance;
+            if (_dispersionX != 0 || _dispersionY != 0)
+            {
+                float x = Random.Range(-_dispersionX, _dispersionX);
+                dir += weaponDir.right * x;
+
+                float YRange = Mathf.Sqrt((1 - Mathf.Pow(x, 2) / Mathf.Pow(_dispersionX, 2)) * Mathf.Pow(_dispersionY, 2));
+                dir += weaponDir.up * Random.Range(-YRange, YRange);
+            }
+
+            return dir.normalized;
+        }
+
+        protected async void PrepareWeapon()
         {
             await Task.Delay(Mathf.RoundToInt(_shotDelay * 1000));
             _readyToShot = true;
@@ -200,9 +251,142 @@ namespace PlayerController.WeaponSystem
         {
             _animator.runtimeAnimatorController = _animController;
             _animator.SetTrigger("TakeInHand");
+
+            if (_infiniteAmmo) _ammoText.gameObject.SetActive(false);
+            else _ammoText.gameObject.SetActive(true);
             _ammoText.text = _ammos.ToString();
+
+            if (_clipCapacity == 0) _clipText.gameObject.SetActive(false);
+            else _clipText.gameObject.SetActive(true);
             _clipText.text = _bulletsInClip.ToString();
             await Task.Delay(50);
+        }
+    }
+
+    public class WeaponAuto : Weapon
+    {
+        private float _dispersionSpeed;
+        private float _curDispersion;
+        private bool _isShoting;
+
+        public WeaponAuto(LayerMask canBeShot, Animator animator, GameObject hitMarker,
+            TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters) :
+            base(canBeShot, animator, hitMarker, clipText, ammoText, parameters)
+        {
+            _canBeShot = canBeShot;
+            _animator = animator;
+            _clipText = clipText;
+            _ammoText = ammoText;
+
+            _damage = parameters.Damage;
+            _bulletsPerShot = parameters.BulletsPerShot;
+            _shotDelay = parameters.ShotDelay;
+            _clipCapacity = parameters.ClipCapacity;
+            _distance = parameters.Distance;
+            _dispersionX = parameters.DispersionX;
+            _dispersionY = parameters.DispersionY;
+            _dispersionSpeed = parameters.DispersionSpeed;
+            _dispersionSpeed = parameters.DispersionSpeed;
+            _animController = parameters.AnimController;
+            _infiniteAmmo = parameters.InfiniteAmmo;
+            
+            _reloading = false;
+            _readyToShot = true;
+            _curDispersion = 0;
+            _isShoting = false;
+
+            // Debag part
+            _hitMarker = hitMarker;
+            _ammos = 99999;
+            _bulletsInClip = _clipCapacity;
+            // End debag
+        }
+
+        public void UpdateDisperion()
+        {
+            if (_isShoting)
+            {
+                if (_curDispersion < _dispersionSpeed)
+                    _curDispersion += Time.fixedDeltaTime * 2;
+                else
+                    _curDispersion = _dispersionSpeed;
+            }
+            else
+            {
+                if (_curDispersion > 0)
+                    _curDispersion -= Time.fixedDeltaTime / 2;
+                else
+                    _curDispersion = 0;
+            }
+
+            if (_readyToShot)
+                _isShoting = false;
+        }
+
+        protected override Vector3 CalculateDirecton(Transform weaponDir)
+        {
+            _isShoting = true;
+            Vector3 dir = weaponDir.forward * _distance;
+            float disScale = _curDispersion / _dispersionSpeed;
+            float curDisX = _dispersionX * disScale;
+            float curDisY = _dispersionY * disScale;
+
+            if (curDisX != 0 || curDisY != 0)
+            {
+                float x = Random.Range(-curDisX, curDisX);
+                dir += weaponDir.right * x;
+
+                float YRange = Mathf.Sqrt((1 - Mathf.Pow(x, 2) / Mathf.Pow(curDisX, 2)) * Mathf.Pow(curDisY, 2));
+                dir += weaponDir.up * Random.Range(-YRange, YRange);
+            }
+
+            return dir.normalized;
+        }
+    }
+
+    public class WeaponProjectile : Weapon
+    {
+        private ObjectPool<Projectile> _projectilesPool;
+
+        public WeaponProjectile(LayerMask canBeShot, Animator animator, GameObject hitMarker,
+            TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters) :
+            base(canBeShot, animator, hitMarker, clipText, ammoText, parameters)
+        {
+            _canBeShot = canBeShot;
+            _animator = animator;
+            _clipText = clipText;
+            _ammoText = ammoText;
+
+            _damage = parameters.Damage;
+            _bulletsPerShot = parameters.BulletsPerShot;
+            _shotDelay = parameters.ShotDelay;
+            _clipCapacity = parameters.ClipCapacity;
+            _distance = parameters.Distance;
+            _dispersionX = parameters.DispersionX;
+            _dispersionY = parameters.DispersionY;
+            _animController = parameters.AnimController;
+            _infiniteAmmo = parameters.InfiniteAmmo;
+            _projectilesPool = new ObjectPool<Projectile>(parameters.Projectile);
+
+            _reloading = false;
+            _readyToShot = true;
+
+            // Debag part
+            _hitMarker = hitMarker;
+            _ammos = 99999;
+            _bulletsInClip = _clipCapacity;
+            // End debag
+        }
+
+        protected override void LaunchBullet(Transform weaponDir)
+        {
+            for (int i = 0; i < _bulletsPerShot; i++)
+            {
+                Vector3 dir = CalculateDirecton(weaponDir);
+                _projectilesPool.GetObjectFromPool().Initialize(weaponDir.position, dir, 5);
+            }
+
+            Debug.Log("Shot bullet");
         }
     }
 }

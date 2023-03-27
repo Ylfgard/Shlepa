@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91a1aa0b814267d49aabee7ec9d916b8, type: 3}
-  m_Name: Shotgun
+  m_Name: Rifle
   m_EditorClassIdentifier: 
-  _damage: 5
-  _bulletsPerShot: 10
-  _shotDelay: 0.75
+  _damage: 100
+  _bulletsPerShot: 1
+  _shotDelay: 1.5
   _clipCapacity: 0
-  _distance: 15
-  _dispersionX: 5
-  _dispersionY: 2
+  _distance: 1000
+  _dispersionX: 0
+  _dispersionY: 0
   _dispersionSpeed: 0
-  _aimValue: 1
+  _aimValue: 5
   _projectile: {fileID: 0}
   _animController: {fileID: 9100000, guid: 9086320576b1f064e859c6772b7b503e, type: 2}
-  _slotIndex: 3
+  _slotIndex: 6
   _infiniteAmmo: 0

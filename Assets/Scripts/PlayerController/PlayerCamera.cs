@@ -9,7 +9,9 @@ namespace  PlayerController
         [SerializeField] private float _tiltHeadAngle;
 
         private Transform _transform;
+        private Camera _camera;
         private float _rotationX,_rotationY;
+        private float _defualtFieldOfView;
 
         public Transform Transform => _transform;
 
@@ -19,7 +21,8 @@ namespace  PlayerController
             Cursor.visible = false;
 
             _transform = transform;
-            _rotationY = 0;
+            _camera = Camera.main;
+            _defualtFieldOfView = _camera.fieldOfView;
         }
 
         private void Update()
@@ -43,6 +46,14 @@ namespace  PlayerController
                 _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _tiltHeadAngle);
             else
                 _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, -_tiltHeadAngle);
+        }
+
+        public void Zoom(float value, bool state)
+        {
+            if (state)
+                _camera.fieldOfView = _defualtFieldOfView / value;
+            else
+                _camera.fieldOfView = _defualtFieldOfView;
         }
     }
 }

@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91a1aa0b814267d49aabee7ec9d916b8, type: 3}
   m_Name: AK-47
   m_EditorClassIdentifier: 
-  _damage: 25
-  _bullets: 1
+  _damage: 20
+  _bulletsPerShot: 1
   _shotDelay: 0.05
   _clipCapacity: 30
-  _distance: 100
-  _dispersionX: 1
-  _dispersionY: 1
+  _distance: 30
+  _dispersionX: 3
+  _dispersionY: 3
+  _dispersionSpeed: 1
+  _aimValue: 1
+  _projectile: {fileID: 0}
   _animController: {fileID: 9100000, guid: 9086320576b1f064e859c6772b7b503e, type: 2}
-  _slotIndex: 2
+  _slotIndex: 4
+  _infiniteAmmo: 0
