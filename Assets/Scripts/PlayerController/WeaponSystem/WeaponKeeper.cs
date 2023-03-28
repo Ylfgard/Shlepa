@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using TMPro;
 using System;
+using Enemys;
 
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -19,14 +20,17 @@ namespace PlayerController.WeaponSystem
         [SerializeField] private WeaponSO[] _availableWeapons;
         [SerializeField] private LayerMask _canBeShot;
 
+        private EnemyKeeper _enemyKeeper;
         private Weapon[] _weapons;
         private int _curWIndx;
         private Action _updateCall;
 
         public Weapon CurWeapon => _weapons[_curWIndx];
 
-        private void Awake()
+        private void Start()
         {
+            _enemyKeeper = EnemyKeeper.Instance;
+
             _weapons = new Weapon[WeaponsCount];
             foreach (var weapon in _availableWeapons)
             {
@@ -38,19 +42,22 @@ namespace PlayerController.WeaponSystem
 
                 if (weapon.Projectile != null)
                 {
-                    _weapons[weapon.SlotIndex - 1] = new WeaponProjectile(_canBeShot, _animator, _hitMarker, _clipText, _ammoText, weapon);
+                    _weapons[weapon.SlotIndex - 1] = new WeaponProjectile(_canBeShot, _animator, _enemyKeeper,
+                        _hitMarker, _clipText, _ammoText, weapon);
                     continue;
                 }
 
                 if (weapon.DispersionSpeed > 0)
                 {
-                    var weaponAuto = new WeaponAuto(_canBeShot, _animator, _hitMarker, _clipText, _ammoText, weapon);
+                    var weaponAuto = new WeaponAuto(_canBeShot, _animator, _enemyKeeper,
+                        _hitMarker, _clipText, _ammoText, weapon);
                     _updateCall += weaponAuto.UpdateDisperion;
                     _weapons[weapon.SlotIndex - 1] = weaponAuto;
                     continue;
                 }
 
-                _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeShot, _animator, _hitMarker, _clipText, _ammoText, weapon);
+                _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeShot, _animator, _enemyKeeper,
+                    _hitMarker, _clipText, _ammoText, weapon);
             }
 
             _curWIndx = -1;
@@ -95,6 +102,7 @@ namespace PlayerController.WeaponSystem
 
         protected GameObject _hitMarker;
         protected Animator _animator;
+        protected EnemyKeeper _enemyKeeper;
         protected TextMeshProUGUI _clipText;
         protected TextMeshProUGUI _ammoText;
 
@@ -108,11 +116,12 @@ namespace PlayerController.WeaponSystem
         public int Ammos => _ammos;
         public float AimValue => _aimValue;
 
-        public Weapon(LayerMask canBeShot, Animator animator, GameObject hitMarker,
+        public Weapon(LayerMask canBeShot, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
             TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters)
         {
             _canBeShot = canBeShot;
             _animator = animator;
+            _enemyKeeper = enemyKeeper;
             _clipText = clipText;
             _ammoText = ammoText;
 
@@ -184,10 +193,9 @@ namespace PlayerController.WeaponSystem
                 {
                     var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
                     Object.Destroy(marker, 3);
+                    _enemyKeeper.MakeDamage(hit.collider.gameObject, _damage, false);
                 }
             }
-
-            Debug.Log("Shot bullet");
         }
 
         protected virtual Vector3 CalculateDirecton(Transform weaponDir)
@@ -269,12 +277,13 @@ namespace PlayerController.WeaponSystem
         private float _curDispersion;
         private bool _isShoting;
 
-        public WeaponAuto(LayerMask canBeShot, Animator animator, GameObject hitMarker,
+        public WeaponAuto(LayerMask canBeShot, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
             TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters) :
-            base(canBeShot, animator, hitMarker, clipText, ammoText, parameters)
+            base(canBeShot, animator, enemyKeeper, hitMarker, clipText, ammoText, parameters)
         {
             _canBeShot = canBeShot;
             _animator = animator;
+            _enemyKeeper = enemyKeeper;
             _clipText = clipText;
             _ammoText = ammoText;
 
@@ -346,14 +355,15 @@ namespace PlayerController.WeaponSystem
 
     public class WeaponProjectile : Weapon
     {
-        private ObjectPool<Projectile> _projectilesPool;
+        private ObjectPool<Grenade> _projectilesPool;
 
-        public WeaponProjectile(LayerMask canBeShot, Animator animator, GameObject hitMarker,
+        public WeaponProjectile(LayerMask canBeShot, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
             TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters) :
-            base(canBeShot, animator, hitMarker, clipText, ammoText, parameters)
+            base(canBeShot, animator, enemyKeeper, hitMarker, clipText, ammoText, parameters)
         {
             _canBeShot = canBeShot;
             _animator = animator;
+            _enemyKeeper = enemyKeeper;
             _clipText = clipText;
             _ammoText = ammoText;
 
@@ -366,7 +376,7 @@ namespace PlayerController.WeaponSystem
             _dispersionY = parameters.DispersionY;
             _animController = parameters.AnimController;
             _infiniteAmmo = parameters.InfiniteAmmo;
-            _projectilesPool = new ObjectPool<Projectile>(parameters.Projectile);
+            _projectilesPool = new ObjectPool<Grenade>(parameters.Projectile);
 
             _reloading = false;
             _readyToShot = true;
@@ -383,10 +393,8 @@ namespace PlayerController.WeaponSystem
             for (int i = 0; i < _bulletsPerShot; i++)
             {
                 Vector3 dir = CalculateDirecton(weaponDir);
-                _projectilesPool.GetObjectFromPool().Initialize(weaponDir.position, dir, 5);
+                _projectilesPool.GetObjectFromPool().Initialize(_enemyKeeper, weaponDir.position, dir, 5);
             }
-
-            Debug.Log("Shot bullet");
         }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4948330746999287752}
   - component: {fileID: 4296148491903532456}
   - component: {fileID: 4517399284837583302}
-  - component: {fileID: 7920104461644082467}
+  - component: {fileID: -8577323299821364800}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -98,7 +98,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7920104461644082467
+--- !u!114 &-8577323299821364800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,17 +107,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 323705573896992981}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b260ec5e26282f143947ebc3c9acea6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e0bea461c59a5241810cb77cd54e94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startSpeed: 15
+  _damage: 50
+  _startSpeed: 25
   _gravityImpact: -10
-  _slowImpact: 2
+  _slowImpact: 4
   _affectedAreaRadius: 5
+  _detectRadius: 0.2
   _canBeCollided:
     serializedVersion: 2
     m_Bits: 72
   _canBeDamaged:
     serializedVersion: 2
     m_Bits: 8
-  _detectRadius: 0.2

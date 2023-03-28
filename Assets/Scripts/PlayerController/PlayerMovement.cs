@@ -12,29 +12,37 @@ namespace PlayerController
         [Header("Jumping")]
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _jumpHight;
-        [SerializeField] private float _gravity;
+        [SerializeField] private float _jumpTime;
         [SerializeField] private float _maxFallSpeed;
 
         private Transform _transform;
         private CharacterController _controller;
         private float _rotateX;
         private float _ySpeed;
+        private float _jumpStartSpeed;
+        private float _gravity;
         private bool _grounded;
         private bool _readyToJump;
+
+        public Transform Transform => _transform;
 
         private void Awake()
         {
             _transform = transform;
             _controller = GetComponent<CharacterController>();
             _readyToJump = true;
+
+            float t = _jumpTime / 2;
+            _gravity = (-2 * _jumpHight) / Mathf.Pow(t, 2);
+            _jumpStartSpeed = -_gravity * t;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _grounded = Physics.Raycast(_transform.position, Vector3.down, 1.25f, _groundMask);
 
             if (_ySpeed > _maxFallSpeed)
-                _ySpeed += _gravity * Time.deltaTime;
+                _ySpeed += _gravity * Time.fixedDeltaTime;
             else
                 _ySpeed = _maxFallSpeed;
         }
@@ -50,11 +58,11 @@ namespace PlayerController
                 {
                     _readyToJump = false;
                     Invoke("ReadyJump", JumpCooldown);
-                    _ySpeed = _jumpHight;
+                    _ySpeed = _jumpStartSpeed;
                 }
             }
 
-            dir.y = _ySpeed;
+            dir.y = _ySpeed * Time.deltaTime;
             _controller.Move(dir);
         }
 

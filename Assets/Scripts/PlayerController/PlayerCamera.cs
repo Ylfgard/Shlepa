@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace  PlayerController
 {
     public class PlayerCamera : MonoBehaviour
     {
+        [SerializeField] private Image _aim;
+        [SerializeField] private Image _sniperAim;
+        [SerializeField] private Image _weaponSpR;
         [SerializeField] private Transform _origin;
         [SerializeField] private float _minYAngle, _maxYAngle;
         [SerializeField] private float _tiltHeadAngle;
@@ -23,6 +27,7 @@ namespace  PlayerController
             _transform = transform;
             _camera = Camera.main;
             _defualtFieldOfView = _camera.fieldOfView;
+            _sniperAim.enabled = false;
         }
 
         private void Update()
@@ -50,10 +55,15 @@ namespace  PlayerController
 
         public void Zoom(float value, bool state)
         {
+            if (value <= 1) return;
             if (state)
                 _camera.fieldOfView = _defualtFieldOfView / value;
             else
                 _camera.fieldOfView = _defualtFieldOfView;
+
+            _sniperAim.enabled = state;
+            _aim.enabled = !state;
+            _weaponSpR.enabled = !state;
         }
     }
 }

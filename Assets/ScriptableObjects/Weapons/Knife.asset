@@ -16,7 +16,7 @@ MonoBehaviour:
   _bulletsPerShot: 1
   _shotDelay: 0.25
   _clipCapacity: 0
-  _distance: 1
+  _distance: 2
   _dispersionX: 0
   _dispersionY: 0
   _dispersionSpeed: 0

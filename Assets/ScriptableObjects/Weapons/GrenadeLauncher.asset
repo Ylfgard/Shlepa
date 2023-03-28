@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91a1aa0b814267d49aabee7ec9d916b8, type: 3}
   m_Name: GrenadeLauncher
   m_EditorClassIdentifier: 
-  _damage: 100
+  _damage: 50
   _bulletsPerShot: 1
   _shotDelay: 2
   _clipCapacity: 0

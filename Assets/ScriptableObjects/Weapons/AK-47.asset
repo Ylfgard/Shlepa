@@ -17,8 +17,8 @@ MonoBehaviour:
   _shotDelay: 0.05
   _clipCapacity: 30
   _distance: 30
-  _dispersionX: 3
-  _dispersionY: 3
+  _dispersionX: 2
+  _dispersionY: 1
   _dispersionSpeed: 1
   _aimValue: 1
   _projectile: {fileID: 0}
