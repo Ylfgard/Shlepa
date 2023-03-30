@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using PlayerController;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace Enemys
 {
@@ -61,12 +61,12 @@ namespace Enemys
         {
             _isAttacking = true;
             _animationController.SetTrigger("Attack");
-            PrepareAttack();
+            StartCoroutine(PrepareAttack());
         }
 
-        protected async void PrepareAttack()
+        protected IEnumerator PrepareAttack()
         {
-            await Task.Delay(Mathf.RoundToInt(_attackDelay * 1000));
+            yield return new WaitForSeconds(_attackDelay);
             _isAttacking = false;
         }
 
@@ -80,7 +80,7 @@ namespace Enemys
 
         public virtual void Death()
         {
-            Debug.Log("Im DEAD! " + gameObject.name);
+            StopAllCoroutines();
             gameObject.SetActive(false);
         }
 

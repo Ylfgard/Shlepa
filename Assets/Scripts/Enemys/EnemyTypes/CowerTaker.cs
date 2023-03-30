@@ -1,12 +1,14 @@
 using UnityEngine;
 using Enemys.Cowers;
 using Enemys.Projectiles;
+using System.Collections;
 
 namespace Enemys
 {
     public class CowerTaker : RangeEnemy
     {
         protected CowerKeeper _cowerKeeper;
+        protected Cower _curCower;
         protected bool _moveToCover;
 
         protected override void Start()
@@ -53,10 +55,9 @@ namespace Enemys
             {
                 if (Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged).Length > 0)
                 {
-                    Debug.Log("Shot");
                     _isAttacking = true;
                     _animationController.SetTrigger("Attack");
-                    PrepareAttack();
+                    StartCoroutine(PrepareAttack());
                     _agent.isStopped = true;
                     return;
                 }
@@ -64,9 +65,23 @@ namespace Enemys
             MoveToAttack();
         }
 
-        protected override void MakeShot()
+        protected override void FastShot()
         {
-            base.MakeShot();
+            base.FastShot();
+            _agent.isStopped = false;
+            TakeCover();
+        }
+
+        protected override IEnumerator Shot()
+        {
+            Vector3 dirToTarget = _target.position - _shotPoint.position;
+            for (int i = 0; i < _bulletsPerShot; i++)
+            {
+                var bullet = _bullets.GetObjectFromPool();
+                Vector3 dir = CalculateBulletDir(i);
+                bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime);
+                yield return new WaitForSeconds(_bulletDelay);
+            }
             _agent.isStopped = false;
             TakeCover();
         }
@@ -76,12 +91,17 @@ namespace Enemys
             if (_moveToCover) return;
             _moveToCover = true;
             Cower cower = _cowerKeeper.GetNearestShelter(_transform.position);
-            _agent.SetDestination(cower.GetCowerPoint(_target.position));
+            if (_curCower != cower)
+            {
+                _agent.SetDestination(cower.GetCowerPoint(_target.position));
+                _curCower = cower;
+            }
         }
 
         protected void MoveToAttack()
         {
             _agent.SetDestination(_target.position);
+            _curCower = null;
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 using Enemys.Projectiles;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace Enemys
 {
@@ -9,6 +9,8 @@ namespace Enemys
         [Header("Shot Parameters")]
         [SerializeField] protected GameObject _bullet;
         [SerializeField] protected int _bulletsPerShot;
+        [SerializeField] protected bool _randomDir;
+        [SerializeField] protected float _dispersion;
         [SerializeField] protected float _bulletDelay;
         [SerializeField] protected Transform _shotPoint;
         [SerializeField] protected float _bulletLifeTime;
@@ -70,20 +72,52 @@ namespace Enemys
             }
         }
 
-        protected virtual async void MakeShot()
+        protected void MakeShot()
+        {
+            if (_bulletDelay > 0)
+                StartCoroutine(Shot());
+            else
+                FastShot();
+        }
+
+        protected virtual void FastShot()
         {
             for (int i = 0; i < _bulletsPerShot; i++)
             {
                 var bullet = _bullets.GetObjectFromPool();
-                Vector3 dir = CalculateBulletDir();
+                Vector3 dir = CalculateBulletDir(i);
                 bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime);
-                await Task.Delay(Mathf.RoundToInt(_bulletDelay * 1000));
             }
         }
 
-        protected virtual Vector3 CalculateBulletDir()
+        protected virtual IEnumerator Shot()
+        {
+            Vector3 dirToTarget = _target.position - _shotPoint.position;
+            for (int i = 0; i < _bulletsPerShot; i++)
+            {
+                var bullet = _bullets.GetObjectFromPool();
+                Vector3 dir = CalculateBulletDir(i);
+                bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime);
+                yield return new WaitForSeconds(_bulletDelay);
+            }
+        }
+
+        protected virtual Vector3 CalculateBulletDir(int number)
         {
             Vector3 dir = _target.position - _shotPoint.position;
+            if (_dispersion != 0)
+            {
+                dir = dir.normalized * _attackDistance;
+                Vector3 normal = Vector3.forward;
+                Vector3.OrthoNormalize(ref dir, ref normal);
+                float x = _bulletsPerShot / 2;
+                if (_randomDir)
+                    x = Random.Range(-_dispersion, _dispersion);
+                else
+                    x = _dispersion * ((number - x) / x);
+                
+                dir += normal * x;
+            }
             return dir.normalized;
         }
     }
