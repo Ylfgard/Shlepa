@@ -6,6 +6,8 @@ public class ObjectPool<T> where T : MonoBehaviour
     private GameObject _prefab;
     private List<T> _objects;
 
+    public T Value => _prefab.GetComponent<T>();
+
     public ObjectPool(GameObject prefab)
     {
         _prefab = prefab;

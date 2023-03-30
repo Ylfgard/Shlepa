@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4948330746999287752}
   - component: {fileID: 4296148491903532456}
   - component: {fileID: 4517399284837583302}
-  - component: {fileID: -8577323299821364800}
-  m_Layer: 0
-  m_Name: Grenade
+  - component: {fileID: 1486050904019437756}
+  m_Layer: 8
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 323705573896992981}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.09, y: 1.24, z: 1.13}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,7 +98,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-8577323299821364800
+--- !u!114 &1486050904019437756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,17 +107,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 323705573896992981}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e0bea461c59a5241810cb77cd54e94d, type: 3}
+  m_Script: {fileID: 11500000, guid: a8e817165bd52d845937dab0da3cb325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRadius: 0.2
+  _startSpeed: 10
+  _gravityImpact: 0
+  _slowImpact: 0
+  _canBeHit: 0
+  _maxHealth: 0
+  _detectRadius: 0.05
   _canBeCollided:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 192
   _canBeDamaged:
     serializedVersion: 2
-    m_Bits: 8
-  _startSpeed: 25
-  _speedChanges: -2
-  _gravityImpact: -10
-  _affectedAreaRadius: 5
+    m_Bits: 128

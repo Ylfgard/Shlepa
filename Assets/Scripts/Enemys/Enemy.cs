@@ -10,6 +10,7 @@ namespace Enemys
     {
         [Header ("Balance")]
         [SerializeField] protected int _maxHealth;
+        [SerializeField] protected float _speed;
         [SerializeField] protected int _damage;
         [SerializeField] protected float _attackDelay;
         [SerializeField] protected float _attackDistance;
@@ -25,6 +26,7 @@ namespace Enemys
         protected bool _isAttacking;
         protected bool _isActive;
         protected int _curHealth;
+        protected Transform _target;
 
         public List<WeakPoint> WeakPoints => _weakPoints;
 
@@ -32,6 +34,9 @@ namespace Enemys
         {
             _transform = transform;
             _agent = GetComponent<NavMeshAgent>();
+            _agent.speed = _speed;
+            _agent.angularSpeed = 360;
+            _agent.acceleration = 100;
             foreach (WeakPoint weakPoint in _weakPoints)
                 weakPoint.Initialize(this);
         }
@@ -39,18 +44,23 @@ namespace Enemys
         protected virtual void Start()
         {
             _player = Player.Instance;
+            _target = _player.Mover.Transform;
             EnemyKeeper.Instance.AddEnemy(this);
+            Initialize(_transform.position, true);
         }
 
-        public virtual void Initialize(bool active)
+        public virtual void Initialize(Vector3 position, bool active)
         {
+            _transform.position = position;
             _curHealth = _maxHealth;
+            _isActive = active;
+            _isAttacking = false;
         }
 
         protected virtual void Attack()
         {
-            _animationController.SetTrigger("Attack");
             _isAttacking = true;
+            _animationController.SetTrigger("Attack");
             PrepareAttack();
         }
 
@@ -63,6 +73,7 @@ namespace Enemys
         public virtual void TakeDamage(int value)
         {
             _curHealth -= value;
+            if (_isActive == false) _isActive = true;
             if (_curHealth <= 0)
                 Death();
         }
@@ -74,9 +85,9 @@ namespace Enemys
         }
 
 #if UNITY_EDITOR
-        protected void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.yellow;
+            Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, _triggerDistance);
 
             Gizmos.color = Color.red;

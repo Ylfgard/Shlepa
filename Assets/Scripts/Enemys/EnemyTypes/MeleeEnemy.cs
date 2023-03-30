@@ -2,27 +2,22 @@ using UnityEngine;
 
 namespace Enemys
 {
-    public class YandereChan : Enemy
+    public class MeleeEnemy : Enemy
     {
-        protected Transform _target;
 
         protected override void Start()
         {
             base.Start();
-            _target = _player.Mover.Transform;
             _animationController.CallBack += MakeDamage;
-            Initialize(true);
         }
 
-        public override void Initialize(bool active)
+        public override void Initialize(Vector3 position, bool active)
         {
-            base.Initialize(active);
-            _isActive = active;
+            base.Initialize(position, active);
             if (active) Move();
-
         }
 
-        private void FixedUpdate()
+        protected void FixedUpdate()
         {
             if (_isActive == false)
             {
@@ -48,7 +43,7 @@ namespace Enemys
             _agent.isStopped = true;
         }
 
-        protected void Move()
+        protected virtual void Move()
         {
             _animationController.SetTrigger("Move");
             if (_agent.isStopped == true)
@@ -58,10 +53,10 @@ namespace Enemys
                 _agent.SetDestination(_target.position);
         }
 
-        private void MakeDamage()
+        protected virtual void MakeDamage()
         {
             _player.Parameters.TakeDamage(_damage);
-            _agent.isStopped = true;
+            _agent.isStopped = false;
         }
     }
 }

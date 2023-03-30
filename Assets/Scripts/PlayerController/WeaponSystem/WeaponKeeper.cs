@@ -18,7 +18,8 @@ namespace PlayerController.WeaponSystem
         [SerializeField] private TextMeshProUGUI _clipText;
         [SerializeField] private TextMeshProUGUI _ammoText;
         [SerializeField] private WeaponSO[] _availableWeapons;
-        [SerializeField] private LayerMask _canBeShot;
+        [SerializeField] private LayerMask _canBeCollided;
+        [SerializeField] private LayerMask _canBeDamaged;
 
         private EnemyKeeper _enemyKeeper;
         private Weapon[] _weapons;
@@ -42,21 +43,21 @@ namespace PlayerController.WeaponSystem
 
                 if (weapon.Projectile != null)
                 {
-                    _weapons[weapon.SlotIndex - 1] = new WeaponProjectile(_canBeShot, _animator, _enemyKeeper,
+                    _weapons[weapon.SlotIndex - 1] = new WeaponProjectile(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
                         _hitMarker, _clipText, _ammoText, weapon);
                     continue;
                 }
 
                 if (weapon.DispersionSpeed > 0)
                 {
-                    var weaponAuto = new WeaponAuto(_canBeShot, _animator, _enemyKeeper,
+                    var weaponAuto = new WeaponAuto(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
                         _hitMarker, _clipText, _ammoText, weapon);
                     _updateCall += weaponAuto.UpdateDisperion;
                     _weapons[weapon.SlotIndex - 1] = weaponAuto;
                     continue;
                 }
 
-                _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeShot, _animator, _enemyKeeper,
+                _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
                     _hitMarker, _clipText, _ammoText, weapon);
             }
 
@@ -88,7 +89,8 @@ namespace PlayerController.WeaponSystem
 
     public class Weapon
     {
-        protected LayerMask _canBeShot;
+        protected LayerMask _canBeCollided;
+        protected LayerMask _canBeDamaged;
         protected int _damage;
         protected int _bulletsPerShot;
         protected float _shotDelay;
@@ -116,10 +118,11 @@ namespace PlayerController.WeaponSystem
         public int Ammos => _ammos;
         public float AimValue => _aimValue;
 
-        public Weapon(LayerMask canBeShot, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
-            TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters)
+        public Weapon(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper,
+            GameObject hitMarker, TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters)
         {
-            _canBeShot = canBeShot;
+            _canBeCollided = canBeCollided;
+            _canBeDamaged = canBeDamaged;
             _animator = animator;
             _enemyKeeper = enemyKeeper;
             _clipText = clipText;
@@ -189,11 +192,14 @@ namespace PlayerController.WeaponSystem
             {
                 Vector3 dir = CalculateDirecton(weaponDir);
                 RaycastHit hit;
-                if (Physics.Raycast(weaponDir.position, dir, out hit, _distance, _canBeShot))
+                if (Physics.Raycast(weaponDir.position, dir, out hit, _distance, _canBeCollided))
                 {
-                    var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
-                    Object.Destroy(marker, 3);
-                    _enemyKeeper.MakeDamage(hit.collider.gameObject, _damage, false);
+                    if (Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged).Length > 0)
+                    {
+                        var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
+                        Object.Destroy(marker, 3);
+                        _enemyKeeper.MakeDamage(hit.collider.gameObject, _damage, false);
+                    }
                 }
             }
         }
@@ -277,11 +283,12 @@ namespace PlayerController.WeaponSystem
         private float _curDispersion;
         private bool _isShoting;
 
-        public WeaponAuto(LayerMask canBeShot, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
+        public WeaponAuto(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
             TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters) :
-            base(canBeShot, animator, enemyKeeper, hitMarker, clipText, ammoText, parameters)
+            base(canBeCollided, canBeDamaged, animator, enemyKeeper, hitMarker, clipText, ammoText, parameters)
         {
-            _canBeShot = canBeShot;
+            _canBeCollided = canBeCollided;
+            _canBeDamaged = canBeDamaged;
             _animator = animator;
             _enemyKeeper = enemyKeeper;
             _clipText = clipText;
@@ -357,11 +364,12 @@ namespace PlayerController.WeaponSystem
     {
         private ObjectPool<Grenade> _projectilesPool;
 
-        public WeaponProjectile(LayerMask canBeShot, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
+        public WeaponProjectile(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
             TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters) :
-            base(canBeShot, animator, enemyKeeper, hitMarker, clipText, ammoText, parameters)
+            base(canBeCollided, canBeDamaged, animator, enemyKeeper, hitMarker, clipText, ammoText, parameters)
         {
-            _canBeShot = canBeShot;
+            _canBeCollided = canBeCollided;
+            _canBeDamaged = canBeDamaged;
             _animator = animator;
             _enemyKeeper = enemyKeeper;
             _clipText = clipText;
@@ -393,7 +401,7 @@ namespace PlayerController.WeaponSystem
             for (int i = 0; i < _bulletsPerShot; i++)
             {
                 Vector3 dir = CalculateDirecton(weaponDir);
-                _projectilesPool.GetObjectFromPool().Initialize(_enemyKeeper, weaponDir.position, dir, 5);
+                _projectilesPool.GetObjectFromPool().Initialize(_enemyKeeper, weaponDir.position, dir, _damage, 5);
             }
         }
     }

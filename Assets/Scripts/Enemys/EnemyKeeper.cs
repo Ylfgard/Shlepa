@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Enemys.Projectiles;
 
 namespace Enemys
 {
@@ -7,6 +8,7 @@ namespace Enemys
     {
         private Dictionary<GameObject, Enemy> _enemys;
         private Dictionary<GameObject, WeakPoint> _weakPoints;
+        private Dictionary<GameObject, Bullet> _bullets;
 
         // Singleton
         private static EnemyKeeper _instance;
@@ -21,6 +23,7 @@ namespace Enemys
 
             _enemys = new Dictionary<GameObject, Enemy>();
             _weakPoints = new Dictionary<GameObject, WeakPoint>();
+            _bullets = new Dictionary<GameObject, Bullet>();
         }
 
         public void AddEnemy(Enemy enemy)
@@ -30,6 +33,13 @@ namespace Enemys
             _enemys.Add(enemy.gameObject, enemy);
             foreach (WeakPoint point in enemy.WeakPoints)
                 _weakPoints.Add(point.gameObject, point);
+        }
+
+        public void AddBullet(Bullet bullet)
+        {
+            if (_bullets.ContainsValue(bullet)) return;
+
+            _bullets.Add(bullet.gameObject, bullet);
         }
 
         public void MakeDamage(GameObject body, int value, bool isSplash)
@@ -53,6 +63,13 @@ namespace Enemys
                 {
                     weakPoint.TakeDamage(value);
                 }
+                return;
+            }
+
+            Bullet bullet;
+            if (_bullets.TryGetValue(body, out bullet))
+            {
+                bullet.TakeDamage(value);
                 return;
             }
 
