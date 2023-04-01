@@ -10,6 +10,7 @@ namespace PlayerController
         [SerializeField] private float _speed;
 
         [Header("Jumping")]
+        [SerializeField] private Transform _groundCheck;
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _jumpHight;
         [SerializeField] private float _jumpTime;
@@ -39,7 +40,7 @@ namespace PlayerController
 
         private void FixedUpdate()
         {
-            _grounded = Physics.Raycast(_transform.position, Vector3.down, 1.25f, _groundMask);
+            _grounded = Physics.OverlapSphere(_groundCheck.position, 0.25f, _groundMask).Length > 0;
 
             if (_ySpeed > _maxFallSpeed)
                 _ySpeed += _gravity * Time.fixedDeltaTime;

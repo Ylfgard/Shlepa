@@ -110,15 +110,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e817165bd52d845937dab0da3cb325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startSpeed: 10
-  _gravityImpact: 0
-  _slowImpact: 0
-  _canBeHit: 0
-  _maxHealth: 0
   _detectRadius: 0.05
   _canBeCollided:
     serializedVersion: 2
     m_Bits: 192
+  _affectedArea: 0.05
   _canBeDamaged:
     serializedVersion: 2
     m_Bits: 128
+  _startSpeed: 10
+  _speedChanges: 0
+  _canBeHit: 0
+  _maxHealth: 0

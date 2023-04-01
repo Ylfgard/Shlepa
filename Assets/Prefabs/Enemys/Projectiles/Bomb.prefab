@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4948330746999287752}
   - component: {fileID: 4296148491903532456}
   - component: {fileID: 4517399284837583302}
-  - component: {fileID: 1486050904019437756}
+  - component: {fileID: 7836265865446536485}
   m_Layer: 8
-  m_Name: Cannonball
+  m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1486050904019437756
+--- !u!114 &7836265865446536485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,11 +114,13 @@ MonoBehaviour:
   _canBeCollided:
     serializedVersion: 2
     m_Bits: 192
-  _affectedArea: 0.25
+  _affectedArea: 4
   _canBeDamaged:
     serializedVersion: 2
     m_Bits: 128
-  _startSpeed: 5
-  _speedChanges: 0
+  _startSpeed: 8
+  _speedChanges: -1
+  _gravityImpact: -4
+  _maxFallSpeed: -100
   _canBeHit: 1
-  _maxHealth: 20
+  _maxHealth: 10

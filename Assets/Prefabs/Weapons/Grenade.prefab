@@ -110,14 +110,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0bea461c59a5241810cb77cd54e94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRadius: 0.2
+  _detectRadius: 0.15
   _canBeCollided:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 328
+  _affectedArea: 5
   _canBeDamaged:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 264
   _startSpeed: 25
   _speedChanges: -2
   _gravityImpact: -10
-  _affectedAreaRadius: 5
+  _maxFallSpeed: -10

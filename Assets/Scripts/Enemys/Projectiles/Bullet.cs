@@ -11,6 +11,11 @@ namespace Enemys.Projectiles
         protected Player _player;
         protected int _curHealth;
 
+        public LayerMask CanBeCollided => _canBeCollided;
+        public LayerMask CanBeDamaged => _canBeDamaged;
+        public float StartSpeed => _startSpeed;
+        public float GravityImpact => _gravityImpact;
+
         protected void Start()
         {
             _player = Player.Instance;
@@ -27,7 +32,17 @@ namespace Enemys.Projectiles
         protected override void Collision()
         {
             if (gameObject.activeSelf == false) return;
-            if (Physics.OverlapSphere(_transform.position, _detectRadius, _canBeDamaged).Length > 0)
+            if (Physics.OverlapSphere(_transform.position, _affectedArea, _canBeDamaged).Length > 0)
+                _player.Parameters.TakeDamage(_damage);
+
+            CancelInvoke();
+            gameObject.SetActive(false);
+        }
+
+        protected void Destroing()
+        {
+            if (gameObject.activeSelf == false) return;
+            if (Physics.OverlapSphere(_transform.position, _affectedArea / 2, _canBeDamaged).Length > 0)
                 _player.Parameters.TakeDamage(_damage);
 
             CancelInvoke();
@@ -38,7 +53,7 @@ namespace Enemys.Projectiles
         {
             _curHealth -= value;
             if (_curHealth <= 0)
-                Collision();
+                Destroing();
         }
     }
 }

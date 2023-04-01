@@ -2,11 +2,16 @@ using UnityEngine;
 using Enemys.Cowers;
 using Enemys.Projectiles;
 using System.Collections;
+using UnityEngine.AI;
 
 namespace Enemys
 {
     public class CowerTaker : RangeEnemy
     {
+        [Header ("Cower")]
+        [SerializeField] protected float _distanceFromTarget;
+        [SerializeField] protected float _changeCowerDistance;
+
         protected CowerKeeper _cowerKeeper;
         protected Cower _curCower;
         protected bool _moveToCover;
@@ -17,11 +22,11 @@ namespace Enemys
             _cowerKeeper = CowerKeeper.Instance;
         }
 
-        public override void Initialize(Vector3 position, bool active, ObjectPool<Bullet> bullets)
-        {
-            base.Initialize(position, active, bullets);
-            _moveToCover = false;
-        }
+        //public override void Initialize(Vector3 position, bool active, ObjectPool<Bullet> bullets)
+        //{
+        //    base.Initialize(position, active, bullets);
+        //    _moveToCover = false;
+        //}
 
         protected override void FixedUpdate()
         {
@@ -49,58 +54,45 @@ namespace Enemys
 
         protected override void Attack()
         {
-            RaycastHit hit;
             _moveToCover = false;
-            if (Physics.Raycast(_shotPoint.position, _target.position - _shotPoint.position, out hit, _attackDistance, _canBeCollided))
-            {
-                if (Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged).Length > 0)
-                {
-                    _isAttacking = true;
-                    _animationController.SetTrigger("Attack");
-                    StartCoroutine(PrepareAttack());
-                    _agent.isStopped = true;
-                    return;
-                }
-            }
+            base.Attack();
             MoveToAttack();
         }
 
         protected override void FastShot()
         {
             base.FastShot();
-            _agent.isStopped = false;
             TakeCover();
         }
 
         protected override IEnumerator Shot()
         {
-            Vector3 dirToTarget = _target.position - _shotPoint.position;
-            for (int i = 0; i < _bulletsPerShot; i++)
-            {
-                var bullet = _bullets.GetObjectFromPool();
-                Vector3 dir = CalculateBulletDir(i);
-                bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime);
-                yield return new WaitForSeconds(_bulletDelay);
-            }
-            _agent.isStopped = false;
+
+            yield return base.Shot();
             TakeCover();
         }
 
         protected void TakeCover()
         {
+            if (Vector3.Distance(_transform.position, _target.position) < _changeCowerDistance) _moveToCover = false;
             if (_moveToCover) return;
             _moveToCover = true;
-            Cower cower = _cowerKeeper.GetNearestShelter(_transform.position);
+            Vector3 cowerOffset = (_transform.position - _target.position).normalized * _distanceFromTarget;
+            Cower cower = _cowerKeeper.GetNearestShelter(_target.position + cowerOffset);
             if (_curCower != cower)
             {
-                _agent.SetDestination(cower.GetCowerPoint(_target.position));
+                NavMeshHit destination;
+                NavMesh.SamplePosition(cower.GetCowerPoint(_target.position), out destination, 100, NavMesh.AllAreas);
+                _agent.SetDestination(destination.position);
                 _curCower = cower;
             }
         }
 
         protected void MoveToAttack()
         {
-            _agent.SetDestination(_target.position);
+            NavMeshHit destination;
+            NavMesh.SamplePosition(_target.position, out destination, 100, NavMesh.AllAreas);
+            _agent.SetDestination(destination.position);
             _curCower = null;
         }
     }

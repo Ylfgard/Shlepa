@@ -32,17 +32,17 @@ namespace Enemys
             _canBeDamaged = bullet.CanBeDamaged;
         }
 
-        public virtual void Initialize(Vector3 position, bool active, ObjectPool<Bullet> bullets)
-        {
-            _transform.position = position;
-            _curHealth = _maxHealth;
-            _isActive = active;
-            _isAttacking = false;
-            _bullets = bullets;
-            var bullet = _bullets.Value;
-            _canBeCollided = bullet.CanBeCollided;
-            _canBeDamaged = bullet.CanBeDamaged;
-        }
+        //public virtual void Initialize(Vector3 position, bool active, ObjectPool<Bullet> bullets)
+        //{
+        //    _transform.position = position;
+        //    _curHealth = _maxHealth;
+        //    _isActive = active;
+        //    _isAttacking = false;
+        //    _bullets = bullets;
+        //    var bullet = _bullets.Value;
+        //    _canBeCollided = bullet.CanBeCollided;
+        //    _canBeDamaged = bullet.CanBeDamaged;
+        //}
 
         protected virtual void FixedUpdate()
         {
@@ -67,8 +67,11 @@ namespace Enemys
             RaycastHit hit;
             if (Physics.Raycast(_shotPoint.position, _target.position - _shotPoint.position, out hit, _attackDistance, _canBeCollided))
             {
-                if (_canBeDamaged == hit.collider.gameObject.layer)
+                if (Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged).Length > 0)
+                {
                     base.Attack();
+                    _agent.isStopped = true;
+                }
             }
         }
 
@@ -88,6 +91,7 @@ namespace Enemys
                 Vector3 dir = CalculateBulletDir(i);
                 bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime);
             }
+            _agent.isStopped = false;
         }
 
         protected virtual IEnumerator Shot()
@@ -100,6 +104,7 @@ namespace Enemys
                 bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime);
                 yield return new WaitForSeconds(_bulletDelay);
             }
+            _agent.isStopped = false;
         }
 
         protected virtual Vector3 CalculateBulletDir(int number)
@@ -107,8 +112,10 @@ namespace Enemys
             Vector3 dir = _target.position - _shotPoint.position;
             if (_dispersion != 0)
             {
-                dir = dir.normalized * _attackDistance;
-                Vector3 normal = Vector3.forward;
+                float y = dir.y;
+                dir.y = 0;
+                float distance = dir.magnitude;
+                Vector3 normal = Vector3.right;
                 Vector3.OrthoNormalize(ref dir, ref normal);
                 float x = _bulletsPerShot / 2;
                 if (_randomDir)
@@ -116,7 +123,9 @@ namespace Enemys
                 else
                     x = _dispersion * ((number - x) / x);
                 
-                dir += normal * x;
+                dir = dir * _attackDistance + normal * x;
+                dir = dir.normalized * distance;
+                dir.y = y;
             }
             return dir.normalized;
         }

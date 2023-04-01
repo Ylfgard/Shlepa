@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4517399284837583302}
   - component: {fileID: 1486050904019437756}
   m_Layer: 8
-  m_Name: Cannonball
+  m_Name: ExplosiveBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 323705573896992981}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.09, y: 1.24, z: 1.13}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -110,15 +110,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e817165bd52d845937dab0da3cb325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRadius: 0.25
+  _detectRadius: 0.05
   _canBeCollided:
     serializedVersion: 2
     m_Bits: 192
-  _affectedArea: 0.25
+  _affectedArea: 0.5
   _canBeDamaged:
     serializedVersion: 2
     m_Bits: 128
-  _startSpeed: 5
+  _startSpeed: 10
   _speedChanges: 0
-  _canBeHit: 1
-  _maxHealth: 20
+  _gravityImpact: 0
+  _maxFallSpeed: 0
+  _canBeHit: 0
+  _maxHealth: 0

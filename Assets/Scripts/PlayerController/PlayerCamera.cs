@@ -46,7 +46,6 @@ namespace  PlayerController
             {
                 _headCurAngle += _tiltHeadSpeed * Time.fixedDeltaTime * Mathf.Sign(_headTargetAngle - _headCurAngle);
                 _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _headCurAngle);
-                Debug.Log(_headCurAngle);
             }
             else
             {
