@@ -17,23 +17,14 @@ namespace Enemys
             _aimLine.SetPosition(0, _shotPoint.position);
         }
 
-        public override void Initialize(Vector3 position, bool active)
+        public override void Initialize(Vector3 position)
         {
-            base.Initialize(position, active);
+            base.Initialize(position);
             _aimPoint.position = _target.position;
         }
 
         protected override void FixedUpdate()
         {
-            if (_isActive == false)
-            {
-                if (Vector3.Distance(_transform.position, _target.position) <= _triggerDistance)
-                {
-                    _isActive = true;
-                }
-                return;
-            }
-
             if (_isAttacking == false)
             {
                 Aim();

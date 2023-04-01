@@ -8,19 +8,11 @@ namespace Enemys
     {
         [Header("Distance")]
         [SerializeField] protected float _distance;
+        [SerializeField] protected float _stopDistance;
         [SerializeField] protected float _step;
 
         protected override void FixedUpdate()
         {
-            if (_isActive == false)
-            {
-                if (Vector3.Distance(_transform.position, _target.position) <= _triggerDistance)
-                {
-                    _isActive = true;
-                }
-                return;
-            }
-
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)
@@ -62,7 +54,7 @@ namespace Enemys
         {
             float curDis = Vector3.Distance(_transform.position, _target.position);
 
-            if (Vector3.Distance(_transform.position, _agent.destination) > 1f && curDis >= _distance) return;
+            if (Vector3.Distance(_transform.position, _agent.destination) > _stopDistance && curDis >= _distance) return;
 
             Vector3 dir;
             if (curDis < _distance)

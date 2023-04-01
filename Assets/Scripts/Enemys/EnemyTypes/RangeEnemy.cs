@@ -7,7 +7,7 @@ namespace Enemys
     public class RangeEnemy : Enemy
     {
         [Header("Shot Parameters")]
-        [SerializeField] protected GameObject _bullet;
+        [SerializeField] protected ProjectileType _projectileType;
         [SerializeField] protected int _bulletsPerShot;
         [SerializeField] protected bool _randomDir;
         [SerializeField] protected float _dispersion;
@@ -23,38 +23,31 @@ namespace Enemys
         {
             base.Start();
             _animationController.CallBack += MakeShot;
-
-            //FOR DEBUG!!!
-            if (_bullets == null)
-                _bullets = new ObjectPool<Bullet>(_bullet);
+            switch(_projectileType)
+            {
+                case ProjectileType.Bullet:
+                    _bullets = ProjectilePoolsKeeper.Instance.Bullets;
+                    break;
+                case ProjectileType.Canonball:
+                    _bullets = ProjectilePoolsKeeper.Instance.Canonballs;
+                    break;
+                case ProjectileType.Bomb:
+                    _bullets = ProjectilePoolsKeeper.Instance.Bombs;
+                    break;
+                case ProjectileType.ExplosiveBullet:
+                    _bullets = ProjectilePoolsKeeper.Instance.ExplosiveBullets;
+                    break;
+                default:
+                    Debug.LogError("Wrong projectile type!");
+                    break;
+            }
             var bullet = _bullets.Value;
             _canBeCollided = bullet.CanBeCollided;
             _canBeDamaged = bullet.CanBeDamaged;
         }
 
-        //public virtual void Initialize(Vector3 position, bool active, ObjectPool<Bullet> bullets)
-        //{
-        //    _transform.position = position;
-        //    _curHealth = _maxHealth;
-        //    _isActive = active;
-        //    _isAttacking = false;
-        //    _bullets = bullets;
-        //    var bullet = _bullets.Value;
-        //    _canBeCollided = bullet.CanBeCollided;
-        //    _canBeDamaged = bullet.CanBeDamaged;
-        //}
-
         protected virtual void FixedUpdate()
         {
-            if (_isActive == false)
-            {
-                if (Vector3.Distance(_transform.position, _target.position) <= _triggerDistance)
-                {
-                    _isActive = true;
-                }
-                return;
-            }
-
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)
@@ -129,5 +122,13 @@ namespace Enemys
             }
             return dir.normalized;
         }
+    }
+
+    public enum ProjectileType
+    {
+        Bullet,
+        Canonball,
+        Bomb,
+        ExplosiveBullet
     }
 }

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using PlayerController;
 using System.Collections;
+using System;
 
 namespace Enemys
 {
     public abstract class Enemy : MonoBehaviour
     {
+        public Action<Enemy> SendDeath;
+
         [Header ("Balance")]
         [SerializeField] protected int _maxHealth;
         [SerializeField] protected float _speed;
@@ -17,14 +20,12 @@ namespace Enemys
         [SerializeField] protected List<WeakPoint> _weakPoints;
 
         [Header("Parameters")]
-        [SerializeField] protected float _triggerDistance;
         [SerializeField] protected AnimationController _animationController;
         
         protected Transform _transform;
         protected NavMeshAgent _agent;
         protected Player _player;
         protected bool _isAttacking;
-        protected bool _isActive;
         protected int _curHealth;
         protected Transform _target;
 
@@ -46,14 +47,12 @@ namespace Enemys
             _player = Player.Instance;
             _target = _player.Mover.Transform;
             EnemyKeeper.Instance.AddEnemy(this);
-            Initialize(_transform.position, true);
         }
 
-        public virtual void Initialize(Vector3 position, bool active)
+        public virtual void Initialize(Vector3 position)
         {
             _transform.position = position;
             _curHealth = _maxHealth;
-            _isActive = active;
             _isAttacking = false;
         }
 
@@ -73,7 +72,6 @@ namespace Enemys
         public virtual void TakeDamage(int value)
         {
             _curHealth -= value;
-            if (_isActive == false) _isActive = true;
             if (_curHealth <= 0)
                 Death();
         }
@@ -81,15 +79,13 @@ namespace Enemys
         public virtual void Death()
         {
             StopAllCoroutines();
+            SendDeath?.Invoke(this);
             gameObject.SetActive(false);
         }
 
 #if UNITY_EDITOR
         protected virtual void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, _triggerDistance);
-
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _attackDistance);
         }

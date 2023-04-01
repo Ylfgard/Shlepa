@@ -11,23 +11,14 @@ namespace Enemys
             _animationController.CallBack += MakeDamage;
         }
 
-        public override void Initialize(Vector3 position, bool active)
+        public override void Initialize(Vector3 position)
         {
-            base.Initialize(position, active);
-            if (active) Move();
+            base.Initialize(position);
+            Move();
         }
 
         protected void FixedUpdate()
         {
-            if (_isActive == false)
-            {
-                if (Vector3.Distance(_transform.position, _target.position) <= _triggerDistance)
-                {
-                    _isActive = true;
-                }
-                return;
-            }
-
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)

@@ -22,23 +22,8 @@ namespace Enemys
             _cowerKeeper = CowerKeeper.Instance;
         }
 
-        //public override void Initialize(Vector3 position, bool active, ObjectPool<Bullet> bullets)
-        //{
-        //    base.Initialize(position, active, bullets);
-        //    _moveToCover = false;
-        //}
-
         protected override void FixedUpdate()
         {
-            if (_isActive == false)
-            {
-                if (Vector3.Distance(_transform.position, _target.position) <= _triggerDistance)
-                {
-                    _isActive = true;
-                }
-                return;
-            }
-
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)

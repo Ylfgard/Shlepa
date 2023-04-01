@@ -10,8 +10,6 @@ namespace Enemys
         protected override void Start()
         {
             base.Start();
-
-            //DEBUG PART!!!
             _startSpeed = _bullets.Value.StartSpeed;
             _gravityImpact = -_bullets.Value.GravityImpact;
         }

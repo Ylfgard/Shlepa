@@ -111,11 +111,12 @@ namespace PlayerController.WeaponSystem
                 RaycastHit hit;
                 if (Physics.Raycast(weaponDir.position, dir, out hit, _distance, _canBeCollided))
                 {
-                    if (Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged).Length > 0)
+                    var colliders = Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged);
+                    if (colliders.Length > 0)
                     {
                         var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
                         Object.Destroy(marker, 3);
-                        _enemyKeeper.MakeDamage(hit.collider.gameObject, _damage, false);
+                        _enemyKeeper.MakeDamage(colliders[0].gameObject, _damage, false);
                     }
                 }
             }
@@ -167,7 +168,6 @@ namespace PlayerController.WeaponSystem
             _ammoText.text = _ammos.ToString();
             _reloading = false;
             _readyToShot = true;
-            Debug.Log("End reloading");
         }
 
         public async Task PutAway()

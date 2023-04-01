@@ -285,7 +285,7 @@ MonoBehaviour:
   - {fileID: 3839846126945083940}
   _triggerDistance: 100
   _animationController: {fileID: 3839846127292772704}
-  _bullet: {fileID: 323705573896992981, guid: 8add2a87cc710f944a21bfea45ee67ef, type: 3}
+  _projectileType: 3
   _bulletsPerShot: 3
   _randomDir: 1
   _dispersion: 10

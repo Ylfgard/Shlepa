@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4296148491903532456}
   - component: {fileID: 4517399284837583302}
   - component: {fileID: 1486050904019437756}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,5 +120,7 @@ MonoBehaviour:
     m_Bits: 128
   _startSpeed: 10
   _speedChanges: 0
+  _gravityImpact: 0
+  _maxFallSpeed: 0
   _canBeHit: 0
   _maxHealth: 0

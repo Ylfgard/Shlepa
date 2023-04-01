@@ -92,9 +92,8 @@ MonoBehaviour:
   _attackDistance: 20
   _weakPoints:
   - {fileID: 2999140599548931489}
-  _triggerDistance: 30
   _animationController: {fileID: 2999140600816226349}
-  _bullet: {fileID: 323705573896992981, guid: 8add2a87cc710f944a21bfea45ee67ef, type: 3}
+  _projectileType: 0
   _bulletsPerShot: 20
   _randomDir: 1
   _dispersion: 1
@@ -102,6 +101,7 @@ MonoBehaviour:
   _shotPoint: {fileID: 2999140599430060432}
   _bulletLifeTime: 10
   _distance: 10
+  _stopDistance: 1
   _step: 3
 --- !u!1 &2999140599430060433
 GameObject:
