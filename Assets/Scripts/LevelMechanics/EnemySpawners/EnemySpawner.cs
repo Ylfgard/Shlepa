@@ -3,7 +3,7 @@ using Enemys;
 using System.Collections.Generic;
 using System;
 
-namespace LevelMechanics
+namespace LevelMechanics.EnemySpawners
 {
     public class EnemySpawner : MonoBehaviour
     {
@@ -31,7 +31,7 @@ namespace LevelMechanics
 
         private void Start()
         {
-            StagesKeeper.Instance.AddSpawner(this);
+            StagesKeeper.Instance.AddEnemySpawner(this);
         }
 
         public int ActivateStage(int index)
@@ -55,7 +55,7 @@ namespace LevelMechanics
         public Action SendEnemyDeath;
         
         [SerializeField] private int _index;
-        [SerializeField] private Transform[] _spawnPoints;
+        [SerializeField] private EnemySpawnPoint[] _spawnPoints;
         
         private ObjectPool<Enemy> _enemys;
 
@@ -68,12 +68,8 @@ namespace LevelMechanics
 
         public int Activate()
         {
-            foreach(Transform point in _spawnPoints)
-            {
-                var enemy = _enemys.GetObjectFromPool();
-                enemy.Initialize(point.position);
-                enemy.SendDeath += InvokeDeathEvent;
-            }
+            foreach(EnemySpawnPoint point in _spawnPoints)
+                point.ActivateSpawner(_enemys, InvokeDeathEvent);
             return _spawnPoints.Length;
         }
 

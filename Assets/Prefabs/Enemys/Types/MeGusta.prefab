@@ -247,6 +247,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ea1bc4093a46b2459d35608d6c1cea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnHight: 10
+  _fallSpeed: 20
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 3
+  _landingDamage: 20
   _maxHealth: 100
   _speed: 0
   _damage: 25
@@ -254,7 +261,6 @@ MonoBehaviour:
   _attackDistance: 100
   _weakPoints:
   - {fileID: 6434816645765793657}
-  _triggerDistance: 40
   _animationController: {fileID: 6434816644672904381}
   _projectileType: 1
   _bulletsPerShot: 1

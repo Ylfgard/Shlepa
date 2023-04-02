@@ -13,6 +13,12 @@ namespace Enemys
 
         protected override void FixedUpdate()
         {
+            if (_isLanding)
+            {
+                CheckLanding();
+                return;
+            }
+
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)

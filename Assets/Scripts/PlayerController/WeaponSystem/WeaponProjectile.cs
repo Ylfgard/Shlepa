@@ -9,8 +9,8 @@ namespace PlayerController.WeaponSystem
         private ObjectPool<Grenade> _projectilesPool;
 
         public WeaponProjectile(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
-            TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters) :
-            base(canBeCollided, canBeDamaged, animator, enemyKeeper, hitMarker, clipText, ammoText, parameters)
+            TextMeshProUGUI clipText, TextMeshProUGUI ammoText, int startAmmo, WeaponSO parameters) :
+            base(canBeCollided, canBeDamaged, animator, enemyKeeper, hitMarker, clipText, ammoText, startAmmo, parameters)
         {
             _canBeCollided = canBeCollided;
             _canBeDamaged = canBeDamaged;
@@ -18,6 +18,7 @@ namespace PlayerController.WeaponSystem
             _enemyKeeper = enemyKeeper;
             _clipText = clipText;
             _ammoText = ammoText;
+            _ammos = startAmmo;
 
             _damage = parameters.Damage;
             _bulletsPerShot = parameters.BulletsPerShot;
@@ -35,7 +36,6 @@ namespace PlayerController.WeaponSystem
 
             // Debag part
             _hitMarker = hitMarker;
-            _ammos = 99999;
             _bulletsInClip = _clipCapacity;
             // End debag
         }

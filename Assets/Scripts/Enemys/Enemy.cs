@@ -9,7 +9,15 @@ namespace Enemys
 {
     public abstract class Enemy : MonoBehaviour
     {
+        protected const float _spawnHight = 10;
+        protected const float _fallSpeed = 20;
+
         public Action<Enemy> SendDeath;
+
+        [Header ("Spawn Parameters")]
+        [SerializeField] protected LayerMask _groundLayer;
+        [SerializeField] protected float _landingAreaRadius;
+        [SerializeField] protected int _landingDamage;
 
         [Header ("Balance")]
         [SerializeField] protected int _maxHealth;
@@ -21,15 +29,17 @@ namespace Enemys
 
         [Header("Parameters")]
         [SerializeField] protected AnimationController _animationController;
-        
+
         protected Transform _transform;
         protected NavMeshAgent _agent;
         protected Player _player;
         protected bool _isAttacking;
         protected int _curHealth;
         protected Transform _target;
+        protected bool _isLanding;
 
         public List<WeakPoint> WeakPoints => _weakPoints;
+        public float LandingAreaRadius => _landingAreaRadius;
 
         protected virtual void Awake()
         {
@@ -51,9 +61,46 @@ namespace Enemys
 
         public virtual void Initialize(Vector3 position)
         {
+            position.y += _spawnHight;
             _transform.position = position;
             _curHealth = _maxHealth;
             _isAttacking = false;
+            if (_landingAreaRadius > 0)
+            {
+                _isLanding = true;
+                _agent.enabled = false;
+            }
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            if (_isLanding)
+            {
+                CheckLanding();
+                return;
+            }
+        }
+
+        protected void CheckLanding()
+        {
+            if (Physics.Raycast(_transform.position, Vector3.down, 2f, _groundLayer))
+            {
+                Landing();
+            }
+            else
+            {
+                Vector3 newPos = _transform.position;
+                newPos.y -= _fallSpeed * Time.fixedDeltaTime;
+                _transform.position = newPos;
+            }
+        }
+
+        protected void Landing()
+        {
+            if (Vector3.Distance(_transform.position, _target.position) <= _landingAreaRadius)
+                _player.Parameters.TakeDamage(_landingDamage);
+            _isLanding = false;
+            _agent.enabled = true;
         }
 
         protected virtual void Attack()
@@ -88,6 +135,7 @@ namespace Enemys
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _attackDistance);
+            Gizmos.DrawWireSphere(transform.position, _landingAreaRadius);
         }
 #endif
     }

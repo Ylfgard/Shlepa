@@ -36,7 +36,7 @@ namespace PlayerController.WeaponSystem
         public float AimValue => _aimValue;
 
         public Weapon(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper,
-            GameObject hitMarker, TextMeshProUGUI clipText, TextMeshProUGUI ammoText, WeaponSO parameters)
+            GameObject hitMarker, TextMeshProUGUI clipText, TextMeshProUGUI ammoText, int startAmmo, WeaponSO parameters)
         {
             _canBeCollided = canBeCollided;
             _canBeDamaged = canBeDamaged;
@@ -44,6 +44,7 @@ namespace PlayerController.WeaponSystem
             _enemyKeeper = enemyKeeper;
             _clipText = clipText;
             _ammoText = ammoText;
+            _ammos = startAmmo;
 
             _damage = parameters.Damage;
             _bulletsPerShot = parameters.BulletsPerShot;
@@ -60,9 +61,14 @@ namespace PlayerController.WeaponSystem
             _hitMarker = hitMarker;
             _reloading = false;
             _readyToShot = true;
-            _ammos = 99999;
             _bulletsInClip = _clipCapacity;
             // End debag
+        }
+
+        public void AddAmmo(int ammo)
+        {
+            _ammos += ammo;
+            _ammoText.text = _ammos.ToString();
         }
 
         public void Shot(Transform weaponDir)
@@ -170,14 +176,13 @@ namespace PlayerController.WeaponSystem
             _readyToShot = true;
         }
 
-        public async Task PutAway()
+        public void PutAway()
         {
             _animator.SetTrigger("PutAway");
             _reloading = false;
-            await Task.Delay(50);
         }
 
-        public async Task TakeInHand()
+        public void TakeInHand()
         {
             _animator.runtimeAnimatorController = _animController;
             _animator.SetTrigger("TakeInHand");
@@ -189,7 +194,6 @@ namespace PlayerController.WeaponSystem
             if (_clipCapacity == 0) _clipText.gameObject.SetActive(false);
             else _clipText.gameObject.SetActive(true);
             _clipText.text = _bulletsInClip.ToString();
-            await Task.Delay(50);
         }
     }
 }

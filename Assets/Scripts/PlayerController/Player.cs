@@ -13,6 +13,7 @@ namespace PlayerController
         public PlayerMovement Mover => _mover;
         public PlayerCamera Camera => _camera;
         public PlayerParameters Parameters => _parameters;
+        public WeaponKeeper WeaponKeeper => _weaponKeeper;
 
         // Singleton
         private static Player _instance;
@@ -28,23 +29,23 @@ namespace PlayerController
 
         public void Shot()
         {
-            _weaponKeeper.CurWeapon.Shot(_camera.Transform);
+            _weaponKeeper.MakeShot(_camera.Transform);
         }
 
         public void ChangeWeapon(int slot)
         {
-            _weaponKeeper.ChangeWeapon(slot);
+            _weaponKeeper.TryChangeWeapon(slot);
         }
 
         public void ReloadWeapon()
         {
-            _weaponKeeper.CurWeapon.Reload();
+            _weaponKeeper.Reload();
         }
 
         public void Aim(bool state)
         {
-            if (_weaponKeeper.CurWeapon.AimValue == 1) return;
-            else _camera.Zoom(_weaponKeeper.CurWeapon.AimValue, state);
+            if (_weaponKeeper.GetWeaponAimValue() == 1) return;
+            else _camera.Zoom(_weaponKeeper.GetWeaponAimValue(), state);
         }
     }
 }

@@ -44,5 +44,23 @@ namespace PlayerController
             _healthText.text = _curHealth.ToString();
             _armorText.text = _curArmor.ToString();
         }
+
+        public bool AddHealt(int value)
+        {
+            if (_curHealth == _maxHealth) return false;
+            _curHealth += value;
+            if (_curHealth >= _maxHealth) _curHealth = _maxHealth;
+            _healthText.text = _curHealth.ToString();
+            return true;
+        }
+
+        public bool AddArmor(int value)
+        {
+            if (_curArmor == _maxArmor) return false;
+            _curArmor += value;
+            if (_curArmor >= _maxArmor) _curArmor = _maxArmor;
+            _armorText.text = _curArmor.ToString();
+            return true;
+        }
     }
 }

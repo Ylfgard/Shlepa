@@ -112,8 +112,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitMarker: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
   _animator: {fileID: 6330196669247471578}
+  _clipText: {fileID: 0}
+  _ammoText: {fileID: 0}
   _availableWeapons:
-  - {fileID: 11400000, guid: 9afa364238c14ab43ae292924b8d7bb3, type: 2}
-  _canBeShot:
+  - _weapon: {fileID: 11400000, guid: f7bc62d994d171147af93ff75abe6006, type: 2}
+    _startAmmo: 0
+  - _weapon: {fileID: 11400000, guid: 6b045a18ea803594586a0fb1a10f78aa, type: 2}
+    _startAmmo: 0
+  - _weapon: {fileID: 11400000, guid: 9afa364238c14ab43ae292924b8d7bb3, type: 2}
+    _startAmmo: 0
+  - _weapon: {fileID: 11400000, guid: 7870dcdb24bb7e04aa7082b247ea8cc5, type: 2}
+    _startAmmo: 0
+  - _weapon: {fileID: 11400000, guid: f724256224e1ca34b92c9755ef6d5bf9, type: 2}
+    _startAmmo: 0
+  - _weapon: {fileID: 11400000, guid: d0eaa10d163a6d547b574a25d5c563c4, type: 2}
+    _startAmmo: 0
+  _canBeCollided:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 328
+  _canBeDamaged:
+    serializedVersion: 2
+    m_Bits: 264

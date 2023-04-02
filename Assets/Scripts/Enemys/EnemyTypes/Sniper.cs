@@ -25,6 +25,12 @@ namespace Enemys
 
         protected override void FixedUpdate()
         {
+            if (_isLanding)
+            {
+                CheckLanding();
+                return;
+            }
+
             if (_isAttacking == false)
             {
                 Aim();

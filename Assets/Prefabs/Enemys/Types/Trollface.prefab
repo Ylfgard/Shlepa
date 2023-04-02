@@ -214,13 +214,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc792354a8c59cc4fb2e8321dd6d4138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnHight: 10
+  _fallSpeed: 20
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 3
+  _landingDamage: 10
   _maxHealth: 1
   _speed: 10
   _damage: 20
   _attackDelay: 0
   _attackDistance: 1.5
   _weakPoints: []
-  _triggerDistance: 10
   _animationController: {fileID: 8750517174623450466}
   _explosionVFX: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
   _explosionRadius: 6

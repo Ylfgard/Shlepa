@@ -84,6 +84,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6711f766571a24f8b8a59f2a225584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnHight: 10
+  _fallSpeed: 20
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 1.5
+  _landingDamage: 5
   _maxHealth: 50
   _speed: 8
   _damage: 15
@@ -91,7 +98,6 @@ MonoBehaviour:
   _attackDistance: 1.5
   _weakPoints:
   - {fileID: 4745523759193548676}
-  _triggerDistance: 15
   _animationController: {fileID: 4745523759098845491}
 --- !u!1 &4745523759098845489
 GameObject:

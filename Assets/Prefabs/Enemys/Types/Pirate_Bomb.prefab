@@ -85,6 +85,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4b85a3414235794f9af7ac5c1c985c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnHight: 10
+  _fallSpeed: 20
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 1.5
+  _landingDamage: 5
   _maxHealth: 30
   _speed: 4
   _damage: 25

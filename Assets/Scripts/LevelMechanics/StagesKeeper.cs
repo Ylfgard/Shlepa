@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using LevelMechanics.ActivatableObjects;
+using LevelMechanics.EnemySpawners;
+using LevelMechanics.Pickups;
 
 namespace LevelMechanics
 {
@@ -11,7 +13,8 @@ namespace LevelMechanics
 
         [SerializeField] private StageData[] _stagesData;
 
-        private List<EnemySpawner> _spawners;
+        private List<EnemySpawner> _enemySpawners;
+        private List<PickupsSpawner> _pickupsSpawners;
         private Dictionary<int, StageData> _stages;
         private float _totalEnemyCount;
         private float _curEnemyCount;
@@ -29,7 +32,8 @@ namespace LevelMechanics
             else
                 _instance = this;
 
-            _spawners = new List<EnemySpawner>();
+            _enemySpawners = new List<EnemySpawner>();
+            _pickupsSpawners = new List<PickupsSpawner>();
             _stages = new Dictionary<int, StageData>();
             foreach (StageData stage in _stagesData)
             {
@@ -38,11 +42,16 @@ namespace LevelMechanics
             }
         }
 
-        public void AddSpawner(EnemySpawner spawner)
+        public void AddEnemySpawner(EnemySpawner spawner)
         {
-            _spawners.Add(spawner);
+            _enemySpawners.Add(spawner);
             spawner.SendEnemyDeath += DecreaseEnemyCount;
         }
+
+        public void AddPickupsSpawner(PickupsSpawner spawner)
+        {
+            _pickupsSpawners.Add(spawner);
+        }    
 
         public void ActivateStage(int index, bool isWave)
         {
@@ -66,10 +75,13 @@ namespace LevelMechanics
             _curStageIndex = index;
 
             int newEnemys = 0;
-            foreach (EnemySpawner spawner in _spawners)
+            foreach (EnemySpawner spawner in _enemySpawners)
                 newEnemys = spawner.ActivateStage(index);
             _totalEnemyCount += newEnemys;
             _curEnemyCount += newEnemys;
+
+            foreach (PickupsSpawner spawner in _pickupsSpawners)
+                spawner.ActivateStage(index);
 
             StageData stage;
             if (_stages.TryGetValue(index, out stage))

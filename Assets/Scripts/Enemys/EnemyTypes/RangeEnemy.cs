@@ -46,8 +46,10 @@ namespace Enemys
             _canBeDamaged = bullet.CanBeDamaged;
         }
 
-        protected virtual void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
+
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)

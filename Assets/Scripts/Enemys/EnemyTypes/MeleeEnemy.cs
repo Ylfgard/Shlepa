@@ -4,7 +4,6 @@ namespace Enemys
 {
     public class MeleeEnemy : Enemy
     {
-
         protected override void Start()
         {
             base.Start();
@@ -17,8 +16,10 @@ namespace Enemys
             Move();
         }
 
-        protected void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
+
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)

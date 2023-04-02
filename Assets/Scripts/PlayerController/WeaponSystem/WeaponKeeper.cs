@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using Enemys;
+using System.Collections;
 
 namespace PlayerController.WeaponSystem
 {
@@ -13,7 +14,7 @@ namespace PlayerController.WeaponSystem
         [SerializeField] private Animator _animator;
         [SerializeField] private TextMeshProUGUI _clipText;
         [SerializeField] private TextMeshProUGUI _ammoText;
-        [SerializeField] private WeaponSO[] _availableWeapons;
+        [SerializeField] private WeaponData[] _availableWeapons;
         [SerializeField] private LayerMask _canBeCollided;
         [SerializeField] private LayerMask _canBeDamaged;
 
@@ -21,16 +22,16 @@ namespace PlayerController.WeaponSystem
         private Weapon[] _weapons;
         private int _curWIndx;
         private Action _updateCall;
+        private bool _weaponReady;
 
-        public Weapon CurWeapon => _weapons[_curWIndx];
-
-        private void Start()
+        private void Awake()
         {
             _enemyKeeper = EnemyKeeper.Instance;
 
             _weapons = new Weapon[WeaponsCount];
-            foreach (var weapon in _availableWeapons)
+            foreach (var availableWeapon in _availableWeapons)
             {
+                WeaponSO weapon = availableWeapon.Weapon;
                 if (_weapons[weapon.SlotIndex - 1] != null)
                 {
                     Debug.LogError("Error! Slot " + weapon.SlotIndex + " is taken!");
@@ -40,25 +41,26 @@ namespace PlayerController.WeaponSystem
                 if (weapon.Projectile != null)
                 {
                     _weapons[weapon.SlotIndex - 1] = new WeaponProjectile(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
-                        _hitMarker, _clipText, _ammoText, weapon);
+                        _hitMarker, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
                     continue;
                 }
 
                 if (weapon.DispersionSpeed > 0)
                 {
                     var weaponAuto = new WeaponAuto(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
-                        _hitMarker, _clipText, _ammoText, weapon);
+                        _hitMarker, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
                     _updateCall += weaponAuto.UpdateDisperion;
                     _weapons[weapon.SlotIndex - 1] = weaponAuto;
                     continue;
                 }
 
                 _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
-                    _hitMarker, _clipText, _ammoText, weapon);
+                    _hitMarker, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
             }
 
             _curWIndx = -1;
-            ChangeWeapon(_availableWeapons[0].SlotIndex);
+            _weaponReady = true;
+            StartCoroutine(ChangeWeapon(_availableWeapons[0].Weapon.SlotIndex));
         }
 
         private void FixedUpdate()
@@ -66,19 +68,66 @@ namespace PlayerController.WeaponSystem
             _updateCall?.Invoke();
         }
 
-        public async void ChangeWeapon(int slotNumber)
+        public void MakeShot(Transform dir)
         {
-            if (slotNumber <= 0 || slotNumber > WeaponsCount) return;
-            if (_curWIndx == slotNumber - 1 || _weapons[slotNumber - 1] == null) return;
+            if (_weaponReady == false) return;
+            _weapons[_curWIndx].Shot(dir);
+        }
 
-            if (_curWIndx != -1) await _weapons[_curWIndx].PutAway();
+        public void Reload()
+        {
+            if (_weaponReady == false) return;
+            _weapons[_curWIndx].Reload();
+        }
+
+        public float GetWeaponAimValue()
+        {
+            return _weapons[_curWIndx].AimValue;
+        }
+
+        public void TryChangeWeapon(int slotNumber)
+        {
+            if (_weaponReady == false || slotNumber <= 0 || slotNumber > WeaponsCount) return;
+            if (_curWIndx == slotNumber - 1 || _weapons[slotNumber - 1] == null) return;
+            StartCoroutine(ChangeWeapon(slotNumber));
+        }
+
+        private IEnumerator ChangeWeapon(int slotNumber)
+        {
+            _weaponReady = false;
+            if (_curWIndx != -1)
+            {
+                yield return new WaitForSeconds(0.3f);
+                _weapons[_curWIndx].PutAway();
+            }
+
             _curWIndx = slotNumber - 1;
-            await _weapons[_curWIndx].TakeInHand();
+            yield return new WaitForSeconds(0.3f);
+            _weapons[_curWIndx].TakeInHand();
+            _weaponReady = true;
+        }
+
+        public void AddAmmo(int weaponSlot, int value)
+        {
+            if (weaponSlot <= 0 || weaponSlot >= WeaponsCount) return;
+            if (_weapons[weaponSlot] == null) return;
+
+            _weapons[weaponSlot].AddAmmo(value);
         }
 
         public void ReloadEnded()
         {
-            CurWeapon.EndReloading();
+            _weapons[_curWIndx].EndReloading();
         }
+    }
+
+    [Serializable]
+    public class WeaponData
+    {
+        [SerializeField] private WeaponSO _weapon;
+        [SerializeField] private int _startAmmo;
+
+        public WeaponSO Weapon => _weapon;
+        public int StartAmmo => _startAmmo;
     }
 }
