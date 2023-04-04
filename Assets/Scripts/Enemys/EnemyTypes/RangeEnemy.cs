@@ -6,6 +6,14 @@ namespace Enemys
 {
     public class RangeEnemy : Enemy
     {
+        protected const float _spawnHight = 10;
+        protected const float _fallSpeed = 20;
+
+        [Header("Spawn Parameters")]
+        [SerializeField] protected LayerMask _groundLayer;
+        [SerializeField] protected float _landingAreaRadius;
+        [SerializeField] protected int _landingDamage;
+
         [Header("Shot Parameters")]
         [SerializeField] protected ProjectileType _projectileType;
         [SerializeField] protected int _bulletsPerShot;
@@ -15,9 +23,11 @@ namespace Enemys
         [SerializeField] protected Transform _shotPoint;
         [SerializeField] protected float _bulletLifeTime;
 
+        protected bool _isLanding;
         protected ObjectPool<Bullet> _bullets;
         protected LayerMask _canBeCollided;
         protected LayerMask _canBeDamaged;
+        protected float _bulletSpeed;
 
         protected override void Start()
         {
@@ -44,17 +54,57 @@ namespace Enemys
             var bullet = _bullets.Value;
             _canBeCollided = bullet.CanBeCollided;
             _canBeDamaged = bullet.CanBeDamaged;
+            _bulletSpeed = bullet.StartSpeed;
         }
 
-        protected override void FixedUpdate()
+        public override void Initialize(Vector3 position)
         {
-            base.FixedUpdate();
+            position.y += _spawnHight;
+            base.Initialize(position);
+            _isLanding = true;
+            _agent.enabled = false;
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            if (_isLanding)
+            {
+                CheckLanding();
+                return;
+            }
 
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)
                     Attack();
             }
+        }
+
+        public override float LandingAreaRadius()
+        {
+            return _landingAreaRadius;
+        }
+
+        protected void CheckLanding()
+        {
+            if (Physics.Raycast(_transform.position, Vector3.down, 2f, _groundLayer))
+            {
+                Landing();
+            }
+            else
+            {
+                Vector3 newPos = _transform.position;
+                newPos.y -= _fallSpeed * Time.fixedDeltaTime;
+                _transform.position = newPos;
+            }
+        }
+
+        protected void Landing()
+        {
+            if (Vector3.Distance(_transform.position, _target.position) <= _landingAreaRadius)
+                _player.Parameters.TakeDamage(_landingDamage);
+            _isLanding = false;
+            _agent.enabled = true;
         }
 
         protected override void Attack()
@@ -105,6 +155,7 @@ namespace Enemys
         protected virtual Vector3 CalculateBulletDir(int number)
         {
             Vector3 dir = _target.position - _shotPoint.position;
+            dir = _player.Mover.GetFuturePos(dir.magnitude / _bulletSpeed) - _shotPoint.position;
             if (_dispersion != 0)
             {
                 float y = dir.y;
@@ -124,6 +175,14 @@ namespace Enemys
             }
             return dir.normalized;
         }
+
+#if UNITY_EDITOR
+        protected override void OnDrawGizmosSelected()
+        {
+            base.OnDrawGizmosSelected();
+            Gizmos.DrawWireSphere(transform.position, _landingAreaRadius);
+        }
+#endif
     }
 
     public enum ProjectileType

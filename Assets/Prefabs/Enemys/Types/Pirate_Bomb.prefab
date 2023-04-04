@@ -85,13 +85,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4b85a3414235794f9af7ac5c1c985c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnHight: 10
-  _fallSpeed: 20
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _landingAreaRadius: 1.5
-  _landingDamage: 5
   _maxHealth: 30
   _speed: 4
   _damage: 25
@@ -100,6 +93,11 @@ MonoBehaviour:
   _weakPoints:
   - {fileID: 3453932273761719833}
   _animationController: {fileID: 3453932272840367611}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 1.5
+  _landingDamage: 5
   _projectileType: 2
   _bulletsPerShot: 1
   _randomDir: 0
@@ -110,6 +108,8 @@ MonoBehaviour:
   _distance: 10
   _stopDistance: 1
   _step: 6
+  _bombFlyTime: 1.5
+  _bombFlyHight: 3
 --- !u!1 &3453932272840367609
 GameObject:
   m_ObjectHideFlags: 0

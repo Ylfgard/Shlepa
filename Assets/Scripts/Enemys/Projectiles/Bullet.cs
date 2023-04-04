@@ -14,7 +14,6 @@ namespace Enemys.Projectiles
         public LayerMask CanBeCollided => _canBeCollided;
         public LayerMask CanBeDamaged => _canBeDamaged;
         public float StartSpeed => _startSpeed;
-        public float GravityImpact => _gravityImpact;
 
         protected void Start()
         {
@@ -27,6 +26,20 @@ namespace Enemys.Projectiles
         {
             base.Initialize(startPoint, dir, damage, lifeTime);
             _curHealth = _maxHealth;
+        }
+
+        public void Initialize(Vector3 startPoint, Vector3 dir, int damage,
+            float lifeTime, float startHSpeed, float startVSpeed, float gravityImpact)
+        {
+            _transform.position = startPoint;
+            _dir = dir;
+            _damage = damage;
+            _curHealth = _maxHealth;
+            _curHorSpeed = startHSpeed;
+            _gravityImpact = gravityImpact;
+            _curVerSpeed = startVSpeed;
+            
+            Invoke("Collision", lifeTime);
         }
 
         protected override void Collision()

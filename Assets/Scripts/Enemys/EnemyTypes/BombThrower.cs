@@ -1,47 +1,53 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Enemys
 {
     public class BombThrower : DistanceKeepEnemy
     {
-        protected float _startSpeed;
+        [Header ("Bomb Parameters")]
+        [SerializeField] protected float _bombFlyTime;
+        [SerializeField] protected float _bombFlyHight;
+
+        protected float _startHSpeed;
+        protected float _startVSpeed;
         protected float _gravityImpact;
 
-        protected override void Start()
+        protected override void FastShot()
         {
-            base.Start();
-            _startSpeed = _bullets.Value.StartSpeed;
-            _gravityImpact = -_bullets.Value.GravityImpact;
+            for (int i = 0; i < _bulletsPerShot; i++)
+            {
+                var bullet = _bullets.GetObjectFromPool();
+                Vector3 dir = CalculateBulletDir(i);
+                bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime, 
+                    _startHSpeed, _startVSpeed, _gravityImpact);
+            }
+            _agent.isStopped = false;
+        }
+
+        protected override IEnumerator Shot()
+        {
+            Vector3 dirToTarget = _target.position - _shotPoint.position;
+            for (int i = 0; i < _bulletsPerShot; i++)
+            {
+                var bullet = _bullets.GetObjectFromPool();
+                Vector3 dir = CalculateBulletDir(i);
+                bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime,
+                    _startHSpeed, _startVSpeed, _gravityImpact);
+                yield return new WaitForSeconds(_bulletDelay);
+            }
+            _agent.isStopped = false;
         }
 
         protected override Vector3 CalculateBulletDir(int number)
         {
             Vector3 dir = _target.position - _shotPoint.position;
-            float y = dir.y;
+
+            _startHSpeed = dir.magnitude / _bombFlyTime;
+            float t = _bombFlyTime / 2;
+            _gravityImpact = (-2 * _bombFlyHight) / Mathf.Pow(t, 2);
+            _startVSpeed = -_gravityImpact * t;
             dir.y = 0;
-            float S = dir.magnitude;
-            if (_dispersion != 0)
-            {
-                Vector3 normal = Vector3.right;
-                Vector3.OrthoNormalize(ref dir, ref normal);
-                float x = _bulletsPerShot / 2;
-                if (_randomDir)
-                    x = Random.Range(-_dispersion, _dispersion);
-                else
-                    x = _dispersion * ((number - x) / x);
-
-                dir = dir * _attackDistance + normal * x;
-                dir = dir.normalized * S;
-            }
-
-            float sqrt = Mathf.Pow(_startSpeed, 4) - _gravityImpact * (_gravityImpact * Mathf.Pow(S, 2) + 2 * Mathf.Pow(_startSpeed, 2) * y);
-            float angleTan;
-            if (sqrt < 0) 
-                angleTan = Mathf.Tan(45);
-            else 
-                angleTan = Mathf.Tan((Mathf.Pow(_startSpeed, 2) - Mathf.Sqrt(sqrt)) / (_gravityImpact * S));
-            
-            dir.y = S * angleTan;
             return dir.normalized;
         }
     }

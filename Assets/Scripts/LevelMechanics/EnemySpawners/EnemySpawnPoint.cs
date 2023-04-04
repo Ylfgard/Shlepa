@@ -37,7 +37,7 @@ namespace LevelMechanics.EnemySpawners
             _spawnArea.gameObject.SetActive(true);
             _timerText.enabled = true;
             _curTime = _spawnDelay;
-            _spawnArea.localScale = Vector3.one * (enemys.Value.LandingAreaRadius * 2);
+            _spawnArea.localScale = Vector3.one * (enemys.Value.LandingAreaRadius() * 2);
             StartCoroutine(DelayedSpawn(enemys, InvokeDeathEvent));
         }
 

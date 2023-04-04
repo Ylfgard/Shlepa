@@ -24,6 +24,7 @@ namespace PlayerController
         private float _gravity;
         private bool _grounded;
         private bool _readyToJump;
+        private Vector3 _curDir;
 
         public Transform Transform => _transform;
 
@@ -63,8 +64,14 @@ namespace PlayerController
                 }
             }
 
+            _curDir = new Vector3(dir.x, 0, dir.z).normalized;
             dir.y = _ySpeed * Time.deltaTime;
             _controller.Move(dir);
+        }
+
+        public Vector3 GetFuturePos(float timeStep)
+        {
+            return _transform.position + (_curDir * _speed * timeStep);
         }
 
         public void SetPosition(Vector3 pos)
