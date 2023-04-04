@@ -1,15 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Enemys.Projectiles;
-using System.Collections;
-using Enemys.Cowers;
 using UnityEngine.AI;
+using System.Collections;
 
 namespace Enemys.Bosses
 {
-    public class TrollBoss : Boss
+    public class Slavonian : Boss
     {
-        [SerializeField] private TrollBossStage[] _stageParameters;
+        [SerializeField] private SlavonianStage[] _stageParameters;
 
         [Header("Shot Parameters")]
         [SerializeField] protected ProjectileType _projectileType;
@@ -20,36 +19,49 @@ namespace Enemys.Bosses
         [SerializeField] protected Transform _shotPoint;
         [SerializeField] protected float _bulletLifeTime;
 
-        [Header("Cower")]
-        [SerializeField] protected float _distanceFromTarget;
-        [SerializeField] protected float _changeCowerDistance;
+        [Header("Charge")]
+        [SerializeField] protected int _chargeDamage;
+        [SerializeField] protected float _chargeDistance;
+        [SerializeField] protected float _chargeTime;
 
-        protected Dictionary<int, TrollBossStage> _stages;
+        [Header("Distance")]
+        [SerializeField] protected float _distance;
+        [SerializeField] protected float _stopDistance;
+        [SerializeField] protected float _step;
+
+        protected Dictionary<int, SlavonianStage> _stages;
         protected ObjectPool<Bullet> _bullets;
         protected LayerMask _canBeCollided;
         protected LayerMask _canBeDamaged;
         protected float _bulletSpeed;
-        protected CowerKeeper _cowerKeeper;
-        protected Cower _curCower;
-        protected bool _moveToCover;
-        protected bool _moveToAlternativeCower;
-        protected bool _inCower;
+
+        protected float _chargeDelay;
+        protected int _dir;
+        protected bool _chargeUnlocked;
+        protected float _inChargeTime;
+        protected bool _chargeReady;
+        protected bool _inCharge;
+        protected float _chargeSpeed;
+        protected float _chargeAceleration;
+        protected Vector3 _chargeDir;
+        protected Collider _collider;
 
         protected override void Awake()
         {
             base.Awake();
-            _stages = new Dictionary<int, TrollBossStage>();
+            _stages = new Dictionary<int, SlavonianStage>();
             foreach (var stage in _stageParameters)
             {
                 if (_stages.ContainsKey(stage.Index)) Debug.LogError("Wrong stage index! " + stage.Index);
                 else _stages.Add(stage.Index, stage);
             }
+            _chargeReady = true;
+            _collider = GetComponent<Collider>();
         }
 
         protected override void Start()
         {
             base.Start();
-            _cowerKeeper = CowerKeeper.Instance;
             _animationController.CallBack += MakeShot;
             switch (_projectileType)
             {
@@ -72,49 +84,88 @@ namespace Enemys.Bosses
                     Debug.LogError("Wrong projectile type!");
                     break;
             }
-
             var bullet = _bullets.Value;
             _canBeCollided = bullet.CanBeCollided;
             _canBeDamaged = bullet.CanBeDamaged;
             _bulletSpeed = bullet.StartSpeed;
+            _chargeAceleration = 2 * _chargeDistance / Mathf.Pow(_chargeTime, 2);
         }
 
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
+            
+            if (_inCharge)
+            {
+                _inChargeTime += Time.fixedDeltaTime;
+                if (_inChargeTime >= _chargeTime)
+                {
+                    _inCharge = false;
+                    _collider.isTrigger = false;
+                }
+                else
+                {
+                    _chargeSpeed += _chargeAceleration * Time.fixedDeltaTime;
+                    _transform.position += _chargeDir * _chargeSpeed * Time.fixedDeltaTime;
+                }
+                return;
+            }
+            else
+            {
+                if (_chargeUnlocked && _chargeReady)
+                    Charge();
+            }
 
             if (_isAttacking == false)
             {
                 if (Vector3.Distance(_transform.position, _target.position) <= _attackDistance)
                     Attack();
                 else
-                    MoveToAttack();
+                    MoveToTarget();
             }
             else
             {
-                if (Vector3.Distance(_agent.destination, _transform.position) <= 1f) _inCower = true;
-                TakeCover();
+                MakeStep();
             }
         }
 
         public override void ActivateStage(int stageIndex)
         {
-            TrollBossStage stage;
+            SlavonianStage stage;
             if (_stages.TryGetValue(stageIndex, out stage))
             {
-                _attackDelay = stage.AttackDelay;
-                _dispersion = stage.Dispersion;
-                _bulletsPerShot = stage.BulletsPerShot;
-                _attackDistance = stage.AttackDistance;
-                _distanceFromTarget = stage.DistanceFromTarget;
+                _chargeUnlocked = stage.UnlockCharge;
+                _chargeDelay = stage.ChargeDelay;
             }
+        }
+
+        protected void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == TagsKeeper.Player)
+                _player.Parameters.TakeDamage(_chargeDamage);
+        }
+
+        protected void Charge()
+        {
+            _collider.isTrigger = true;
+            _chargeReady = false;
+            _inCharge = true;
+            _chargeDir = (_target.position - _transform.position).normalized;
+            _chargeDir.y = 0;
+            _chargeSpeed = 0;
+            _inChargeTime = 0;
+            Debug.Log("CHAAARGE!");
+            StartCoroutine(ReloadCharge());
+        }
+
+        protected IEnumerator ReloadCharge()
+        {
+            yield return new WaitForSeconds(_chargeDelay);
+            _chargeReady = true;
         }
 
         protected override void Attack()
         {
-            _moveToCover = false;
-            _moveToAlternativeCower = false;
-            _inCower = false;
             RaycastHit hit;
             if (Physics.Raycast(_shotPoint.position, _target.position - _shotPoint.position, out hit, _attackDistance, _canBeCollided))
             {
@@ -122,9 +173,10 @@ namespace Enemys.Bosses
                 {
                     base.Attack();
                     _agent.isStopped = true;
+                    _dir = Random.Range(-1, 1);
                 }
             }
-            MoveToAttack();
+            MoveToTarget();
         }
 
         protected void MakeShot()
@@ -144,7 +196,7 @@ namespace Enemys.Bosses
                 bullet.Initialize(_shotPoint.position, dir, _damage, _bulletLifeTime);
             }
             _agent.isStopped = false;
-            TakeCover();
+            MakeStep();
         }
 
         protected IEnumerator Shot()
@@ -158,7 +210,7 @@ namespace Enemys.Bosses
                 yield return new WaitForSeconds(_bulletDelay);
             }
             _agent.isStopped = false;
-            TakeCover();
+            MakeStep();
         }
 
         protected Vector3 CalculateBulletDir(int number)
@@ -185,50 +237,36 @@ namespace Enemys.Bosses
             return dir.normalized;
         }
 
-        protected void TakeCover()
+        protected void MoveToTarget()
         {
-            if (Vector3.Distance(_transform.position, _target.position) < _changeCowerDistance &&
-                _inCower && _moveToAlternativeCower == false) _moveToCover = false;
-            
-            if (_moveToCover) return;
-            _inCower = false;
-            _moveToCover = true;
-            Vector3 cowerOffset = (_transform.position - _target.position).normalized * _distanceFromTarget;
-            Cower cower = _cowerKeeper.GetNearestShelter(_target.position + cowerOffset);
-            if (_curCower != cower)
-            {
-                NavMeshHit destination;
-                NavMesh.SamplePosition(cower.GetCowerPoint(_target.position), out destination, 100, NavMesh.AllAreas);
-                _agent.SetDestination(destination.position);
-                _curCower = cower;
-            }
-            else
-            {
-                cower = _cowerKeeper.GetNearestShelter(_target.position - cowerOffset);
-                NavMeshHit destination;
-                NavMesh.SamplePosition(cower.GetCowerPoint(_target.position), out destination, 100, NavMesh.AllAreas);
-                _agent.SetDestination(destination.position);
-                _moveToAlternativeCower = true;
-            }
-        }
-
-        protected void MoveToAttack()
-        {
+            Vector3 step = (_target.position - _transform.position).normalized * _step;
             NavMeshHit destination;
-            NavMesh.SamplePosition(_target.position, out destination, 100, NavMesh.AllAreas);
+            NavMesh.SamplePosition(_transform.position + step, out destination, 100, NavMesh.AllAreas);
             _agent.SetDestination(destination.position);
-            _curCower = null;
         }
 
-        public override void TakeDamage(int value)
+        protected void MakeStep()
         {
-            base.TakeDamage(value);
-            if (_inCower)
-            {
-                _moveToCover = false;
-                _moveToAlternativeCower = false;
-                _inCower = false;
-            }
+            float curDis = Vector3.Distance(_transform.position, _target.position);
+
+            if (Vector3.Distance(_transform.position, _agent.destination) > _stopDistance && curDis >= _distance) return;
+
+            Vector3 dir;
+            if (curDis < _distance)
+                dir = _transform.position - _target.position;
+            else
+                dir = _target.position - _transform.position;
+            Vector3 normal = Vector3.forward;
+            Vector3.OrthoNormalize(ref dir, ref normal);
+            if (_dir < 0)
+                dir = dir * _step + normal * -_distance;
+            else
+                dir = dir * _step + normal * _distance;
+
+            dir = dir.normalized * _step;
+            NavMeshHit destination;
+            NavMesh.SamplePosition(_transform.position + dir, out destination, 100, NavMesh.AllAreas);
+            _agent.SetDestination(destination.position);
         }
 
 #if UNITY_EDITOR
@@ -236,8 +274,11 @@ namespace Enemys.Bosses
         {
             base.OnDrawGizmosSelected();
 
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, _changeCowerDistance);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, _distance);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, _chargeDistance);
         }
 #endif
     }

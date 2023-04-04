@@ -38,14 +38,17 @@ namespace Enemys
                 case ProjectileType.Bullet:
                     _bullets = ProjectilePoolsKeeper.Instance.Bullets;
                     break;
-                case ProjectileType.Canonball:
-                    _bullets = ProjectilePoolsKeeper.Instance.Canonballs;
+                case ProjectileType.Cannonball:
+                    _bullets = ProjectilePoolsKeeper.Instance.Cannonballs;
                     break;
                 case ProjectileType.Bomb:
                     _bullets = ProjectilePoolsKeeper.Instance.Bombs;
                     break;
                 case ProjectileType.ExplosiveBullet:
                     _bullets = ProjectilePoolsKeeper.Instance.ExplosiveBullets;
+                    break;
+                case ProjectileType.BossCannonball:
+                    _bullets = ProjectilePoolsKeeper.Instance.BossCannonballs;
                     break;
                 default:
                     Debug.LogError("Wrong projectile type!");
@@ -183,13 +186,5 @@ namespace Enemys
             Gizmos.DrawWireSphere(transform.position, _landingAreaRadius);
         }
 #endif
-    }
-
-    public enum ProjectileType
-    {
-        Bullet,
-        Canonball,
-        Bomb,
-        ExplosiveBullet
     }
 }
