@@ -102,6 +102,7 @@ namespace Enemys.Bosses
                 {
                     _inCharge = false;
                     _collider.isTrigger = false;
+                    _agent.isStopped = false;
                 }
                 else
                 {
@@ -154,7 +155,8 @@ namespace Enemys.Bosses
             _chargeDir.y = 0;
             _chargeSpeed = 0;
             _inChargeTime = 0;
-            Debug.Log("CHAAARGE!");
+            _agent.velocity = Vector3.zero;
+            _agent.isStopped = true;
             StartCoroutine(ReloadCharge());
         }
 
@@ -257,6 +259,7 @@ namespace Enemys.Bosses
             else
                 dir = _target.position - _transform.position;
             Vector3 normal = Vector3.forward;
+            dir.y = 0;
             Vector3.OrthoNormalize(ref dir, ref normal);
             if (_dir < 0)
                 dir = dir * _step + normal * -_distance;

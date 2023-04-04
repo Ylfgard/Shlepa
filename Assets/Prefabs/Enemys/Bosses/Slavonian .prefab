@@ -57,8 +57,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6639861409924940650}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.562, z: 0}
-  m_LocalScale: {x: 0.5642648, y: 0.5642648, z: 0.5642648}
+  m_LocalPosition: {x: 0, y: 1.13, z: 0}
+  m_LocalScale: {x: 0.90840983, y: 0.90840983, z: 0.90840983}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6639861410287550334}
@@ -137,10 +137,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.3
+  m_Radius: 0.7
+  m_Height: 2.5
   m_Direction: 1
-  m_Center: {x: 0, y: -0.25, z: 0}
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!195 &6639861410287550320
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -150,7 +150,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6639861410287550333}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.7
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -159,8 +159,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.5
-  m_BaseOffset: 0.75
+  m_Height: 3
+  m_BaseOffset: 1.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &6639861410287550322
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 1000
-  _speed: 5
+  _speed: 8
   _damage: 20
   _attackDelay: 3
   _attackDistance: 20
@@ -205,9 +205,9 @@ MonoBehaviour:
   _chargeDamage: 25
   _chargeDistance: 15
   _chargeTime: 1
-  _distance: 5
-  _stopDistance: 1
-  _step: 3
+  _distance: 6
+  _stopDistance: 1.5
+  _step: 4
 --- !u!1 &6639861410336221576
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 6639861410336221576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6639861410287550334}
@@ -305,7 +305,7 @@ Animator:
   m_GameObject: {fileID: 6639861410336221576}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 63ab17fcc89d96c499ce8045c5b01b10, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6bf0164c685e041468f65d75877a5a74, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
