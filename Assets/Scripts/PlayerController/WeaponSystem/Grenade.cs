@@ -25,7 +25,12 @@ namespace PlayerController.WeaponSystem
             if (gameObject.activeSelf == false) return;
             var colliders = Physics.OverlapSphere(_transform.position, _affectedArea, _canBeDamaged);
             foreach (var collider in colliders)
-                _enemyKeeper.MakeDamage(collider.gameObject, _damage, true);
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(_transform.position, collider.transform.position - _transform.position, out hit, _affectedArea, _canBeCollided))
+                    if (Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged).Length > 0)
+                        _enemyKeeper.MakeDamage(collider.gameObject, _damage, true);
+            }
 
             CancelInvoke();
             gameObject.SetActive(false);

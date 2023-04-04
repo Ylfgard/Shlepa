@@ -45,6 +45,26 @@ namespace PlayerController.WeaponSystem
             // End debag
         }
 
+        public override void SetAmmos(int ammos, bool isActive)
+        {
+            if (ammos >= _clipCapacity)
+            {
+                _bulletsInClip = _clipCapacity;
+                ammos -= _clipCapacity;
+            }
+            else
+            {
+                _bulletsInClip = ammos;
+                ammos = 0;
+            }
+            _ammos = ammos;
+            if (isActive)
+            {
+                _ammoText.text = _ammos.ToString();
+                _clipText.text = _bulletsInClip.ToString();
+            }        
+        }
+
         public void UpdateDisperion()
         {
             if (_isShoting)

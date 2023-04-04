@@ -67,6 +67,11 @@ namespace PlayerController
             _controller.Move(dir);
         }
 
+        public void SetPosition(Vector3 pos)
+        {
+            _transform.position = pos;
+        }
+
         public void RotateX(float angle)
         {
             _rotateX += angle;

@@ -65,10 +65,16 @@ namespace PlayerController.WeaponSystem
             // End debag
         }
 
-        public void AddAmmo(int ammo)
+        public void AddAmmos(int ammos, bool isActive)
         {
-            _ammos += ammo;
-            _ammoText.text = _ammos.ToString();
+            _ammos += ammos;
+            if (isActive) _ammoText.text = _ammos.ToString();
+        }
+
+        public virtual void SetAmmos(int ammos, bool isActive)
+        {
+            _ammos = ammos;
+            if (isActive) _ammoText.text = _ammos.ToString();
         }
 
         public void Shot(Transform weaponDir)

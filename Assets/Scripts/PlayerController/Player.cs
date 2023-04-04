@@ -1,5 +1,6 @@
 using UnityEngine;
 using PlayerController.WeaponSystem;
+using LevelMechanics.SaveSystem;
 
 namespace PlayerController
 {
@@ -46,6 +47,13 @@ namespace PlayerController
         {
             if (_weaponKeeper.GetWeaponAimValue() == 1) return;
             else _camera.Zoom(_weaponKeeper.GetWeaponAimValue(), state);
+        }
+
+        public void Load(SaveData save)
+        {
+            _parameters.SetParameters(save.Health, save.Armor);
+            _weaponKeeper.SetAmmos(save.Ammos);
+            _mover.SetPosition(ChekpointKeeper.Instance.GetCheckpointPosition(save.CheckpointIndex));
         }
     }
 }

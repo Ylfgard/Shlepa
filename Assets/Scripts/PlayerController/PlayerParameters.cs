@@ -12,11 +12,22 @@ namespace PlayerController
         private int _curHealth;
         private int _curArmor;
 
+        public int CurHealth => _curHealth;
+        public int CurArmor => _curArmor;
+
         private void Awake()
         {
             _healthText.text = _maxHealth.ToString();
             _curHealth = _maxHealth;
             _curArmor = 0;
+            _armorText.text = _curArmor.ToString();
+        }
+
+        public void SetParameters(int health, int armor)
+        {
+            _curHealth = health;
+            _healthText.text = _curHealth.ToString();
+            _curArmor = armor;
             _armorText.text = _curArmor.ToString();
         }
 

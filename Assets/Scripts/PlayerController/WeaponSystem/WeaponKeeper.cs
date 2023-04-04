@@ -68,6 +68,24 @@ namespace PlayerController.WeaponSystem
             _updateCall?.Invoke();
         }
 
+        public int[] GetAmmos()
+        {
+            int[] ammos = new int[_weapons.Length - 1];
+            for (int i = 1; i <= ammos.Length; i++)
+                ammos[i - 1] = _weapons[i].Ammos + _weapons[i].BulletsInClip;
+
+            return ammos;
+        }
+
+        public void SetAmmos(int[] ammos)
+        {
+            for (int i = 1; i <= ammos.Length; i++)
+            {
+                if (i == _curWIndx) _weapons[i].SetAmmos(ammos[i - 1], true);
+                else _weapons[i].SetAmmos(ammos[i - 1], false);
+            }
+        }
+
         public void MakeShot(Transform dir)
         {
             if (_weaponReady == false) return;
@@ -112,7 +130,8 @@ namespace PlayerController.WeaponSystem
             if (weaponSlot <= 0 || weaponSlot >= WeaponsCount) return;
             if (_weapons[weaponSlot] == null) return;
 
-            _weapons[weaponSlot].AddAmmo(value);
+            if (weaponSlot == _curWIndx) _weapons[weaponSlot].AddAmmos(value, true);
+            else _weapons[weaponSlot].AddAmmos(value, false);
         }
 
         public void ReloadEnded()
