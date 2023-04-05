@@ -94,6 +94,7 @@ namespace Enemys
             _player.Parameters.TakeDamage(_damage);
             _agent.isStopped = false;
         }
+
 #if UNITY_EDITOR
         protected override void OnDrawGizmosSelected()
         {

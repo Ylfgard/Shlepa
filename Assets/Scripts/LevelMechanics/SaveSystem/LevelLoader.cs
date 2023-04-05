@@ -17,7 +17,7 @@ namespace LevelMechanics.SaveSystem
         {
             BinaryFormatter formatter = new BinaryFormatter();
 
-            string path = Application.persistentDataPath + "/save.data";
+            string path = Application.dataPath + "/Saves/save.data";
             FileStream stream = new FileStream(path, FileMode.Open);
             SaveData save = formatter.Deserialize(stream) as SaveData;
             stream.Close();
