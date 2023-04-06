@@ -5,9 +5,9 @@ namespace Enemys
 {
     public class Trollface : MovingAttackerEnemy
     {
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             _attacker.AttackFinished += Death;
         }
 

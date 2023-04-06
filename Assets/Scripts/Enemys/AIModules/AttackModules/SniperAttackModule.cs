@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 namespace Enemys.AIModules
 {
@@ -17,8 +18,9 @@ namespace Enemys.AIModules
             _aimPoint.position = _shotPoint.position;
         }
 
-        protected override void ActivateAttack()
+        protected override IEnumerator ActivateAttack()
         {
+            yield return new WaitForSeconds(_delayBeforeActivating);
             base.ActivateAttack();
             _aimLine.enabled = false;
         }
@@ -39,6 +41,7 @@ namespace Enemys.AIModules
                     StartCoroutine(PrepareAttack());
                     _agent.isStopped = true;
                     _aimLine.material = _shotMaterial;
+                    StartCoroutine(ActivateAttack());
                     return true;
                 }
             }

@@ -19,9 +19,6 @@ namespace Enemys.AIModules
         protected Transform _target;
         protected NavMeshAgent _agent;
         protected bool _isLanding;
-        protected bool _isInitialized;
-
-        public bool IsInitialized => _isInitialized;
 
         public float LandingAreaRadius => _landingAreaRadius;
 
@@ -31,7 +28,6 @@ namespace Enemys.AIModules
             _player = enemy.Player;
             _target = enemy.Player.Mover.Transform;
             _agent = enemy.Agent;
-            _isInitialized = true;
         }
 
         public void StartLanding()

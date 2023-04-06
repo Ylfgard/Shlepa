@@ -63,8 +63,9 @@ namespace Enemys.AIModules
             return false;
         }
 
-        protected override void ActivateAttack()
+        protected override IEnumerator ActivateAttack()
         {
+            yield return new WaitForSeconds(_delayBeforeActivating);
             if (_bulletDelay > 0)
                 StartCoroutine(Shot());
             else
@@ -118,6 +119,11 @@ namespace Enemys.AIModules
                 dir.y = y;
             }
             return dir.normalized;
+        }
+
+        public void SetBulletsPerShot(int bullets)
+        {
+            _bulletsPerShot = bullets;
         }
     }
 }

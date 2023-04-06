@@ -118,7 +118,9 @@ MonoBehaviour:
   _canBeDamaged:
     serializedVersion: 2
     m_Bits: 128
-  _startSpeed: 5
+  _startSpeed: 17
   _speedChanges: 0
+  _gravityImpact: 0
+  _maxFallSpeed: 0
   _canBeHit: 1
   _maxHealth: 20

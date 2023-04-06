@@ -3,18 +3,19 @@ using Enemys.AIModules;
 
 namespace Enemys.Bosses
 {
-    public class Slavonian : Boss
+    public class EvilShlepaMech : Boss
     {
-        [SerializeField] protected ChargeModule _charger;
         [SerializeField] protected MoveModule _mover;
-        [SerializeField] protected AttackModule _attacker;
+        [SerializeField] protected RangeAttackModule _attacker;
+        [SerializeField] protected ChargeModule _charger;
 
-        [Header ("Boss Stages")]
-        [SerializeField] private SlavonianStage[] _stages;
+        [Header("Boss Stages")]
+        [SerializeField] private EvilShlepaMechStage[] _stages;
 
         protected override void Awake()
         {
             base.Awake();
+
             var collider = GetComponent<Collider>(); _activator.Initialize(this);
             _charger.Initialize(this, collider);
             SendDeath += _charger.Deactivate;
@@ -22,7 +23,8 @@ namespace Enemys.Bosses
             SendDeath += _mover.Deactivate;
             _attacker.Initialize(this);
             SendDeath += _attacker.Deactivate;
-            foreach (SlavonianStage stage in _stages)
+
+            foreach (EvilShlepaMechStage stage in _stages)
                 stage.Initialize(this);
         }
 
@@ -57,7 +59,7 @@ namespace Enemys.Bosses
                 }
             }
         }
-        
+
         protected override void Attack()
         {
             if (_attacker.TryAttack() == false)
@@ -68,8 +70,10 @@ namespace Enemys.Bosses
 
         public override void ActivateStage(BossStage stage)
         {
-            SlavonianStage stg = stage as SlavonianStage;
+            EvilShlepaMechStage stg = stage as EvilShlepaMechStage;
             _charger.ChangeParameters(stg.UnlockCharge, stg.ChargeDelay);
+            _attacker.SetAttackDelay(stg.AttackDelay);
+            _attacker.SetBulletsPerShot(stg.BulletsPerShot);
         }
     }
 }

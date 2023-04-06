@@ -29,6 +29,17 @@ namespace Enemys.AIModules
 
         public bool InCharge => _inCharge;
 
+        public bool ChargeReady
+        { 
+            get
+            {
+                if (_chargeUnlocked)
+                    return _chargeReady;
+                else
+                    return false;
+            }
+        }
+
         protected void Start()
         {
             _chargeAceleration = 2 * _chargeDistance / Mathf.Pow(_chargeTime, 2);
@@ -82,8 +93,16 @@ namespace Enemys.AIModules
         {
             if (_chargeUnlocked && _chargeReady)
             {
-                Charge();
-                return true;
+                RaycastHit hit;
+                if (Physics.Raycast(_transform.position, _target.position - _transform.position, out hit, _chargeDistance))
+                {
+                    if (hit.collider.gameObject.tag == TagsKeeper.Player)
+                    {
+                        Charge();
+                        return true;
+                    }
+                }
+                return false;
             }
             return false;
         }

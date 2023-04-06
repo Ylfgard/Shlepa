@@ -13,6 +13,8 @@ namespace Enemys.AIModules
 
         protected int _dir;
 
+        public float Distance => _distance;
+
         public override void Initialize(Enemy enemy)
         {
             base.Initialize(enemy);
@@ -23,6 +25,13 @@ namespace Enemys.AIModules
         public void ChangeDirection()
         {
             _dir = Random.Range(-1, 1);
+        }
+
+        public float GetCurDistance()
+        {
+            float distance = Vector2.Distance(new Vector2(_transform.position.x, _transform.position.z),
+                new Vector2(_target.position.x, _target.position.z));
+            return distance;
         }
 
         public override void Move()
@@ -65,7 +74,7 @@ namespace Enemys.AIModules
 #if UNITY_EDITOR
         protected void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.gray;
+            Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, _distance);
         }
 #endif

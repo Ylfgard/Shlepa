@@ -35,14 +35,10 @@ namespace Enemys
         {
             _transform = transform;
             _agent = GetComponent<NavMeshAgent>();
-            foreach (WeakPoint weakPoint in _weakPoints)
-                weakPoint.Initialize(this);
-        }
-
-        protected virtual void Start()
-        {
             _player = Player.Instance;
             EnemyKeeper.Instance.AddEnemy(this);
+            foreach (WeakPoint weakPoint in _weakPoints)
+                weakPoint.Initialize(this);
         }
 
         protected virtual void Attack()

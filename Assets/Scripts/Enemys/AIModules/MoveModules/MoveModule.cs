@@ -24,7 +24,6 @@ namespace Enemys.AIModules
 
         public virtual void Move()
         {
-            if (_agent.stoppingDistance != 0) _agent.stoppingDistance = 0;
             MoveToTarget();
         }
 

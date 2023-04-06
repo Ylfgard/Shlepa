@@ -12,6 +12,7 @@ namespace Enemys.AIModules
 
         [Header("Attack Parameters")]
         [SerializeField] protected int _damage;
+        [SerializeField] protected float _delayBeforeActivating;
         [SerializeField] protected float _attackDelay;
         [SerializeField] [Range (1.5f, 100)] protected float _attackDistance;
         [SerializeField] protected float _attackDamageArea;
@@ -32,7 +33,6 @@ namespace Enemys.AIModules
             _player = enemy.Player;
             _target = _player.Mover.Transform;
             _animationController = enemy.AnimationController;
-            _animationController.CallBack += ActivateAttack;
             _isAttacking = false;
         }
 
@@ -54,6 +54,7 @@ namespace Enemys.AIModules
             _animationController.SetTrigger("Attack");
             StartCoroutine(PrepareAttack());
             _agent.isStopped = true;
+            StartCoroutine(ActivateAttack());
             return true;
         }
 
@@ -63,8 +64,9 @@ namespace Enemys.AIModules
             _isAttacking = false;
         }
 
-        protected virtual void ActivateAttack()
+        protected virtual IEnumerator ActivateAttack()
         {
+            yield return new WaitForSeconds(_delayBeforeActivating);
             if (Vector3.Distance(_transform.position, _target.position) <= _attackDamageArea)
                 _player.Parameters.TakeDamage(_damage);
             _agent.isStopped = false;
@@ -74,6 +76,11 @@ namespace Enemys.AIModules
         public void ForcedActivateAttack()
         {
             ActivateAttack();
+        }
+
+        public void SetAttackDelay(float attackDelay)
+        {
+            _attackDelay = attackDelay;
         }
 
         public override void Deactivate(Enemy enemy)

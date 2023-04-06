@@ -14,24 +14,18 @@ namespace Enemys.Bosses
         protected override void Awake()
         {
             base.Awake();
-            foreach (TrollBossStage stage in _stages)
-                stage.Initialize(this);
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-
             _mover.Initialize(this);
             SendDeath += _mover.Deactivate;
             _attacker.Initialize(this);
             SendDeath += _attacker.Deactivate;
+            foreach (TrollBossStage stage in _stages)
+                stage.Initialize(this);
         }
 
-        protected override void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
-            base.FixedUpdate();
-            
+            if (_activator.CheckActivation() == false) return;
+
             if (_attacker.AttackReady)
                 Attack();
             else
@@ -40,9 +34,10 @@ namespace Enemys.Bosses
 
         protected override void Attack()
         {
-            base.Attack();
             if (_attacker.TryAttack() == false)
                 _mover.MoveToTarget();
+            else
+                base.Attack();
         }
 
         public override void ActivateStage(BossStage stage)

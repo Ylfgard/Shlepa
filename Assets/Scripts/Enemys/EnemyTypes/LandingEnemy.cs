@@ -11,26 +11,16 @@ namespace Enemys
 
         public float LandingAreaRadius => _lander.LandingAreaRadius;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            if (_lander.IsInitialized == false)
-            {
-                base.Start();
-                _lander.Initialize(this);
-                SendDeath += _lander.Deactivate;
-            }
+            base.Awake();
+            _lander.Initialize(this);
+            SendDeath += _lander.Deactivate;
         }
 
         public override void Initialize(Vector3 position)
         {
             base.Initialize(position);
-            if (_lander.IsInitialized == false)
-            {
-                _player = Player.Instance;
-                EnemyKeeper.Instance.AddEnemy(this);
-                _lander.Initialize(this);
-                SendDeath += _lander.Deactivate;
-            }
             _lander.StartLanding();
         }
     }

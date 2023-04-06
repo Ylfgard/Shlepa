@@ -13,20 +13,17 @@ namespace Enemys.Bosses
         protected override void Awake()
         {
             base.Awake();
+            var controller = GetComponent<CharacterController>();
+            _jumper.Initialize(this, controller);
             foreach (BoobaStage stage in _stages)
                 stage.Initialize(this);
         }
 
-        protected override void Start()
+        protected virtual void FixedUpdate()
         {
-            base.Start();
-            var controller = GetComponent<CharacterController>();
-            _jumper.Initialize(this, controller);
-        }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
+            _jumper.Move();
+            
+            if (_activator.CheckActivation() == false) return;
 
             _jumper.TryJump();
         }

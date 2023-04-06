@@ -8,9 +8,9 @@ namespace Enemys.Bosses
         [Header("Modules")]
         [SerializeField] protected ActivationModule _activator;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             _activator.Initialize(this);
             SendDeath += _activator.Deactivate;
         }
@@ -19,11 +19,6 @@ namespace Enemys.Bosses
         {
             base.Initialize(position);
             _activator.StartActivator();
-        }
-
-        protected virtual void FixedUpdate()
-        {
-            if (_activator.CheckActivation() == false) return;
         }
 
         public abstract void ActivateStage(BossStage stage);

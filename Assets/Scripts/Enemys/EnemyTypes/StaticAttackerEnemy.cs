@@ -7,9 +7,9 @@ namespace Enemys
     {
         [SerializeField] protected AttackModule _attacker;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             _attacker.Initialize(this);
             SendDeath += _attacker.Deactivate;
         }
@@ -24,8 +24,8 @@ namespace Enemys
 
         protected override void Attack()
         {
-            base.Attack();
-            _attacker.TryAttack();
+            if (_attacker.TryAttack())
+                base.Attack();
         }
     }
 }

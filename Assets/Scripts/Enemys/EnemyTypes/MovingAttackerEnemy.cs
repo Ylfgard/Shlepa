@@ -7,10 +7,10 @@ namespace Enemys
     {
         [SerializeField] protected AttackModule _attacker;
         [SerializeField] protected MoveModule _mover;
-        
-        protected override void Start()
+
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             _attacker.Initialize(this);
             SendDeath += _attacker.Deactivate;
             _mover.Initialize(this);
