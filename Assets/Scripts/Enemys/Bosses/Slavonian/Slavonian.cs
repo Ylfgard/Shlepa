@@ -1,140 +1,75 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
+using Enemys.AIModules;
 
 namespace Enemys.Bosses
 {
-    public class Slavonian : BossDistance
+    public class Slavonian : Boss
     {
+        [SerializeField] protected ChargeModule _charger;
+        [SerializeField] protected MoveModule _mover;
+        [SerializeField] protected AttackModule _attacker;
+
         [Header ("Boss Stages")]
-        [SerializeField] private SlavonianStage[] _stageParameters;
-
-        [Header("Charge")]
-        [SerializeField] protected int _chargeDamage;
-        [SerializeField] protected float _chargeDistance;
-        [SerializeField] protected float _chargeTime;
-
-        protected Dictionary<int, SlavonianStage> _stages;
-
-        protected float _chargeDelay;
-        protected bool _chargeUnlocked;
-        protected float _inChargeTime;
-        protected bool _chargeReady;
-        protected bool _inCharge;
-        protected float _chargeSpeed;
-        protected float _chargeAceleration;
-        protected Vector3 _chargeDir;
-        protected Collider _collider;
+        [SerializeField] private SlavonianStage[] _stages;
 
         protected override void Awake()
         {
             base.Awake();
-            _stages = new Dictionary<int, SlavonianStage>();
-            foreach (var stage in _stageParameters)
-            {
-                if (_stages.ContainsKey(stage.Index)) Debug.LogError("Wrong stage index! " + stage.Index);
-                else _stages.Add(stage.Index, stage);
-            }
-            _chargeReady = true;
-            _collider = GetComponent<Collider>();
+            foreach (SlavonianStage stage in _stages)
+                stage.Initialize(this);
         }
 
         protected override void Start()
         {
             base.Start();
-            _chargeAceleration = 2 * _chargeDistance / Mathf.Pow(_chargeTime, 2);
+            
+            var collider = GetComponent<Collider>(); _activator.Initialize(this);
+            _charger.Initialize(this, collider);
+            SendDeath += _charger.Deactivate;
+            _mover.Initialize(this);
+            SendDeath += _mover.Deactivate;
+            _attacker.Initialize(this);
+            SendDeath += _attacker.Deactivate;
+        }
+
+        public override void Initialize(Vector3 position)
+        {
+            base.Initialize(position);
+            _charger.PrepareCharge();
         }
 
         protected override void FixedUpdate()
         {
-            if (_inCharge)
+            base.FixedUpdate();
+
+            if (_charger.InCharge)
             {
-                _inChargeTime += Time.fixedDeltaTime;
-                if (_inChargeTime >= _chargeTime)
-                {
-                    _inCharge = false;
-                    _collider.isTrigger = false;
-                    _agent.isStopped = false;
-                }
-                else
-                {
-                    _chargeSpeed += _chargeAceleration * Time.fixedDeltaTime;
-                    _transform.position += _chargeDir * _chargeSpeed * Time.fixedDeltaTime;
-                }
+                _charger.Charging();
                 return;
             }
             else
             {
-                if (_chargeUnlocked && _chargeReady)
-                    Charge();
-            }
-            
-            base.FixedUpdate();
-        }
-
-        public override void ActivateStage(int stageIndex)
-        {
-            SlavonianStage stage;
-            if (_stages.TryGetValue(stageIndex, out stage))
-            {
-                _chargeUnlocked = stage.UnlockCharge;
-                _chargeDelay = stage.ChargeDelay;
+                if (_charger.TryCharge() == false)
+                {
+                    if (_attacker.AttackReady)
+                        Attack();
+                    else
+                        _mover.Move();
+                }
             }
         }
-
-        protected void OnTriggerEnter(Collider other)
-        {
-            if (other.tag == TagsKeeper.Player)
-                _player.Parameters.TakeDamage(_chargeDamage);
-        }
-
-        protected void Charge()
-        {
-            _collider.isTrigger = true;
-            _chargeReady = false;
-            _inCharge = true;
-            _chargeDir = (_target.position - _transform.position).normalized;
-            _chargeDir.y = 0;
-            _chargeSpeed = 0;
-            _inChargeTime = 0;
-            _agent.velocity = Vector3.zero;
-            _agent.isStopped = true;
-            StartCoroutine(ReloadCharge());
-        }
-
-        protected IEnumerator ReloadCharge()
-        {
-            yield return new WaitForSeconds(_chargeDelay);
-            _chargeReady = true;
-        }
-
+        
         protected override void Attack()
         {
             base.Attack();
-            _dir = Random.Range(-1, 1);
-            MoveToTarget();
+            if (_attacker.TryAttack() == false)
+                _mover.MoveToTarget();
         }
 
-        protected override void FastShot()
+        public override void ActivateStage(BossStage stage)
         {
-            base.FastShot();
-            MakeStep();
+            SlavonianStage stg = stage as SlavonianStage;
+            _charger.ChangeParameters(stg.UnlockCharge, stg.ChargeDelay);
         }
-
-        protected override IEnumerator Shot()
-        {
-            yield return base.Shot();
-            MakeStep();
-        }
-
-#if UNITY_EDITOR
-        protected override void OnDrawGizmosSelected()
-        {
-            base.OnDrawGizmosSelected();
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, _chargeDistance);
-        }
-#endif
     }
 }

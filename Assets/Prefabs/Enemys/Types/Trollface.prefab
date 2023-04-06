@@ -143,6 +143,9 @@ GameObject:
   - component: {fileID: 8750517175380089942}
   - component: {fileID: 8750517175380089941}
   - component: {fileID: 8750517175380089943}
+  - component: {fileID: 1071489278099712760}
+  - component: {fileID: 8116783758839973650}
+  - component: {fileID: 3728636578444362477}
   m_Layer: 3
   m_Name: Trollface
   m_TagString: Untagged
@@ -214,19 +217,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc792354a8c59cc4fb2e8321dd6d4138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnHight: 10
-  _fallSpeed: 20
+  _maxHealth: 1
+  _weakPoints: []
+  _animationController: {fileID: 8750517174623450466}
+  _lander: {fileID: 1071489278099712760}
+  _attacker: {fileID: 8116783758839973650}
+  _mover: {fileID: 3728636578444362477}
+--- !u!114 &1071489278099712760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750517175380089938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782570056ae95c946ab1da9b37523334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
   _landingAreaRadius: 3
-  _landingDamage: 10
-  _maxHealth: 1
-  _speed: 10
-  _damage: 20
+  _landingDamage: 25
+--- !u!114 &8116783758839973650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750517175380089938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce84712b81d1e94e99d336213dd470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 50
   _attackDelay: 0
   _attackDistance: 1.5
-  _weakPoints: []
-  _animationController: {fileID: 8750517174623450466}
-  _explosionVFX: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
-  _explosionRadius: 6
+  _attackDamageArea: 6
+--- !u!114 &3728636578444362477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750517175380089938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b268a19203a22da4e80ef751a05dd977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 9

@@ -32,21 +32,21 @@ namespace LevelMechanics.EnemySpawners
             }
         }
 
-        public void ActivateSpawner(ObjectPool<Enemy> enemys, Action<Enemy> InvokeDeathEvent)
+        public void ActivateSpawner(ObjectPool<Enemy> enemys, Action<Enemy> InvokeDeathEvent, float spawnAreaRadius)
         {
             _spawnArea.gameObject.SetActive(true);
             _timerText.enabled = true;
             _curTime = _spawnDelay;
-            _spawnArea.localScale = Vector3.one * (enemys.Value.LandingAreaRadius() * 2);
+            _spawnArea.localScale = Vector3.one * (spawnAreaRadius * 2);
             StartCoroutine(DelayedSpawn(enemys, InvokeDeathEvent));
         }
 
-        private IEnumerator DelayedSpawn(ObjectPool<Enemy> enemys, Action<Enemy> InvokeDeathEvent)
+        public IEnumerator DelayedSpawn(ObjectPool<Enemy> enemys, Action<Enemy> InvokeDeathEvent)
         {
             yield return new WaitForSeconds(_spawnDelay);
             Enemy enemy = enemys.GetObjectFromPool();
-            enemy.Initialize(_transform.position);
             enemy.SendDeath += InvokeDeathEvent;
+            enemy.Initialize(_transform.position);
             _spawnArea.gameObject.SetActive(false);
             _timerText.enabled = false;
         }

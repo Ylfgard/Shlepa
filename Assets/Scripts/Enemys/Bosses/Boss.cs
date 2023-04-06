@@ -1,53 +1,31 @@
 using UnityEngine;
-using System;
+using Enemys.AIModules;
 
 namespace Enemys.Bosses
 {
     public abstract class Boss : Enemy
     {
-        public Action<int> TakedDamage;
+        [Header("Modules")]
+        [SerializeField] protected ActivationModule _activator;
 
-        [Header("Stages")]
-        [SerializeField] protected StageTrigger[] _stageTriggers;
-
-        protected bool _isActive;
-
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
-            foreach (var stage in _stageTriggers)
-                stage.Initialize(this);
+            base.Start();
+            _activator.Initialize(this);
+            SendDeath += _activator.Deactivate;
         }
 
         public override void Initialize(Vector3 position)
         {
             base.Initialize(position);
-            _isActive = false;
+            _activator.StartActivator();
         }
 
         protected virtual void FixedUpdate()
         {
-            if (_isActive == false && Vector3.Distance(_target.position, _transform.position) <= _attackDistance)
-                _isActive = true;
+            if (_activator.CheckActivation() == false) return;
         }
 
-        public abstract void ActivateStage(int stageIndex);
-
-        public override float LandingAreaRadius()
-        {
-            return 0;
-        }
-
-        public override void TakeDamage(int value)
-        {
-            base.TakeDamage(value);
-            TakedDamage?.Invoke(GetHealthPercent());
-        }
-
-        public int GetHealthPercent()
-        {
-            float percent = ((float)_curHealth / _maxHealth) * 100;
-            return Mathf.RoundToInt(percent);
-        }
+        public abstract void ActivateStage(BossStage stage);
     }
 }

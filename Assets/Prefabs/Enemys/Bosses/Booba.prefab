@@ -201,6 +201,8 @@ GameObject:
   - component: {fileID: 428984347564802954}
   - component: {fileID: 428984347564802959}
   - component: {fileID: 428984347564802958}
+  - component: {fileID: 584572401990646927}
+  - component: {fileID: 8892402961991965541}
   m_Layer: 3
   m_Name: Booba
   m_TagString: Untagged
@@ -258,30 +260,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 1000
-  _speed: 20
-  _damage: 20
-  _attackDelay: 6
-  _attackDistance: 20
   _weakPoints:
   - {fileID: 428984347020263364}
   _animationController: {fileID: 428984346611748771}
-  _stageTriggers:
-  - _index: 1
-    _activateHealthPercent: 75
-  - _index: 2
-    _activateHealthPercent: 50
-  - _index: 3
-    _activateHealthPercent: 25
-  _stageParameters:
-  - _index: 1
+  _activator: {fileID: 584572401990646927}
+  _jumper: {fileID: 8892402961991965541}
+  _stages:
+  - _activateHealthPercent: 75
     _attackDelay: 4
     _jumpTime: 1.5
-  - _index: 2
+  - _activateHealthPercent: 50
     _attackDelay: 2
     _jumpTime: 1
-  - _index: 3
+  - _activateHealthPercent: 25
     _attackDelay: 1.5
-    _jumpTime: 1
+    _jumpTime: 0.75
+--- !u!114 &584572401990646927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428984347564802953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ffc865e3bf7b347a4d25b694193b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activationDistance: 10
+--- !u!114 &8892402961991965541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428984347564802953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb6da289fd3ade44b2e4ad1288caf35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 20
+  _attackDelay: 6
   _landingAreaRadius: 3
   _jumpTime: 1.5
   _jumpHight: 4

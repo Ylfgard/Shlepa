@@ -201,7 +201,10 @@ GameObject:
   - component: {fileID: 7434753589527918793}
   - component: {fileID: 8971511081866412127}
   - component: {fileID: 3954698616784356885}
-  - component: {fileID: 1365514646922608751}
+  - component: {fileID: 2543311931485625228}
+  - component: {fileID: 2438000534150978752}
+  - component: {fileID: 215873756969054980}
+  - component: {fileID: 5162635210185720283}
   m_Layer: 3
   m_Name: YandereChan_Katana
   m_TagString: Untagged
@@ -262,7 +265,7 @@ NavMeshAgent:
   m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1365514646922608751
+--- !u!114 &2543311931485625228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,21 +274,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 2800758051109370382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf6711f766571a24f8b8a59f2a225584, type: 3}
+  m_Script: {fileID: 11500000, guid: 724483145f95f044fbcba957c72ef9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnHight: 10
-  _fallSpeed: 20
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _landingAreaRadius: 1.5
-  _landingDamage: 10
-  _maxHealth: 30
-  _speed: 8
-  _damage: 10
-  _attackDelay: 1.7
-  _attackDistance: 2.5
+  _maxHealth: 40
   _weakPoints:
   - {fileID: 3234846911996424091}
   _animationController: {fileID: 5435070472533428865}
+  _lander: {fileID: 2438000534150978752}
+  _attacker: {fileID: 215873756969054980}
+  _mover: {fileID: 5162635210185720283}
+--- !u!114 &2438000534150978752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800758051109370382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782570056ae95c946ab1da9b37523334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 2
+  _landingDamage: 10
+--- !u!114 &215873756969054980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800758051109370382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce84712b81d1e94e99d336213dd470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 20
+  _attackDelay: 2
+  _attackDistance: 2
+  _attackDamageArea: 3
+--- !u!114 &5162635210185720283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800758051109370382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b268a19203a22da4e80ef751a05dd977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 8

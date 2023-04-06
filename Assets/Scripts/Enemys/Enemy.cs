@@ -2,21 +2,19 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using PlayerController;
-using System.Collections;
 using System;
+using LevelMechanics.EnemySpawners;
 
 namespace Enemys
 {
     public abstract class Enemy : MonoBehaviour
     {
         public Action<Enemy> SendDeath;
+        public Action SendAttack;
+        public Action<int> TakedDamage;
 
         [Header ("Balance")]
         [SerializeField] protected int _maxHealth;
-        [SerializeField] protected float _speed;
-        [SerializeField] protected int _damage;
-        [SerializeField] protected float _attackDelay;
-        [SerializeField] protected float _attackDistance;
         [SerializeField] protected List<WeakPoint> _weakPoints;
 
         [Header("Parameters")]
@@ -25,19 +23,18 @@ namespace Enemys
         protected Transform _transform;
         protected NavMeshAgent _agent;
         protected Player _player;
-        protected bool _isAttacking;
         protected int _curHealth;
-        protected Transform _target;
 
         public List<WeakPoint> WeakPoints => _weakPoints;
+        public AnimationController AnimationController => _animationController;
+        public Transform Transform => _transform;
+        public NavMeshAgent Agent => _agent;
+        public Player Player => _player;
 
         protected virtual void Awake()
         {
             _transform = transform;
             _agent = GetComponent<NavMeshAgent>();
-            _agent.speed = _speed;
-            _agent.angularSpeed = 360;
-            _agent.acceleration = 100;
             foreach (WeakPoint weakPoint in _weakPoints)
                 weakPoint.Initialize(this);
         }
@@ -45,30 +42,18 @@ namespace Enemys
         protected virtual void Start()
         {
             _player = Player.Instance;
-            _target = _player.Mover.Transform;
             EnemyKeeper.Instance.AddEnemy(this);
+        }
+
+        protected virtual void Attack()
+        {
+            SendAttack?.Invoke();
         }
 
         public virtual void Initialize(Vector3 position)
         {
             _transform.position = position;
             _curHealth = _maxHealth;
-            _isAttacking = false;
-        }
-
-        public abstract float LandingAreaRadius();
-
-        protected virtual void Attack()
-        {
-            _isAttacking = true;
-            _animationController.SetTrigger("Attack");
-            StartCoroutine(PrepareAttack());
-        }
-
-        protected IEnumerator PrepareAttack()
-        {
-            yield return new WaitForSeconds(_attackDelay);
-            _isAttacking = false;
         }
 
         public virtual void TakeDamage(int value)
@@ -76,6 +61,14 @@ namespace Enemys
             _curHealth -= value;
             if (_curHealth <= 0)
                 Death();
+            else
+                TakedDamage?.Invoke(GetHealthPercent());
+        }
+
+        protected int GetHealthPercent()
+        {
+            float percent = ((float)_curHealth / _maxHealth) * 100;
+            return Mathf.RoundToInt(percent);
         }
 
         public virtual void Death()
@@ -84,13 +77,5 @@ namespace Enemys
             SendDeath?.Invoke(this);
             gameObject.SetActive(false);
         }
-
-#if UNITY_EDITOR
-        protected virtual void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _attackDistance);
-        }
-#endif
     }
 }

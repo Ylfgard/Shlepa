@@ -173,7 +173,9 @@ GameObject:
   - component: {fileID: 6434816645664915266}
   - component: {fileID: 6434816645664915269}
   - component: {fileID: 6434816645664915268}
-  - component: {fileID: 6434816645664915267}
+  - component: {fileID: 8400501464468563905}
+  - component: {fileID: 4129942914963295786}
+  - component: {fileID: 697061680359036411}
   m_Layer: 3
   m_Name: MeGusta
   m_TagString: Untagged
@@ -235,7 +237,7 @@ NavMeshAgent:
   m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6434816645664915267
+--- !u!114 &8400501464468563905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,31 +246,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 6434816645664915265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ea1bc4093a46b2459d35608d6c1cea2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ef67ac7055ec8c4fb3ed14b077988b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnHight: 10
-  _fallSpeed: 20
+  _maxHealth: 100
+  _weakPoints:
+  - {fileID: 6434816645765793657}
+  _animationController: {fileID: 6434816644672904381}
+  _lander: {fileID: 4129942914963295786}
+  _attacker: {fileID: 697061680359036411}
+--- !u!114 &4129942914963295786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6434816645664915265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782570056ae95c946ab1da9b37523334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
   _landingAreaRadius: 3
-  _landingDamage: 20
-  _maxHealth: 100
-  _speed: 0
-  _damage: 25
-  _attackDelay: 4
-  _attackDistance: 100
-  _weakPoints:
-  - {fileID: 6434816645765793657}
-  _animationController: {fileID: 6434816644672904381}
+  _landingDamage: 10
+--- !u!114 &697061680359036411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6434816645664915265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096cbe9d5b7e2ea42bfd4fb987dbe521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 20
+  _attackDelay: 5
+  _attackDistance: 20
+  _attackDamageArea: 30
   _projectileType: 1
   _bulletsPerShot: 1
   _randomDir: 0
   _dispersion: 0
   _bulletDelay: 0
   _shotPoint: {fileID: 6434816644040463571}
-  _bulletLifeTime: 8
 --- !u!1 &6434816645765793607
 GameObject:
   m_ObjectHideFlags: 0

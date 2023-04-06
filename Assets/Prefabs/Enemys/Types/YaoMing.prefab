@@ -232,7 +232,10 @@ GameObject:
   - component: {fileID: 9210445870581249162}
   - component: {fileID: 9210445870581249159}
   - component: {fileID: 9210445870581249160}
-  - component: {fileID: 9210445870581249158}
+  - component: {fileID: 691572813041688714}
+  - component: {fileID: 4982797053447117543}
+  - component: {fileID: 300957117270498532}
+  - component: {fileID: 8436957320275610979}
   m_Layer: 3
   m_Name: YaoMing
   m_TagString: Untagged
@@ -294,7 +297,7 @@ NavMeshAgent:
   m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9210445870581249158
+--- !u!114 &691572813041688714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,30 +306,67 @@ MonoBehaviour:
   m_GameObject: {fileID: 9210445870581249163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68e69681761b64141acbe080533f8b60, type: 3}
+  m_Script: {fileID: 11500000, guid: 724483145f95f044fbcba957c72ef9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnHight: 10
-  _fallSpeed: 20
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _landingAreaRadius: 1.5
-  _landingDamage: 5
-  _maxHealth: 50
-  _speed: 8
-  _damage: 15
-  _attackDelay: 3
-  _attackDistance: 20
+  _maxHealth: 30
   _weakPoints:
   - {fileID: 9210445870395905341}
   _animationController: {fileID: 9210445870042086052}
+  _lander: {fileID: 4982797053447117543}
+  _attacker: {fileID: 300957117270498532}
+  _mover: {fileID: 8436957320275610979}
+--- !u!114 &4982797053447117543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210445870581249163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782570056ae95c946ab1da9b37523334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 2
+  _landingDamage: 10
+--- !u!114 &300957117270498532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210445870581249163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096cbe9d5b7e2ea42bfd4fb987dbe521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 15
+  _attackDelay: 4
+  _attackDistance: 15
+  _attackDamageArea: 20
   _projectileType: 0
   _bulletsPerShot: 2
   _randomDir: 1
-  _dispersion: 0.5
-  _bulletDelay: 0.2
+  _dispersion: 0.25
+  _bulletDelay: 0.1
   _shotPoint: {fileID: 9210445870517908750}
-  _bulletLifeTime: 10
-  _distanceFromTarget: 15
-  _changeCowerDistance: 5
+--- !u!114 &8436957320275610979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210445870581249163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0565f99990fb845a7df617a9fd9dc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 10
+  _distanceFromTarget: 10
+  _changeCowerDistance: 3

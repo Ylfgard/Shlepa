@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3155587
 Transform:
   m_ObjectHideFlags: 0
@@ -2361,7 +2361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b845acda6545ef1439e139d8bfa64cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 4965385716526617345, guid: 0233d154d49f2344aa7d5a4dd47af589, type: 3}
+  _enemy: {fileID: 6639861410287550333, guid: 8ff2e59b402aa824da36e889fe1ce387, type: 3}
   _stagesData:
   - _index: 5
     _spawnPoints:
@@ -2475,7 +2475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &936972234
 Transform:
   m_ObjectHideFlags: 0
@@ -3704,7 +3704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1177140111
 Transform:
   m_ObjectHideFlags: 0
@@ -3778,38 +3778,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 1000
-  _speed: 5
-  _damage: 25
-  _attackDelay: 3
-  _attackDistance: 20
   _weakPoints:
   - {fileID: 898740241}
   _animationController: {fileID: 1252079007}
-  _stageTriggers:
-  - _index: 1
-    _activateHealthPercent: 75
-  - _index: 25
-    _activateHealthPercent: 2
-  _stageParameters:
-  - _index: 1
-    _unlockCharge: 1
-    _chargeDelay: 3
-  - _index: 2
-    _unlockCharge: 1
-    _chargeDelay: 2
-  _projectileType: 1
-  _bulletsPerShot: 1
-  _randomDir: 0
-  _dispersion: 0
-  _bulletDelay: 0
-  _shotPoint: {fileID: 992909372}
-  _bulletLifeTime: 10
-  _chargeDamage: 10
-  _chargeDistance: 20
-  _chargeTime: 2
-  _distance: 8
-  _stopDistance: 1
-  _step: 4
+  _activator: {fileID: 0}
+  _charger: {fileID: 0}
+  _mover: {fileID: 0}
+  _attacker: {fileID: 0}
+  _stages: []
 --- !u!195 &1183846954
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4242,7 +4218,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1299231609
 Transform:
   m_ObjectHideFlags: 0
@@ -4985,7 +4961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b845acda6545ef1439e139d8bfa64cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 9210445870581249163, guid: 6f958f1b5af01ea48baba2ba7d8d74f4, type: 3}
+  _enemy: {fileID: 2999140598896126147, guid: 9c567d12ac0c5884a9d2caa6e6842f08, type: 3}
   _stagesData:
   - _index: 1
     _spawnPoints:

@@ -58,18 +58,24 @@ namespace LevelMechanics.EnemySpawners
         [SerializeField] private EnemySpawnPoint[] _spawnPoints;
         
         private ObjectPool<Enemy> _enemys;
+        private float _spawnAreaRadius;
 
         public int Index => _index;
 
         public void Initialize(ObjectPool<Enemy> enemys)
         {
             _enemys = enemys;
+            ;
+            if (_enemys.Value.TryGetComponent(out LandingEnemy enemy))
+                _spawnAreaRadius = enemy.LandingAreaRadius;
+            else
+                _spawnAreaRadius = 0;
         }
 
         public int Activate()
         {
             foreach(EnemySpawnPoint point in _spawnPoints)
-                point.ActivateSpawner(_enemys, InvokeDeathEvent);
+                point.ActivateSpawner(_enemys, InvokeDeathEvent, _spawnAreaRadius);
             return _spawnPoints.Length;
         }
 

@@ -102,6 +102,10 @@ GameObject:
   - component: {fileID: 6639861410287550321}
   - component: {fileID: 6639861410287550320}
   - component: {fileID: 6639861410287550322}
+  - component: {fileID: 8509033240844079920}
+  - component: {fileID: 1893638946621262187}
+  - component: {fileID: 5219500313407562040}
+  - component: {fileID: 4346439660654157030}
   m_Layer: 3
   m_Name: 'Slavonian '
   m_TagString: Untagged
@@ -176,38 +180,86 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 1000
-  _speed: 8
-  _damage: 20
-  _attackDelay: 3
-  _attackDistance: 20
   _weakPoints:
   - {fileID: 6639861409924940652}
   _animationController: {fileID: 6639861410336221578}
-  _stageTriggers:
-  - _index: 1
-    _activateHealthPercent: 75
-  - _index: 2
-    _activateHealthPercent: 25
-  _stageParameters:
-  - _index: 1
-    _unlockCharge: 1
-    _chargeDelay: 4
-  - _index: 2
+  _activator: {fileID: 8509033240844079920}
+  _charger: {fileID: 1893638946621262187}
+  _mover: {fileID: 5219500313407562040}
+  _attacker: {fileID: 4346439660654157030}
+  _stages:
+  - _activateHealthPercent: 75
     _unlockCharge: 1
     _chargeDelay: 3
+  - _activateHealthPercent: 40
+    _unlockCharge: 1
+    _chargeDelay: 2
+--- !u!114 &8509033240844079920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639861410287550333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ffc865e3bf7b347a4d25b694193b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activationDistance: 15
+--- !u!114 &1893638946621262187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639861410287550333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91e70291a6aa1a44834bcd3aad59ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chargeDamage: 20
+  _chargeDistance: 20
+  _chargeTime: 1
+--- !u!114 &5219500313407562040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639861410287550333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee5a46e3b9a9774c9d93887d7415af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 10
+  _distance: 6
+  _stopDistance: 0.5
+  _step: 3
+--- !u!114 &4346439660654157030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639861410287550333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096cbe9d5b7e2ea42bfd4fb987dbe521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 20
+  _attackDelay: 3
+  _attackDistance: 15
+  _attackDamageArea: 20
   _projectileType: 4
   _bulletsPerShot: 1
   _randomDir: 0
   _dispersion: 0
   _bulletDelay: 0
   _shotPoint: {fileID: 6639861408759640241}
-  _bulletLifeTime: 10
-  _chargeDamage: 25
-  _chargeDistance: 15
-  _chargeTime: 1
-  _distance: 6
-  _stopDistance: 1.5
-  _step: 4
 --- !u!1 &6639861410336221576
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,41 +1,24 @@
 using UnityEngine;
+using Enemys.AIModules;
 
 namespace Enemys
 {
-    public class Trollface : MeleeEnemy
+    public class Trollface : MovingAttackerEnemy
     {
-        [Header ("Explosion")]
-        [SerializeField] protected GameObject _explosionVFX;
-        [SerializeField] protected float _explosionRadius;
-
-        protected override void Attack()
+        protected override void Start()
         {
-            _animationController.SetTrigger("Attack");
-            _isAttacking = true;
+            base.Start();
+            _attacker.AttackFinished += Death;
         }
 
-        protected override void MakeDamage()
+        public override void TakeDamage(int value)
         {
-            Destroy(Instantiate(_explosionVFX, _transform.position, Quaternion.identity), 2);
-            Death();
+            _curHealth -= value;
+            if (_curHealth <= 0)
+            {
+                _attacker.ForcedActivateAttack();
+                Death();
+            }
         }
-
-        public override void Death()
-        {
-            if (Vector3.Distance(_transform.position, _target.position) <= _explosionRadius)
-                _player.Parameters.TakeDamage(_damage);
-
-            base.Death();
-        }
-
-#if UNITY_EDITOR
-        protected override void OnDrawGizmosSelected()
-        {
-            base.OnDrawGizmosSelected();
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, _explosionRadius);
-        }
-#endif
     }
 }

@@ -1,37 +1,53 @@
 using UnityEngine;
-using System.Collections.Generic;
+using Enemys.AIModules;
 
 namespace Enemys.Bosses
 {
-    public class TrollBoss : BossCower
+    public class TrollBoss : Boss
     {
-        [Header("Boss Stages")]
-        [SerializeField] private TrollBossStage[] _stageParameters;
+        [SerializeField] protected MoveModule _mover;
+        [SerializeField] protected TrollBossAttackModule _attacker;
 
-        protected Dictionary<int, TrollBossStage> _stages;
+        [Header("Boss Stages")]
+        [SerializeField] private TrollBossStage[] _stages;
 
         protected override void Awake()
         {
             base.Awake();
-            _stages = new Dictionary<int, TrollBossStage>();
-            foreach (var stage in _stageParameters)
-            {
-                if (_stages.ContainsKey(stage.Index)) Debug.LogError("Wrong stage index! " + stage.Index);
-                else _stages.Add(stage.Index, stage);
-            }
+            foreach (TrollBossStage stage in _stages)
+                stage.Initialize(this);
         }
 
-        public override void ActivateStage(int stageIndex)
+        protected override void Start()
         {
-            TrollBossStage stage;
-            if (_stages.TryGetValue(stageIndex, out stage))
-            {
-                _attackDelay = stage.AttackDelay;
-                _dispersion = stage.Dispersion;
-                _bulletsPerShot = stage.BulletsPerShot;
-                _attackDistance = stage.AttackDistance;
-                _distanceFromTarget = stage.DistanceFromTarget;
-            }
+            base.Start();
+
+            _mover.Initialize(this);
+            SendDeath += _mover.Deactivate;
+            _attacker.Initialize(this);
+            SendDeath += _attacker.Deactivate;
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            
+            if (_attacker.AttackReady)
+                Attack();
+            else
+                _mover.Move();
+        }
+
+        protected override void Attack()
+        {
+            base.Attack();
+            if (_attacker.TryAttack() == false)
+                _mover.MoveToTarget();
+        }
+
+        public override void ActivateStage(BossStage stage)
+        {
+            _attacker.ChangeParameters(stage as TrollBossStage);
         }
     }
 }

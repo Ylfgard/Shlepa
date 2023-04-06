@@ -11,7 +11,10 @@ GameObject:
   - component: {fileID: 2999140598896126146}
   - component: {fileID: 2999140598896126151}
   - component: {fileID: 2999140598896126148}
-  - component: {fileID: 2999140598896126149}
+  - component: {fileID: 8540498291127065001}
+  - component: {fileID: 8986857570060386567}
+  - component: {fileID: 4020386256509434326}
+  - component: {fileID: 6879343656464895187}
   m_Layer: 3
   m_Name: Shlepa_Minigun
   m_TagString: Untagged
@@ -73,7 +76,7 @@ NavMeshAgent:
   m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2999140598896126149
+--- !u!114 &8540498291127065001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,34 +85,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 2999140598896126147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 248bb290dcff9234d864e68a4dbef923, type: 3}
+  m_Script: {fileID: 11500000, guid: 724483145f95f044fbcba957c72ef9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnHight: 10
-  _fallSpeed: 20
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _landingAreaRadius: 2
-  _landingDamage: 10
   _maxHealth: 100
-  _speed: 6
-  _damage: 10
-  _attackDelay: 6
-  _attackDistance: 20
   _weakPoints:
   - {fileID: 2999140599548931489}
   _animationController: {fileID: 2999140600816226349}
+  _lander: {fileID: 8986857570060386567}
+  _attacker: {fileID: 4020386256509434326}
+  _mover: {fileID: 6879343656464895187}
+--- !u!114 &8986857570060386567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999140598896126147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782570056ae95c946ab1da9b37523334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _landingAreaRadius: 3
+  _landingDamage: 20
+--- !u!114 &4020386256509434326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999140598896126147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096cbe9d5b7e2ea42bfd4fb987dbe521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 10
+  _attackDelay: 3
+  _attackDistance: 15
+  _attackDamageArea: 20
   _projectileType: 0
-  _bulletsPerShot: 20
+  _bulletsPerShot: 18
   _randomDir: 1
   _dispersion: 1
-  _bulletDelay: 0.05
+  _bulletDelay: 0.025
   _shotPoint: {fileID: 2999140599430060432}
-  _bulletLifeTime: 10
-  _distance: 10
-  _stopDistance: 1
-  _step: 3
+--- !u!114 &6879343656464895187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999140598896126147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee5a46e3b9a9774c9d93887d7415af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 10
+  _distance: 8
+  _stopDistance: 0.5
+  _step: 4
 --- !u!1 &2999140599430060433
 GameObject:
   m_ObjectHideFlags: 0

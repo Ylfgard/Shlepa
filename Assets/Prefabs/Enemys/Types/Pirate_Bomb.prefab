@@ -11,7 +11,10 @@ GameObject:
   - component: {fileID: 3453932272040057166}
   - component: {fileID: 3453932272040057163}
   - component: {fileID: 3453932272040057160}
-  - component: {fileID: 3453932272040057162}
+  - component: {fileID: 8123444415469393623}
+  - component: {fileID: 8652556768442109148}
+  - component: {fileID: 3992217569228920111}
+  - component: {fileID: 7444085276714927623}
   m_Layer: 3
   m_Name: Pirate_Bomb
   m_TagString: Untagged
@@ -73,7 +76,7 @@ NavMeshAgent:
   m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3453932272040057162
+--- !u!114 &8123444415469393623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,34 +85,73 @@ MonoBehaviour:
   m_GameObject: {fileID: 3453932272040057167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4b85a3414235794f9af7ac5c1c985c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 724483145f95f044fbcba957c72ef9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 30
-  _speed: 4
-  _damage: 25
-  _attackDelay: 7
-  _attackDistance: 15
+  _maxHealth: 75
   _weakPoints:
   - {fileID: 3453932273761719833}
   _animationController: {fileID: 3453932272840367611}
+  _lander: {fileID: 8652556768442109148}
+  _attacker: {fileID: 3992217569228920111}
+  _mover: {fileID: 7444085276714927623}
+--- !u!114 &8652556768442109148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453932272040057167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782570056ae95c946ab1da9b37523334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  _landingAreaRadius: 1.5
-  _landingDamage: 5
+  _landingAreaRadius: 2
+  _landingDamage: 10
+--- !u!114 &3992217569228920111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453932272040057167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad5cead9b0d1a048adce6dd6192c689, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 20
+  _attackDelay: 4
+  _attackDistance: 15
+  _attackDamageArea: 20
   _projectileType: 2
   _bulletsPerShot: 1
   _randomDir: 0
   _dispersion: 0
-  _bulletDelay: 0.25
+  _bulletDelay: 0
   _shotPoint: {fileID: 3453932273246140712}
-  _bulletLifeTime: 10
+  _flyTime: 2
+  _flyHight: 3
+--- !u!114 &7444085276714927623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453932272040057167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee5a46e3b9a9774c9d93887d7415af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 6
   _distance: 10
-  _stopDistance: 1
-  _step: 6
-  _bombFlyTime: 1.5
-  _bombFlyHight: 3
+  _stopDistance: 0.5
+  _step: 4
 --- !u!1 &3453932272840367609
 GameObject:
   m_ObjectHideFlags: 0

@@ -202,6 +202,9 @@ GameObject:
   - component: {fileID: 3134122310168300210}
   - component: {fileID: 2593332246883548559}
   - component: {fileID: 2176054042918935601}
+  - component: {fileID: 6188887527099607337}
+  - component: {fileID: 6258450978792058113}
+  - component: {fileID: 7290633047809864566}
   m_Layer: 3
   m_Name: TrollBoss
   m_TagString: Untagged
@@ -276,40 +279,78 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 500
-  _speed: 10
-  _damage: 10
-  _attackDelay: 5
-  _attackDistance: 20
   _weakPoints:
   - {fileID: 4965385715996946252}
   _animationController: {fileID: 4965385715302833963}
-  _stageTriggers:
-  - _index: 1
-    _activateHealthPercent: 75
-  - _index: 2
-    _activateHealthPercent: 25
-  _stageParameters:
-  - _index: 1
-    _attackDelay: 4
-    _dispersion: 0.25
-    _bulletsPerShot: 4
-    _attackDistance: 15
-    _distanceFromTarget: 10
-  - _index: 2
+  _activator: {fileID: 6188887527099607337}
+  _mover: {fileID: 6258450978792058113}
+  _attacker: {fileID: 7290633047809864566}
+  _stages:
+  - _activateHealthPercent: 75
     _attackDelay: 3
     _dispersion: 0.5
+    _bulletsPerShot: 4
+    _attackDistance: 18
+  - _activateHealthPercent: 50
+    _attackDelay: 2.5
+    _dispersion: 0.75
     _bulletsPerShot: 6
+    _attackDistance: 14
+  - _activateHealthPercent: 25
+    _attackDelay: 2
+    _dispersion: 1
+    _bulletsPerShot: 8
     _attackDistance: 10
-    _distanceFromTarget: 5
+--- !u!114 &6188887527099607337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4965385716526617345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ffc865e3bf7b347a4d25b694193b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activationDistance: 15
+--- !u!114 &6258450978792058113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4965385716526617345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0565f99990fb845a7df617a9fd9dc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 10
+  _distanceFromTarget: 10
+  _changeCowerDistance: 5
+--- !u!114 &7290633047809864566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4965385716526617345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e28f90c514c63a489c8c597872b597f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 15
+  _attackDelay: 4
+  _attackDistance: 20
+  _attackDamageArea: 25
   _projectileType: 0
   _bulletsPerShot: 2
   _randomDir: 1
-  _dispersion: 0.1
-  _bulletDelay: 0.1
+  _dispersion: 0.25
+  _bulletDelay: 0.05
   _shotPoint: {fileID: 4965385716641929181}
-  _bulletLifeTime: 10
-  _distanceFromTarget: 15
-  _changeCowerDistance: 5
 --- !u!1 &4965385716641929180
 GameObject:
   m_ObjectHideFlags: 0
