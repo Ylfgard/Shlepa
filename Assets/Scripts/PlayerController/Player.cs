@@ -53,7 +53,13 @@ namespace PlayerController
         {
             _parameters.SetParameters(save.Health, save.Armor);
             _weaponKeeper.SetAmmos(save.Ammos);
-            _mover.SetPosition(ChekpointKeeper.Instance.GetCheckpointPosition(save.CheckpointIndex));
+        }
+
+        public void Load(SaveData save, int checkpointIndex)
+        {
+            _parameters.SetParameters(save.Health, save.Armor);
+            _weaponKeeper.SetAmmos(save.Ammos);
+            _mover.SetPosition(ChekpointKeeper.Instance.GetCheckpointPosition(checkpointIndex));
         }
     }
 }

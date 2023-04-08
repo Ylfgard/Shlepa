@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284822995fb23314d810b0e2ff09778d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: "\u0421\u043A\u0432\u0430\u0439\u0440 \u0422\u0440\u0435\u043B\u043E\u043D\u0438"
   _maxHealth: 400
   _weakPoints:
   - {fileID: 4503454835902925613}

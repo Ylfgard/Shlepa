@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec10d8e4c484564d8604c6079e4201f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Booba
   _maxHealth: 1000
   _weakPoints:
   - {fileID: 428984347020263364}

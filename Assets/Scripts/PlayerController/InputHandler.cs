@@ -1,9 +1,11 @@
 using UnityEngine;
+using UI;
 
 namespace PlayerController
 {
     public class InputHandler : MonoBehaviour
     {
+        private const string Cancel = "Cancel";
         private const string HorizAxis = "Horizontal";
         private const string VertAxis = "Vertical";
         private const string JumpAxis = "Jump";
@@ -23,14 +25,34 @@ namespace PlayerController
         [SerializeField] private float sensY;
 
         private Player _player;
+        private bool _isLocked;
+        private Menu _menu;
+
+        // Singleton
+        private static InputHandler _instance;
+        public static InputHandler Instance => _instance;
+
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+                Destroy(gameObject);
+            else
+                _instance = this;
+        }
 
         private void Start()
         {
+            _menu = Menu.Instance;
             _player = Player.Instance;
         }
 
         private void Update()
         {
+            if (_isLocked) return;
+
+            if (Input.GetButtonDown(Cancel))
+                _menu.ChangeMenuActive();
+
             Vector3 dir = Vector3.zero;
 
             dir.x = Input.GetAxisRaw(HorizAxis);
@@ -72,6 +94,11 @@ namespace PlayerController
                 _player.ChangeWeapon(5);
             if (Input.GetButtonDown(Slot6))
                 _player.ChangeWeapon(6);
+        }
+
+        public void SetInputLockState(bool state)
+        {
+            _isLocked = state;
         }
     }
 }

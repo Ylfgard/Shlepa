@@ -278,6 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef67ac7055ec8c4fb3ed14b077988b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: "\u0428\u043B\u0451\u043F\u0430 \u0421\u043D\u0430\u0439\u043F\u0435\u0440"
   _maxHealth: 80
   _weakPoints:
   - {fileID: 3839846126945083940}
@@ -314,6 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 40
+  _delayBeforeActivating: 0
   _attackDelay: 4
   _attackDistance: 100
   _attackDamageArea: 105

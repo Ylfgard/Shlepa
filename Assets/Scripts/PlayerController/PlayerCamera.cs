@@ -24,9 +24,6 @@ namespace  PlayerController
 
         private void Awake()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
             _transform = transform;
             _camera = Camera.main;
             _defualtFieldOfView = _camera.fieldOfView;

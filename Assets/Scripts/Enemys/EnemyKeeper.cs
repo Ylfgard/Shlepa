@@ -75,5 +75,19 @@ namespace Enemys
 
             Debug.LogError("Unknown enemy! " + body);
         }
+
+        public bool TryGetEnemy(GameObject body, out Enemy enemy)
+        {
+            if (_enemys.TryGetValue(body, out enemy))
+                return true;
+
+            if (_weakPoints.TryGetValue(body, out WeakPoint weakPoint))
+            {
+                enemy = weakPoint.Enemy;
+                return true;
+            }
+                
+            return false;
+        }
     }
 }

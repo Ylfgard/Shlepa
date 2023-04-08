@@ -13,6 +13,9 @@ namespace Enemys
         public Action SendAttack;
         public Action<int> TakedDamage;
 
+        [Header("Name")]
+        [SerializeField] protected string _name;
+
         [Header ("Balance")]
         [SerializeField] protected int _maxHealth;
         [SerializeField] protected List<WeakPoint> _weakPoints;
@@ -25,6 +28,7 @@ namespace Enemys
         protected Player _player;
         protected int _curHealth;
 
+        public string Name => _name;
         public List<WeakPoint> WeakPoints => _weakPoints;
         public AnimationController AnimationController => _animationController;
         public Transform Transform => _transform;
@@ -61,7 +65,7 @@ namespace Enemys
                 TakedDamage?.Invoke(GetHealthPercent());
         }
 
-        protected int GetHealthPercent()
+        public int GetHealthPercent()
         {
             float percent = ((float)_curHealth / _maxHealth) * 100;
             return Mathf.RoundToInt(percent);

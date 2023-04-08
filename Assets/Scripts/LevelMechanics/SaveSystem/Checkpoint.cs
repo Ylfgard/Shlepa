@@ -6,6 +6,7 @@ namespace LevelMechanics.SaveSystem
     public class Checkpoint : MonoBehaviour
     {
         [SerializeField] private ActivatableObject[] _activatableObjects;
+        [SerializeField] private bool _isFinalCheckpoint;
 
         private int _checkpointIndex;
 
@@ -26,7 +27,10 @@ namespace LevelMechanics.SaveSystem
         {
             if (other.tag == TagsKeeper.Player)
             {
-                LevelSaver.SaveLevel(_checkpointIndex);
+                if (_isFinalCheckpoint)
+                    LevelSaver.Save();
+                else        
+                    LevelSaver.Save(_checkpointIndex);
                 gameObject.SetActive(false);
             }
         }

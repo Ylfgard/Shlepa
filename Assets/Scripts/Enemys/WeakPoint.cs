@@ -9,6 +9,7 @@ namespace Enemys
         protected Enemy _enemy;
 
         public bool CanBeSplashDamaged => _canBeSplashDamaged;
+        public Enemy Enemy => _enemy;
 
         public virtual void Initialize(Enemy enemy)
         {

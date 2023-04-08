@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef67ac7055ec8c4fb3ed14b077988b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Me Gusta
   _maxHealth: 100
   _weakPoints:
   - {fileID: 6434816645765793657}
@@ -285,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 20
+  _delayBeforeActivating: 0
   _attackDelay: 5
   _attackDistance: 20
   _attackDamageArea: 30
