@@ -61,7 +61,7 @@ namespace PlayerController
 
             dir.y = Input.GetAxis(JumpAxis);
 
-            _player.Mover.Move(dir);
+            _player.Move(dir);
 
             float mouseX = Input.GetAxis(MouseX) * Time.deltaTime * sensX;
             _player.Mover.RotateX(mouseX);

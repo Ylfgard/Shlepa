@@ -3,15 +3,17 @@ using TMPro;
 using System;
 using Enemys;
 using System.Collections;
-using UnityEngine.UI;
+using VFX;
 
 namespace PlayerController.WeaponSystem
 {
     public class WeaponKeeper : MonoBehaviour
     {
+        private const string WalkStateName = "Walk";
         private const int WeaponsCount = 6;
 
-        [SerializeField] private GameObject _hitMarker;
+        [SerializeField] private GameObject _hitGroundPrefab;
+        [SerializeField] private GameObject _hitEnemyPrefab;
         [SerializeField] private Animator _animator;
         [SerializeField] private TextMeshProUGUI _clipText;
         [SerializeField] private TextMeshProUGUI _ammoText;
@@ -24,10 +26,14 @@ namespace PlayerController.WeaponSystem
         private int _curWIndx;
         private Action _updateCall;
         private bool _weaponReady;
+        private ObjectPool<HitMarker> _hitGround;
+        private ObjectPool<HitMarker> _hitEnemy;
 
         private void Awake()
         {
             _enemyKeeper = EnemyKeeper.Instance;
+            _hitGround = new ObjectPool<HitMarker>(_hitGroundPrefab);
+            _hitEnemy = new ObjectPool<HitMarker>(_hitEnemyPrefab);
 
             _weapons = new Weapon[WeaponsCount];
             foreach (var availableWeapon in _availableWeapons)
@@ -42,21 +48,21 @@ namespace PlayerController.WeaponSystem
                 if (weapon.Projectile != null)
                 {
                     _weapons[weapon.SlotIndex - 1] = new WeaponProjectile(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
-                        _hitMarker, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
+                        _hitGround, _hitEnemy, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
                     continue;
                 }
 
                 if (weapon.DispersionSpeed > 0)
                 {
                     var weaponAuto = new WeaponAuto(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
-                        _hitMarker, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
+                        _hitGround, _hitEnemy, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
                     _updateCall += weaponAuto.UpdateDisperion;
                     _weapons[weapon.SlotIndex - 1] = weaponAuto;
                     continue;
                 }
 
                 _weapons[weapon.SlotIndex - 1] = new Weapon(_canBeCollided, _canBeDamaged, _animator, _enemyKeeper,
-                    _hitMarker, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
+                    _hitGround, _hitEnemy, _clipText, _ammoText, availableWeapon.StartAmmo, weapon);
             }
 
             _curWIndx = -1;
@@ -133,6 +139,12 @@ namespace PlayerController.WeaponSystem
 
             if (weaponSlot == _curWIndx) _weapons[weaponSlot].AddAmmos(value, true);
             else _weapons[weaponSlot].AddAmmos(value, false);
+        }
+
+        public void SetWalkAnim(bool state)
+        {
+            if (_animator.GetBool(WalkStateName) != state)
+                _animator.SetBool(WalkStateName, state);
         }
 
         public void ReloadEnded()

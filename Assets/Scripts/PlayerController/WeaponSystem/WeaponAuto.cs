@@ -1,7 +1,7 @@
 using UnityEngine;
 using Enemys;
 using TMPro;
-using UnityEngine.UI;
+using VFX;
     
 namespace PlayerController.WeaponSystem
 {
@@ -11,9 +11,9 @@ namespace PlayerController.WeaponSystem
         private float _curDispersion;
         private bool _isShoting;
 
-        public WeaponAuto(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper, GameObject hitMarker,
-            TextMeshProUGUI clipText, TextMeshProUGUI ammoText, int startAmmo, WeaponSO parameters) :
-            base(canBeCollided, canBeDamaged, animator, enemyKeeper, hitMarker, clipText, ammoText, startAmmo, parameters)
+        public WeaponAuto(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper, ObjectPool<HitMarker> hitGround,
+            ObjectPool<HitMarker> hitEnemy, TextMeshProUGUI clipText, TextMeshProUGUI ammoText, int startAmmo, WeaponSO parameters) :
+            base(canBeCollided, canBeDamaged, animator, enemyKeeper, hitGround, hitEnemy, clipText, ammoText, startAmmo, parameters)
         {
             _canBeCollided = canBeCollided;
             _canBeDamaged = canBeDamaged;
@@ -23,6 +23,8 @@ namespace PlayerController.WeaponSystem
             _ammoText = ammoText;
             _ammos = startAmmo;
             _bulletsInClip = 0;
+            _hitGround = hitGround;
+            _hitEnemy = hitEnemy;
 
             _damage = parameters.Damage;
             _bulletsPerShot = parameters.BulletsPerShot;
@@ -41,10 +43,6 @@ namespace PlayerController.WeaponSystem
             _readyToShot = true;
             _curDispersion = 0;
             _isShoting = false;
-
-            // Debag part
-            _hitMarker = hitMarker;
-            // End debag
         }
 
         public override void SetAmmos(int ammos, bool isActive)

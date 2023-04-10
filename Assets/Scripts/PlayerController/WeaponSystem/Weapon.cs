@@ -2,12 +2,14 @@ using UnityEngine;
 using Enemys;
 using TMPro;
 using System.Threading.Tasks;
-using UnityEngine.UI;
+using VFX;
 
 namespace PlayerController.WeaponSystem
 {
     public class Weapon
     {
+        protected const float _hitLifeTime = 2f;
+
         protected LayerMask _canBeCollided;
         protected LayerMask _canBeDamaged;
         protected int _damage;
@@ -22,7 +24,8 @@ namespace PlayerController.WeaponSystem
         protected bool _infiniteAmmo;
         protected float _shakeAngle;
 
-        protected GameObject _hitMarker;
+        protected ObjectPool<HitMarker> _hitGround;
+        protected ObjectPool<HitMarker> _hitEnemy;
         protected Animator _animator;
         protected EnemyKeeper _enemyKeeper;
         protected TextMeshProUGUI _clipText;
@@ -38,7 +41,7 @@ namespace PlayerController.WeaponSystem
         public float AimValue => _aimValue;
 
         public Weapon(LayerMask canBeCollided, LayerMask canBeDamaged, Animator animator, EnemyKeeper enemyKeeper,
-            GameObject hitMarker, TextMeshProUGUI clipText, TextMeshProUGUI ammoText, int startAmmo, WeaponSO parameters)
+            ObjectPool<HitMarker> hitGround, ObjectPool<HitMarker> hitEnemy, TextMeshProUGUI clipText, TextMeshProUGUI ammoText, int startAmmo, WeaponSO parameters)
         {
             _canBeCollided = canBeCollided;
             _canBeDamaged = canBeDamaged;
@@ -47,6 +50,8 @@ namespace PlayerController.WeaponSystem
             _clipText = clipText;
             _ammoText = ammoText;
             _ammos = startAmmo;
+            _hitGround = hitGround;
+            _hitEnemy = hitEnemy;
 
             _damage = parameters.Damage;
             _bulletsPerShot = parameters.BulletsPerShot;
@@ -59,13 +64,9 @@ namespace PlayerController.WeaponSystem
             _animController = parameters.AnimController;
             _infiniteAmmo = parameters.InfiniteAmmo;
             _aimValue = parameters.AimValue;
-
-            // Debag part
-            _hitMarker = hitMarker;
             _reloading = false;
             _readyToShot = true;
             _bulletsInClip = _clipCapacity;
-            // End debag
         }
 
         public void AddAmmos(int ammos, bool isActive)
@@ -131,12 +132,16 @@ namespace PlayerController.WeaponSystem
                 RaycastHit hit;
                 if (Physics.Raycast(weaponDir.position, dir, out hit, _distance, _canBeCollided))
                 {
-                    var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
-                    Object.Destroy(marker, 3);
                     var colliders = Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged);
                     if (colliders.Length > 0)
                     {
+                        _hitEnemy.GetObjectFromPool().Initialize(hit.point, Quaternion.identity, _hitLifeTime);
                         _enemyKeeper.MakeDamage(colliders[0].gameObject, _damage, false);
+                    }
+                    else
+                    {
+                        Quaternion quaternion = Quaternion.LookRotation(hit.normal);
+                        _hitGround.GetObjectFromPool().Initialize(hit.point, quaternion, _hitLifeTime);
                     }
                 }
             }

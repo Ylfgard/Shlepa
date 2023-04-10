@@ -28,6 +28,15 @@ namespace PlayerController
                 _instance = this;
         }
 
+        public void Move(Vector3 dir)
+        {
+            _mover.Move(dir);
+            if (dir.x == 0 && dir.z == 0)
+                _weaponKeeper.SetWalkAnim(false);
+            else
+                _weaponKeeper.SetWalkAnim(true);
+        }
+
         public void Shot()
         {
             float angle = _weaponKeeper.MakeShot(_camera.Transform);

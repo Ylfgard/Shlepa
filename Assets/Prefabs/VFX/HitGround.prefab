@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8243114729338835425}
   - component: {fileID: 7699686769932917472}
-  - component: {fileID: 4616757453280541856}
+  - component: {fileID: -6672000359717581138}
   m_Layer: 0
-  m_Name: HitPoint
+  m_Name: HitGround
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4616757453280541856
+--- !u!114 &-6672000359717581138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4473004902710145794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9485cf9f98a3add4b8c4b7d360e48280, type: 3}
+  m_Script: {fileID: 11500000, guid: 7072fc1ff4f3bbc4c92faaa67d9ee06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
