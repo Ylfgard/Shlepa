@@ -22,6 +22,7 @@ MonoBehaviour:
   _dispersionSpeed: 0
   _aimValue: 1
   _projectile: {fileID: 0}
-  _animController: {fileID: 9100000, guid: 9086320576b1f064e859c6772b7b503e, type: 2}
+  _animController: {fileID: 9100000, guid: da35463222052b74ab878e35f6283e31, type: 2}
+  _sprite: {fileID: 21300000, guid: 038ad96efd6eb174b8509bc3e1846e8c, type: 3}
   _slotIndex: 1
   _infiniteAmmo: 1

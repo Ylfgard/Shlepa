@@ -1,6 +1,7 @@
 using UnityEngine;
 using Enemys;
 using TMPro;
+using UnityEngine.UI;
 
 namespace PlayerController.WeaponSystem
 {
@@ -27,6 +28,7 @@ namespace PlayerController.WeaponSystem
             _distance = parameters.Distance;
             _dispersionX = parameters.DispersionX;
             _dispersionY = parameters.DispersionY;
+            _shakeAngle = parameters.ShakeAngle;
             _animController = parameters.AnimController;
             _infiniteAmmo = parameters.InfiniteAmmo;
             _projectilesPool = new ObjectPool<Grenade>(parameters.Projectile);

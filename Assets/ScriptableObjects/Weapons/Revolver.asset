@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 10
   _bulletsPerShot: 1
-  _shotDelay: 0.5
+  _shotDelay: 0.8
   _clipCapacity: 0
   _distance: 30
   _dispersionX: 0
@@ -22,6 +22,7 @@ MonoBehaviour:
   _dispersionSpeed: 0
   _aimValue: 1
   _projectile: {fileID: 0}
-  _animController: {fileID: 9100000, guid: 9086320576b1f064e859c6772b7b503e, type: 2}
+  _shakeAngle: 1.5
+  _animController: {fileID: 9100000, guid: f970b4c0ffdb2e440846b86b3050d93e, type: 2}
   _slotIndex: 2
   _infiniteAmmo: 0

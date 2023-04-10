@@ -14,7 +14,7 @@ namespace Enemys.AIModules
         [SerializeField] protected int _damage;
         [SerializeField] protected float _delayBeforeActivating;
         [SerializeField] protected float _attackDelay;
-        [SerializeField] [Range (1.5f, 100)] protected float _attackDistance;
+        [SerializeField] [Range (1f, 100)] protected float _attackDistance;
         [SerializeField] protected float _attackDamageArea;
 
         protected Transform _transform;

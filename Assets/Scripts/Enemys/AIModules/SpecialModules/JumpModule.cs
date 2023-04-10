@@ -86,7 +86,7 @@ namespace Enemys.AIModules
         protected void Attack()
         {
             _isAttacking = true;
-            _animationController.SetTrigger("Attack");
+            _animationController.SetTrigger("Jump");
             StartCoroutine(PrepareAttack());
             StartCoroutine(Jump());
         }

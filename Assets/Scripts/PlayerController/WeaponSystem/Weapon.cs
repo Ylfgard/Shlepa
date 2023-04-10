@@ -2,6 +2,7 @@ using UnityEngine;
 using Enemys;
 using TMPro;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 namespace PlayerController.WeaponSystem
 {
@@ -19,6 +20,7 @@ namespace PlayerController.WeaponSystem
         protected float _aimValue;
         protected RuntimeAnimatorController _animController;
         protected bool _infiniteAmmo;
+        protected float _shakeAngle;
 
         protected GameObject _hitMarker;
         protected Animator _animator;
@@ -53,6 +55,7 @@ namespace PlayerController.WeaponSystem
             _distance = parameters.Distance;
             _dispersionX = parameters.DispersionX;
             _dispersionY = parameters.DispersionY;
+            _shakeAngle = parameters.ShakeAngle;
             _animController = parameters.AnimController;
             _infiniteAmmo = parameters.InfiniteAmmo;
             _aimValue = parameters.AimValue;
@@ -77,12 +80,12 @@ namespace PlayerController.WeaponSystem
             if (isActive) _ammoText.text = _ammos.ToString();
         }
 
-        public void Shot(Transform weaponDir)
+        public float Shot(Transform weaponDir)
         {
             if (_clipCapacity == 0)
             {
-                if (_ammos == 0 && _infiniteAmmo == false) return;
-                if (_readyToShot == false) return;
+                if (_ammos == 0 && _infiniteAmmo == false) return 0;
+                if (_readyToShot == false) return 0;
 
                 _ammos--;
                 LaunchBullet(weaponDir);
@@ -90,17 +93,21 @@ namespace PlayerController.WeaponSystem
                 _animator.SetTrigger("Shot");
                 _readyToShot = false;
                 PrepareWeapon();
+                return _shakeAngle;
             }
             else
             {
                 if (_bulletsInClip == 0)
                 {
                     if (_reloading == false)
+                    {
                         Reload();
+                    }
+                    return 0;
                 }
                 else
                 {
-                    if (_readyToShot == false) return;
+                    if (_readyToShot == false) return 0;
 
                     if (_reloading)
                         _reloading = false;
@@ -111,6 +118,7 @@ namespace PlayerController.WeaponSystem
                     _animator.SetTrigger("Shot");
                     _readyToShot = false;
                     PrepareWeapon();
+                    return _shakeAngle;
                 }
             }
         }

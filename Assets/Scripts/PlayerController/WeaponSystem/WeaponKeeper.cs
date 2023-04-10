@@ -3,6 +3,7 @@ using TMPro;
 using System;
 using Enemys;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace PlayerController.WeaponSystem
 {
@@ -86,10 +87,10 @@ namespace PlayerController.WeaponSystem
             }
         }
 
-        public void MakeShot(Transform dir)
+        public float MakeShot(Transform dir)
         {
-            if (_weaponReady == false) return;
-            _weapons[_curWIndx].Shot(dir);
+            if (_weaponReady == false) return 0;
+            else return _weapons[_curWIndx].Shot(dir);
         }
 
         public void Reload()

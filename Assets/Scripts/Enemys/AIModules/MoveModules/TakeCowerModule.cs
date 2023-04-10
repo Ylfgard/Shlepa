@@ -61,6 +61,8 @@ namespace Enemys.AIModules
                 _agent.SetDestination(destination.position);
                 _moveToAlternativeCower = true;
             }
+
+            CheckMove();
         }
 
         protected void LeaveCower(int healthPercent)

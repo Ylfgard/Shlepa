@@ -58,14 +58,29 @@ namespace UI
 
         private void ChangeHealthBar(int percent)
         {
-            _healthSlider.value = _curEnemy.GetHealthPercent();
-            _healthText.text = _healthSlider.value.ToString() + "%";
+            if (_curEnemy == null)
+            {
+                HideEnemy(_curEnemy);
+            }
+            else
+            {
+                _healthSlider.value = _curEnemy.GetHealthPercent();
+                _healthText.text = _healthSlider.value.ToString() + "%";
+            }
         }
 
         private void HideEnemy(Enemy enemy)
         {
+            if (_curEnemy == null)
+            {
+                _healthSlider.gameObject.SetActive(false);
+                return;
+            }
+
             if (enemy == _curEnemy)
             {
+                _curEnemy.TakedDamage -= ChangeHealthBar;
+                _curEnemy.SendDeath -= HideEnemy;
                 _curEnemy = null;
                 _healthSlider.gameObject.SetActive(false);
             }

@@ -20,6 +20,7 @@ namespace PlayerController.WeaponSystem
         [SerializeField] private GameObject _projectile;
 
         [Header("Parameters")]
+        [SerializeField] private float _shakeAngle;
         [SerializeField] private RuntimeAnimatorController _animController;
         [SerializeField] private int _slotIndex;
         [SerializeField] private bool _infiniteAmmo;
@@ -32,6 +33,7 @@ namespace PlayerController.WeaponSystem
         public float DispersionX => _dispersionX;
         public float DispersionY => _dispersionY;
         public float DispersionSpeed => _dispersionSpeed;
+        public float ShakeAngle => _shakeAngle;
         public RuntimeAnimatorController AnimController => _animController;
         public int SlotIndex => _slotIndex;
         public bool InfiniteAmmo => _infiniteAmmo;

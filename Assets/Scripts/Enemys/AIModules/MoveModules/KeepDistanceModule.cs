@@ -60,15 +60,19 @@ namespace Enemys.AIModules
             NavMeshHit destination;
             NavMesh.SamplePosition(_transform.position + dir, out destination, 100, NavMesh.AllAreas);
             _agent.SetDestination(destination.position);
+
+            CheckMove();
         }
 
         public override void MoveToTarget()
         {
-            if (_agent.stoppingDistance != 1.5f) _agent.stoppingDistance = 1.5f;
+            if (_agent.stoppingDistance != 1f) _agent.stoppingDistance = 1f;
             Vector3 step = (_target.position - _transform.position).normalized * _step;
             NavMeshHit destination;
             NavMesh.SamplePosition(_transform.position + step, out destination, 100, NavMesh.AllAreas);
             _agent.SetDestination(destination.position);
+            
+            CheckMove();
         }
 
 #if UNITY_EDITOR

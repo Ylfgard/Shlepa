@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1223156500278490111}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7434753589527918793}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 748ae8b33df036b46a86e0387f1602cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e7b4ec2111dbf2499a15ec7686dbc9d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 1223156500278490111}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 50e3f1cf181cdd54b89ff6a65aa6c56a, type: 2}
+  m_Controller: {fileID: 9100000, guid: bbb231c825d31cc40a40ea3d6d11d4ad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -157,8 +157,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1391515389031751067}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.562, z: 0}
-  m_LocalScale: {x: 0.5642648, y: 0.5642648, z: 0.5642648}
+  m_LocalPosition: {x: 0, y: 0.698, z: 0}
+  m_LocalScale: {x: 0.32486978, y: 0.32486978, z: 0.32486978}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7434753589527918793}
@@ -239,10 +239,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.75
+  m_Radius: 0.22
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: -0.3, z: 0}
+  m_Center: {x: 0, y: -0.25, z: 0}
 --- !u!195 &3954698616784356885
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -261,8 +261,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.7
-  m_BaseOffset: 0.9
+  m_Height: 1.8
+  m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &2543311931485625228
@@ -282,6 +282,7 @@ MonoBehaviour:
   _weakPoints:
   - {fileID: 3234846911996424091}
   _animationController: {fileID: 5435070472533428865}
+  _deathDelay: 0.5
   _lander: {fileID: 2438000534150978752}
   _attacker: {fileID: 215873756969054980}
   _mover: {fileID: 5162635210185720283}
@@ -315,10 +316,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 20
-  _delayBeforeActivating: 0
+  _delayBeforeActivating: 0.2
   _attackDelay: 2
-  _attackDistance: 2
-  _attackDamageArea: 3
+  _attackDistance: 1.5
+  _attackDamageArea: 1.5
 --- !u!114 &5162635210185720283
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ namespace Enemys
                 _attacker.ForcedActivateAttack();
                 Death();
             }
+            TakedDamage?.Invoke(GetHealthPercent());
         }
     }
 }

@@ -30,7 +30,8 @@ namespace PlayerController
 
         public void Shot()
         {
-            _weaponKeeper.MakeShot(_camera.Transform);
+            float angle = _weaponKeeper.MakeShot(_camera.Transform);
+            if (angle > 0) _camera.StartShake(angle);
         }
 
         public void ChangeWeapon(int slot)

@@ -41,6 +41,8 @@ namespace Enemys.Bosses
 
         protected void FixedUpdate()
         {
+            if (_isAlive == false) return;
+
             if (_activator.CheckActivation() == false) return;
             
             if (_jumper.OnGrounded == false)

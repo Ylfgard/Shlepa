@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using PlayerController;
 using System;
-using LevelMechanics.EnemySpawners;
+using System.Collections;
 
 namespace Enemys
 {
@@ -22,11 +22,13 @@ namespace Enemys
 
         [Header("Parameters")]
         [SerializeField] protected AnimationController _animationController;
+        [SerializeField] protected float _deathDelay;
 
         protected Transform _transform;
         protected NavMeshAgent _agent;
         protected Player _player;
         protected int _curHealth;
+        protected bool _isAlive;
 
         public string Name => _name;
         public List<WeakPoint> WeakPoints => _weakPoints;
@@ -54,6 +56,8 @@ namespace Enemys
         {
             _transform.position = position;
             _curHealth = _maxHealth;
+            _agent.isStopped = false;
+            _isAlive = true;
         }
 
         public virtual void TakeDamage(int value)
@@ -61,8 +65,7 @@ namespace Enemys
             _curHealth -= value;
             if (_curHealth <= 0)
                 Death();
-            else
-                TakedDamage?.Invoke(GetHealthPercent());
+            TakedDamage?.Invoke(GetHealthPercent());
         }
 
         public int GetHealthPercent()
@@ -73,7 +76,17 @@ namespace Enemys
 
         public virtual void Death()
         {
+            if (_isAlive == false) return; 
             StopAllCoroutines();
+            StartCoroutine(DeathDelay());
+        }
+
+        protected virtual IEnumerator DeathDelay()
+        {
+            _animationController.SetTrigger("Death");
+            _agent.isStopped = true;
+            _isAlive = false;
+            yield return new WaitForSeconds(_deathDelay);
             SendDeath?.Invoke(this);
             gameObject.SetActive(false);
         }

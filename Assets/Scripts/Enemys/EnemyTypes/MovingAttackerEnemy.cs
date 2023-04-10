@@ -19,6 +19,8 @@ namespace Enemys
 
         protected virtual void FixedUpdate()
         {
+            if (_isAlive == false) return;
+
             if (_lander.TryLanded() == false) return;
 
             if (_attacker.AttackReady)
