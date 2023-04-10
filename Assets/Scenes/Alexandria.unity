@@ -3906,10 +3906,7 @@ MonoBehaviour:
   _tiltHeadAngle: 4
   _tiltHeadSpeed: 20
   _startShakeSpeed: 40
-  _shakeTime: 0.3
-  _minShakeSpeed: 10
-  _shakeStep: 0.25
-  _shakeRadius: 0.01
+  _shakeTime: 0.5
 --- !u!1 &967027014
 GameObject:
   m_ObjectHideFlags: 0

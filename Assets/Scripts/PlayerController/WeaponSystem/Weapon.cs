@@ -131,11 +131,11 @@ namespace PlayerController.WeaponSystem
                 RaycastHit hit;
                 if (Physics.Raycast(weaponDir.position, dir, out hit, _distance, _canBeCollided))
                 {
+                    var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
+                    Object.Destroy(marker, 3);
                     var colliders = Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged);
                     if (colliders.Length > 0)
                     {
-                        var marker = Object.Instantiate(_hitMarker, hit.point, Quaternion.identity);
-                        Object.Destroy(marker, 3);
                         _enemyKeeper.MakeDamage(colliders[0].gameObject, _damage, false);
                     }
                 }

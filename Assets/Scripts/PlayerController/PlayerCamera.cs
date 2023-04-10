@@ -16,25 +16,20 @@ namespace  PlayerController
         [Header ("Shake")]
         [SerializeField] private float _startShakeSpeed;
         [SerializeField] private float _shakeTime;
-        [SerializeField] private float _minShakeSpeed;
-        [SerializeField] private float _shakeStep;
-        [SerializeField] private float _shakeRadius;
 
         private Transform _transform;
         private Camera _camera;
-        private float _rotationX,_rotationY;
+        private float _rotationX, _rotationY, _rotationZ;
         private float _defualtFieldOfView;
         private float _headTargetAngle;
-        private float _headCurAngle;
+        private float _headCurAngleZ;
 
         private float _curShakeSpeed;
-        private float _shakeDrag;
-        private float _curShakeTime;
-        private Vector2 _shakeDir;
-        private float _shakeDirAngle;
         private bool _isShaking;
-        private float _shakeProgress;
-        private float _progressDir;
+        private float _headCurAngleX;
+        private float _shakeYOffset;
+        private float _shakeCurTime;
+        private float _shakeDrag;
 
         public Transform Transform => _transform;
 
@@ -45,111 +40,53 @@ namespace  PlayerController
             _defualtFieldOfView = _camera.fieldOfView;
             _sniperAim.enabled = false;
             _headTargetAngle = 0;
-            _headCurAngle = 0;
-            _progressDir = 0.5f;
+            _headCurAngleZ = 0;
         }
 
         private void Update()
         {
-            if (_isShaking)
-            {
-                if (_curShakeTime > 0)
-                {
-                    _curShakeTime -= Time.deltaTime;
-
-                    Vector3 trgPos = _origin.position;
-                    trgPos += _origin.right * _shakeDir.x;
-                    trgPos += _origin.up * _shakeDir.y;
-
-                    _transform.position = Vector3.Lerp(_origin.position, trgPos, _shakeProgress);
-                    _shakeProgress += _progressDir;
-                    if (_shakeProgress >= 1)
-                    {
-                        _progressDir = -0.5f;
-                    }
-                    else if (_shakeProgress <= 0)
-                    {
-                        _progressDir = 0.5f;
-                        _shakeDir *= -0.9f;
-                    }
-                }
-                else
-                {
-                    StopShaking();
-                }
-            }
-            else
-            {
-                _transform.position = _origin.position;
-            }
+            _transform.position = _origin.position;
         }
 
         private void FixedUpdate()
         {
             if (_isShaking)
             {
-                _curShakeSpeed -= _shakeDrag * Time.fixedDeltaTime;
-                if (_curShakeSpeed < _minShakeSpeed)
+                _shakeCurTime -= Time.fixedDeltaTime;
+                float shakeStep = _curShakeSpeed * Time.fixedDeltaTime;
+                _headCurAngleX -= shakeStep;
+                if (_shakeCurTime <= 0 || _headCurAngleX >= 0)
                 {
                     StopShaking();
-                    return;
-                }
-                    float step = _curShakeSpeed * Time.fixedDeltaTime * Mathf.Sign(_shakeDirAngle - _headCurAngle);
-                if (Mathf.Abs(_shakeDirAngle - _headCurAngle) > step)
-                {
-                    _headCurAngle += step;
-                    _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _headCurAngle);
                 }
                 else
                 {
-                    _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _shakeDirAngle);
-                    MakeShakeStep();
+                    
+                    _curShakeSpeed -= _shakeDrag * Time.fixedDeltaTime;
                 }
             }
+
+            float step = _tiltHeadSpeed * Time.fixedDeltaTime * Mathf.Sign(_headTargetAngle - _headCurAngleZ);
+            if (Mathf.Abs(_headTargetAngle - _headCurAngleZ) > Mathf.Abs(step))
+                _headCurAngleZ += step;
             else
-            {
-                float step = _tiltHeadSpeed * Time.fixedDeltaTime * Mathf.Sign(_headTargetAngle - _headCurAngle);
-                if (Mathf.Abs(_headTargetAngle - _headCurAngle) > Mathf.Abs(step))
-                {
-                    _headCurAngle += step;
-                    _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _headCurAngle);
-                }
-                else
-                {
-                    _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _headTargetAngle);
-                    _headCurAngle = _headTargetAngle;
-                }
-            }
+                _headCurAngleZ = _headTargetAngle;
+            _rotationZ = _headCurAngleZ;
         }
 
         public void StartShake(float angle)
         {
-            float radius = _shakeRadius * angle;
-            float x = Random.Range(radius, -radius);
-            float y = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(x, 2));
-            _shakeDir = new Vector2(x, y);
             _isShaking = true;
-            _shakeDirAngle = angle;
-            _curShakeTime = _shakeTime;
+            _shakeYOffset = Random.Range(-0.1f, 0.1f);
+            _shakeCurTime = _shakeTime;
             _curShakeSpeed = _startShakeSpeed * angle;
-            _shakeDrag = _curShakeSpeed / _shakeTime;
-        }
-
-        private void MakeShakeStep()
-        {
-            if (Mathf.Abs(_shakeDirAngle) > _shakeStep && Mathf.Abs(_shakeDirAngle) >= 1)
-                _shakeDirAngle = (Mathf.Abs(_shakeDirAngle) - _shakeStep) * -Mathf.Sign(_shakeDirAngle);
-            else
-                StopShaking();
+            _shakeDrag = ((4 * _curShakeSpeed * _shakeTime) - (8 * angle)) / Mathf.Pow(_shakeTime, 2);
         }
 
         private void StopShaking()
         {
-            _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
-            _curShakeTime = 0;
-            _shakeProgress = 0;
-            _shakeDir = Vector2.zero;
             _isShaking = false;
+            _headCurAngleX = 0;
         }
 
         public void Rotate(float angleX, float angleY)
@@ -157,7 +94,10 @@ namespace  PlayerController
             _rotationY += angleX;
             _rotationX -= angleY;
             _rotationX = Mathf.Clamp(_rotationX, _minYAngle, _maxYAngle);
-            _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _headCurAngle);
+            if (_isShaking)
+                _transform.rotation = Quaternion.Euler(_rotationX + _headCurAngleX, _rotationY + (_headCurAngleX * _shakeYOffset), _rotationZ);
+            else
+                _transform.rotation = Quaternion.Euler(_rotationX, _rotationY, _rotationZ); 
         }
 
         public void TiltHead(float dirX, float dirZ)

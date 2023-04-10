@@ -22,7 +22,7 @@ MonoBehaviour:
   _dispersionSpeed: 0
   _aimValue: 1
   _projectile: {fileID: 0}
-  _shakeAngle: 1.5
+  _shakeAngle: 1
   _animController: {fileID: 9100000, guid: f970b4c0ffdb2e440846b86b3050d93e, type: 2}
   _slotIndex: 2
   _infiniteAmmo: 0
