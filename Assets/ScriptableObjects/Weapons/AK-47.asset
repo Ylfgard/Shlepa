@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 20
   _bulletsPerShot: 1
-  _shotDelay: 0.075
+  _shotDelay: 0.03
   _clipCapacity: 30
   _distance: 30
   _dispersionX: 2
