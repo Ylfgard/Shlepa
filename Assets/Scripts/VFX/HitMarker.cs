@@ -16,6 +16,7 @@ namespace VFX
         {
             _transform.position = position;
             _transform.rotation = quaternion;
+            _transform.position += _transform.forward * 0.01f;
             StartCoroutine(DelayedDisable(showTime));
         }
 

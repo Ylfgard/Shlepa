@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3155587
 Transform:
   m_ObjectHideFlags: 0
@@ -3523,7 +3523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &936972234
 Transform:
   m_ObjectHideFlags: 0
@@ -4885,10 +4885,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1061967610}
     m_Modifications:
     - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _image
-      value: 
-      objectReference: {fileID: 631194433}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
       propertyPath: _ammoText
       value: 
       objectReference: {fileID: 653704185}
@@ -4897,29 +4893,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 205924999}
     - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _availableWeapons.Array.data[0]._startAmmo
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: _hitEnemy
+      value: 
+      objectReference: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
     - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _availableWeapons.Array.data[1]._startAmmo
-      value: 100
-      objectReference: {fileID: 0}
+      propertyPath: _hitGround
+      value: 
+      objectReference: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
     - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _availableWeapons.Array.data[2]._startAmmo
-      value: 100
-      objectReference: {fileID: 0}
+      propertyPath: _hitEnemyPrefab
+      value: 
+      objectReference: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
     - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _availableWeapons.Array.data[3]._startAmmo
-      value: 10000
-      objectReference: {fileID: 0}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _availableWeapons.Array.data[4]._startAmmo
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _availableWeapons.Array.data[5]._startAmmo
-      value: 100
-      objectReference: {fileID: 0}
+      propertyPath: _hitGroundPrefab
+      value: 
+      objectReference: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
     - target: {fileID: 1269718515708235174, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -5011,23 +4999,7 @@ PrefabInstance:
     - target: {fileID: 6330196669247471578, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 7da35b0a23f9f904a91c5d994887463e, type: 2}
-    - target: {fileID: 7415052670894724569, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 15e0aa6e19007f14a960f8cf76bc0f9e, type: 3}
-    - target: {fileID: 7415052670894724569, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415052670894724569, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415052670894724569, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9100000, guid: 311e5b1204be1df4991126984666ca10, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
 --- !u!1 &1177140110
@@ -6405,7 +6377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b845acda6545ef1439e139d8bfa64cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 2800758051109370382, guid: 2b36e597d7bdbda49af1543b0ed83342, type: 3}
+  _enemy: {fileID: 4292771377165270305, guid: 7c48ea1353fcbf54b8351e4dd30a07f2, type: 3}
   _stagesData:
   - _index: 1
     _spawnPoints:
