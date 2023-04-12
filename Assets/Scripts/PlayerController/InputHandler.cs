@@ -94,6 +94,11 @@ namespace PlayerController
                 _player.ChangeWeapon(5);
             if (Input.GetButtonDown(Slot6))
                 _player.ChangeWeapon(6);
+
+            if (Input.mouseScrollDelta.y > 0)
+                _player.ScrollWeapon(true);
+            else if (Input.mouseScrollDelta.y < 0)
+                _player.ScrollWeapon(false);
         }
 
         public void SetInputLockState(bool state)

@@ -12,6 +12,7 @@ namespace PlayerController.WeaponSystem
         private const string WalkStateName = "Walk";
         private const int WeaponsCount = 6;
 
+        [SerializeField] private float _changeWeaponTime;
         [SerializeField] private GameObject _hitGroundPrefab;
         [SerializeField] private GameObject _hitEnemyPrefab;
         [SerializeField] private Animator _animator;
@@ -119,17 +120,35 @@ namespace PlayerController.WeaponSystem
             StartCoroutine(ChangeWeapon(slotNumber));
         }
 
+        public void ScrollWeapon(bool next)
+        {
+            if (next)
+            {
+                if (_curWIndx < _weapons.Length - 1)
+                    TryChangeWeapon(_curWIndx + 2);
+                else
+                    TryChangeWeapon(1);
+            }
+            else
+            {
+                if (_curWIndx > 0)
+                    TryChangeWeapon(_curWIndx);
+                else
+                    TryChangeWeapon(_weapons.Length);
+            }
+        }
+
         private IEnumerator ChangeWeapon(int slotNumber)
         {
             _weaponReady = false;
             if (_curWIndx != -1)
             {
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(_changeWeaponTime);
                 _weapons[_curWIndx].PutAway();
             }
 
             _curWIndx = slotNumber - 1;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(_changeWeaponTime);
             _weapons[_curWIndx].TakeInHand();
             _weaponReady = true;
         }

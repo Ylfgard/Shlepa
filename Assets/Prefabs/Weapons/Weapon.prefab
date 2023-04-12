@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c7e900a25baea4d84115945bbcdb03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _changeWeaponTime: 0.2
   _hitGroundPrefab: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
   _hitEnemyPrefab: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
   _animator: {fileID: 6330196669247471578}

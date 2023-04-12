@@ -132,11 +132,11 @@ namespace PlayerController.WeaponSystem
                 RaycastHit hit;
                 if (Physics.Raycast(weaponDir.position, dir, out hit, _distance, _canBeCollided))
                 {
-                    RaycastHit enemyHit;
-                    if (Physics.Raycast(hit.point, dir, out enemyHit, 0.01f, _canBeDamaged))
+                    var colliders = Physics.OverlapSphere(hit.point, 0.01f, _canBeDamaged);
+                    if (colliders.Length > 0)
                     {
-                        _hitEnemy.GetObjectFromPool().Initialize(enemyHit.point, Quaternion.identity, _hitLifeTime);
-                        _enemyKeeper.MakeDamage(enemyHit.collider.gameObject, _damage, false);
+                        _hitEnemy.GetObjectFromPool().Initialize(hit.point, Quaternion.identity, _hitLifeTime);
+                        _enemyKeeper.MakeDamage(colliders[0].gameObject, _damage, false);
                     }
                     else
                     {

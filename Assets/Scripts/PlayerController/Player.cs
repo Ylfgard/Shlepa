@@ -48,6 +48,11 @@ namespace PlayerController
             _weaponKeeper.TryChangeWeapon(slot);
         }
 
+        public void ScrollWeapon(bool next)
+        {
+            _weaponKeeper.ScrollWeapon(next);
+        }
+
         public void ReloadWeapon()
         {
             _weaponKeeper.Reload();
