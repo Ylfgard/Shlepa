@@ -4892,22 +4892,6 @@ PrefabInstance:
       propertyPath: _clipText
       value: 
       objectReference: {fileID: 205924999}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitEnemy
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitGround
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitEnemyPrefab
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitGroundPrefab
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
     - target: {fileID: 1269718515708235174, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -6373,7 +6357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b845acda6545ef1439e139d8bfa64cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 4292771377165270305, guid: 7c48ea1353fcbf54b8351e4dd30a07f2, type: 3}
+  _enemy: {fileID: 6434816645664915265, guid: 6ef31e705cde64f49af38b27b17741f8, type: 3}
   _stagesData:
   - _index: 1
     _spawnPoints:

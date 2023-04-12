@@ -14,6 +14,16 @@ public class ObjectPool<T> where T : MonoBehaviour
         _objects = new List<T>();
     }
 
+    public void PreSpawn(int count)
+    {
+        T[] objects = new T[count];
+        for (int i = 0; i < count; i++)
+            objects[i] = GetObjectFromPool();
+
+        foreach (var obj in objects)
+            obj.gameObject.SetActive(false);
+    }
+
     public T GetObjectFromPool()
     {
         foreach (T obj in _objects)

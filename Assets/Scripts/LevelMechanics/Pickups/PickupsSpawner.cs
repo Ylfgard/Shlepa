@@ -26,6 +26,7 @@ namespace LevelMechanics.Pickups
 
         private void Start()
         {
+            _items.PreSpawn(10);
             StagesKeeper.Instance.AddPickupsSpawner(this);
         }
 

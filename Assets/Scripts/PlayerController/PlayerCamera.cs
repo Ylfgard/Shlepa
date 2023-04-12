@@ -21,7 +21,7 @@ namespace  PlayerController
         private Camera _camera;
         private float _rotationX, _rotationY, _rotationZ;
         private float _defualtFieldOfView;
-        private float _headTargetAngle;
+        private float _headTargetAngleZ;
         private float _headCurAngleZ;
 
         private float _curShakeSpeed;
@@ -39,13 +39,24 @@ namespace  PlayerController
             _camera = Camera.main;
             _defualtFieldOfView = _camera.fieldOfView;
             _sniperAim.enabled = false;
-            _headTargetAngle = 0;
+            _headTargetAngleZ = 0;
             _headCurAngleZ = 0;
         }
 
         private void Update()
         {
-            _transform.position = _origin.position;
+            if (_isShaking)
+            {
+                Vector3 pos = _origin.position;
+                Vector3 offset = _origin.forward * _headCurAngleX;
+                if (offset.magnitude > 0.5f) offset = offset.normalized * 0.5f;
+                pos += offset;
+                _transform.position = pos;
+            }
+            else
+            {
+                _transform.position = _origin.position;
+            }
         }
 
         private void FixedUpdate()
@@ -66,11 +77,11 @@ namespace  PlayerController
                 }
             }
 
-            float step = _tiltHeadSpeed * Time.fixedDeltaTime * Mathf.Sign(_headTargetAngle - _headCurAngleZ);
-            if (Mathf.Abs(_headTargetAngle - _headCurAngleZ) > Mathf.Abs(step))
+            float step = _tiltHeadSpeed * Time.fixedDeltaTime * Mathf.Sign(_headTargetAngleZ - _headCurAngleZ);
+            if (Mathf.Abs(_headTargetAngleZ - _headCurAngleZ) > Mathf.Abs(step))
                 _headCurAngleZ += step;
             else
-                _headCurAngleZ = _headTargetAngle;
+                _headCurAngleZ = _headTargetAngleZ;
             _rotationZ = _headCurAngleZ;
         }
 
@@ -86,6 +97,8 @@ namespace  PlayerController
         private void StopShaking()
         {
             _isShaking = false;
+            _rotationX += _headCurAngleX;
+            _rotationY += _headCurAngleX * _shakeYOffset;
             _headCurAngleX = 0;
         }
 
@@ -102,12 +115,25 @@ namespace  PlayerController
 
         public void TiltHead(float dirX, float dirZ)
         {
-            if (dirX == 0 || dirZ != 0)
-                _headTargetAngle = 0;
-            else if (dirX < 0)
-                _headTargetAngle = _tiltHeadAngle;
-            else
-                _headTargetAngle = -_tiltHeadAngle;
+            if (dirX > 0)
+            {
+                if (dirZ == 0)
+                    _headTargetAngleZ = _tiltHeadAngle;
+                else
+                    _headTargetAngleZ = _tiltHeadAngle / 2;
+                return;
+            }
+
+            if (dirX < 0)
+            {
+                if (dirZ == 0)
+                    _headTargetAngleZ = -_tiltHeadAngle;
+                else
+                    _headTargetAngleZ = -_tiltHeadAngle / 2;
+                return;
+            }
+
+            _headTargetAngleZ = 0;
         }
 
         public void Zoom(float value, bool state)

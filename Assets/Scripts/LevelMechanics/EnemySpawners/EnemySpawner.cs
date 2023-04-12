@@ -31,6 +31,7 @@ namespace LevelMechanics.EnemySpawners
 
         private void Start()
         {
+            _enemys.PreSpawn(1);
             StagesKeeper.Instance.AddEnemySpawner(this);
         }
 

@@ -34,6 +34,7 @@ namespace PlayerController.WeaponSystem
             _animController = parameters.AnimController;
             _infiniteAmmo = parameters.InfiniteAmmo;
             _projectilesPool = new ObjectPool<Grenade>(parameters.Projectile);
+            _projectilesPool.PreSpawn(3);
 
             _reloading = false;
             _readyToShot = true;

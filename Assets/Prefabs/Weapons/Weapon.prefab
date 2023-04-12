@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 15e0aa6e19007f14a960f8cf76bc0f9e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4e35b42f9bee26547adb9ddfbfcabec9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,7 +88,7 @@ Animator:
   m_GameObject: {fileID: 2800369751401339883}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9086320576b1f064e859c6772b7b503e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7da35b0a23f9f904a91c5d994887463e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -110,7 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c7e900a25baea4d84115945bbcdb03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitMarker: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
+  _hitGroundPrefab: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
+  _hitEnemyPrefab: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
   _animator: {fileID: 6330196669247471578}
   _clipText: {fileID: 0}
   _ammoText: {fileID: 0}

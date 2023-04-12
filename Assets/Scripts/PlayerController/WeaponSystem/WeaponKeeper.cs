@@ -70,6 +70,12 @@ namespace PlayerController.WeaponSystem
             StartCoroutine(ChangeWeapon(_availableWeapons[0].Weapon.SlotIndex));
         }
 
+        private void Start()
+        {
+            _hitGround.PreSpawn(30);
+            _hitEnemy.PreSpawn(30);
+        }
+
         private void FixedUpdate()
         {
             _updateCall?.Invoke();
