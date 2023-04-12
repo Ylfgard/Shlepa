@@ -4892,22 +4892,6 @@ PrefabInstance:
       propertyPath: _clipText
       value: 
       objectReference: {fileID: 205924999}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitEnemy
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitGround
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitEnemyPrefab
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 432ece54f3da764489ad7f3784095340, type: 3}
-    - target: {fileID: 631194431, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: _hitGroundPrefab
-      value: 
-      objectReference: {fileID: 4473004902710145794, guid: 7553e829f3185c94a9c75aa0a5f93874, type: 3}
     - target: {fileID: 1269718515708235174, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -4996,14 +4980,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon
       objectReference: {fileID: 0}
-    - target: {fileID: 6330196669247471578, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 311e5b1204be1df4991126984666ca10, type: 2}
-    - target: {fileID: 7415052670894724569, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 4e35b42f9bee26547adb9ddfbfcabec9, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8c2dfaca4d281946bb3a0bca39563f7, type: 3}
 --- !u!1 &1177140110
