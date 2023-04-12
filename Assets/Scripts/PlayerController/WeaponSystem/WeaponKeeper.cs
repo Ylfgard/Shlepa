@@ -29,11 +29,13 @@ namespace PlayerController.WeaponSystem
         private ObjectPool<HitMarker> _hitGround;
         private ObjectPool<HitMarker> _hitEnemy;
 
-        private void Awake()
+        private void Start()
         {
             _enemyKeeper = EnemyKeeper.Instance;
             _hitGround = new ObjectPool<HitMarker>(_hitGroundPrefab);
             _hitEnemy = new ObjectPool<HitMarker>(_hitEnemyPrefab);
+            _hitGround.PreSpawn(30);
+            _hitEnemy.PreSpawn(30);
 
             _weapons = new Weapon[WeaponsCount];
             foreach (var availableWeapon in _availableWeapons)
@@ -68,12 +70,6 @@ namespace PlayerController.WeaponSystem
             _curWIndx = -1;
             _weaponReady = true;
             StartCoroutine(ChangeWeapon(_availableWeapons[0].Weapon.SlotIndex));
-        }
-
-        private void Start()
-        {
-            _hitGround.PreSpawn(30);
-            _hitEnemy.PreSpawn(30);
         }
 
         private void FixedUpdate()

@@ -2,6 +2,7 @@ using UnityEngine;
 using Enemys;
 using System.Collections.Generic;
 using System;
+using Enemys.Bosses;
 
 namespace LevelMechanics.EnemySpawners
 {
@@ -31,7 +32,10 @@ namespace LevelMechanics.EnemySpawners
 
         private void Start()
         {
-            _enemys.PreSpawn(1);
+            if (_enemy.TryGetComponent<Boss>(out Boss boss))
+                _enemys.PreSpawn(1);
+            else
+                _enemys.PreSpawn(5);
             StagesKeeper.Instance.AddEnemySpawner(this);
         }
 
