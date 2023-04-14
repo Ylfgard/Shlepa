@@ -29,19 +29,28 @@ namespace Enemys.AIModules
 
         public float GetCurDistance()
         {
-            float distance = Vector2.Distance(new Vector2(_transform.position.x, _transform.position.z),
-                new Vector2(_target.position.x, _target.position.z));
+            Vector3 myPos = _transform.position;
+            myPos.y = 0;
+            Vector3 target = _target.position;
+            target.y = 0;
+            float distance = Vector3.Distance(myPos, target);
             return distance;
         }
 
         public override void Move()
         {
             if (_agent.stoppingDistance != 0) _agent.stoppingDistance = 0;
-            float curDis = Vector2.Distance(new Vector2(_transform.position.x, _transform.position.z),
-                new Vector2(_target.position.x, _target.position.z));
+            float curDis = GetCurDistance();
 
-            if (Vector2.Distance(new Vector2(_transform.position.x, _transform.position.z),
-                new Vector2(_agent.destination.x, _agent.destination.z)) > _stopDistance && curDis >= _distance) return;
+            if (curDis >= _distance)
+            {
+                Vector3 myPos = _transform.position;
+                myPos.y = 0;
+                Vector3 des = _agent.destination;
+                des.y = 0;
+                if (Vector3.Distance(myPos, des) > _stopDistance) 
+                    return;
+            }
 
             Vector3 dir;
             if (curDis < _distance)

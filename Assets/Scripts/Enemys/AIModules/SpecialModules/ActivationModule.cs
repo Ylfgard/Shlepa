@@ -26,9 +26,15 @@ namespace Enemys.AIModules
 
         public bool CheckActivation()
         {
-            if (_isActive == false && Vector2.Distance(new Vector2(_target.position.x, _target.position.z),
-                new Vector2(_transform.position.x, _transform.position.z)) <= _activationDistance)
-                _isActive = true;
+            if (_isActive == false)
+            {
+                Vector3 target = _target.position;
+                target.y = 0;
+                Vector3 myPos = _transform.position;
+                myPos.y = 0;
+                if (Vector3.Distance(target, myPos) <= _activationDistance)
+                        _isActive = true;
+            }
             return _isActive;
         }
 
