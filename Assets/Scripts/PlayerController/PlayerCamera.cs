@@ -98,7 +98,6 @@ namespace  PlayerController
         {
             _isShaking = false;
             _rotationX += _headCurAngleX;
-            _rotationY += _headCurAngleX * _shakeYOffset;
             _headCurAngleX = 0;
         }
 
