@@ -17,13 +17,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Checker.001
-    second: {fileID: 2100000, guid: d3c9c4708224912408915c5a106c7726, type: 2}
+      name: Decals
+    second: {fileID: 2100000, guid: 2559bb708eab93e4984aa39ce55d727b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Decals
-    second: {fileID: 2100000, guid: 2559bb708eab93e4984aa39ce55d727b, type: 2}
+      name: Dirt
+    second: {fileID: 2100000, guid: 16825dba8bd0d9747a4d5acf0ef69f69, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -34,6 +34,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Grass
     second: {fileID: 2100000, guid: 6352093f7b7ee714da19be65eaac2d25, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GrassFlower
+    second: {fileID: 2100000, guid: c0af63e23f75a6b458ac803e2c039584, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -62,8 +67,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Town_Brick
+      name: Town_Brick_Col_1
     second: {fileID: 2100000, guid: 0787b7c30058bef4dac279216084a62b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Town_Brick_Col_2
+    second: {fileID: 2100000, guid: 7edb283acf5fbf0479114e277b900e89, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Town_Brick_Col_3
+    second: {fileID: 2100000, guid: bca82b2e66e5a2a449491ed3b7a072c2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -72,12 +87,22 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Town_props
+    second: {fileID: 2100000, guid: 4866929f7573e514dac2365a3675b91a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tree_Background_Seamless
+    second: {fileID: 2100000, guid: e3da63679f9ba064393da0552d339931, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wall_Wood
     second: {fileID: 2100000, guid: d91ddc2e110ba534e92cf63dced3ce66, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
-    materialSearch: 1
+    materialSearch: 0
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
