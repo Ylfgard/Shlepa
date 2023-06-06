@@ -17,6 +17,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Black_mat
+    second: {fileID: 2100000, guid: 4a52c650310792a45b4e1205f464e088, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Decals
     second: {fileID: 2100000, guid: 09b91e3463ad8644ab52bc5ec84e8368, type: 2}
   - first:
@@ -67,7 +72,22 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: T_Wall
+      name: T_Wall_1
+    second: {fileID: 2100000, guid: 6b213b4de3fd67b419e6e5a7929798a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Wall_2
+    second: {fileID: 2100000, guid: 323bc04c979a26d4b9b8d676307c8259, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Wall_3
+    second: {fileID: 2100000, guid: bee6591d729a4254fa4aff1a23e83b5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Wall_Base
     second: {fileID: 2100000, guid: e5f60df6ce2d34d4d89a0a949e7bc750, type: 2}
   - first:
       type: UnityEngine:Material
