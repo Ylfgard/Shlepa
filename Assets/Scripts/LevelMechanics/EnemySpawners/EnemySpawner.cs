@@ -70,7 +70,6 @@ namespace LevelMechanics.EnemySpawners
         public void Initialize(ObjectPool<Enemy> enemys)
         {
             _enemys = enemys;
-            ;
             if (_enemys.Value.TryGetComponent(out LandingEnemy enemy))
                 _spawnAreaRadius = enemy.LandingAreaRadius;
             else
