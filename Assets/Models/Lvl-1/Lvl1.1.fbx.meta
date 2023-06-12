@@ -92,11 +92,6 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: T_Wood_Floor
-    second: {fileID: 2100000, guid: a8b5e4d7b1e205d43a9099cf99954a4f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: Town_Decals
     second: {fileID: 2100000, guid: fb34c329fc798f54ab460796e665c56c, type: 2}
   - first:
