@@ -28,6 +28,12 @@ namespace Enemys.Bosses
                 stage.Initialize(this);
         }
 
+        public override void Initialize(Vector3 position)
+        {
+            base.Initialize(position);
+            _jumper.Activate();
+        }
+
         protected void FixedUpdate()
         {
             if (_isAlive == false) return;
