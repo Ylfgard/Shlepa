@@ -46,7 +46,15 @@ namespace Enemys.AIModules
             _agent = enemy.Agent;
             _animationController = enemy.AnimationController;
             _curVerSpeed = 0;
+            _gravity = -10;
+            _maxFallSpeed = -20;
             _dir = Vector3.zero;
+        }
+
+        public void Activate()
+        {
+            _controller.Move(_transform.position - _controller.center);
+            _agent.Move(_transform.position - _controller.center);
         }
 
         public void Move()

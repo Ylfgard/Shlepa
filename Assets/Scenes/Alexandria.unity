@@ -3198,7 +3198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b845acda6545ef1439e139d8bfa64cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 4965385716526617345, guid: 0233d154d49f2344aa7d5a4dd47af589, type: 3}
+  _enemy: {fileID: 428984347564802953, guid: b1c78bf557e573f45b084dde52ea26d0, type: 3}
   _stagesData:
   - _index: 5
     _spawnPoints:
@@ -5375,7 +5375,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299231608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.93, y: 0.02, z: 2.54}
+  m_LocalPosition: {x: -13.33, y: 0.05, z: 0.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
