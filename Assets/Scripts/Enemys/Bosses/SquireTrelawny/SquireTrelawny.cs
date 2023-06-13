@@ -37,6 +37,7 @@ namespace Enemys.Bosses
         {
             base.Initialize(position);
             _meleeAttackAllow = false;
+            _jumper.Activate();
         }
 
         protected void FixedUpdate()
