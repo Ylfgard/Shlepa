@@ -22,7 +22,7 @@ namespace Enemys.Bosses
         public override void Initialize(Vector3 position)
         {
             base.Initialize(position);
-            _jumper.Activate();
+            _jumper.Activate(position);
         }
 
         protected virtual void FixedUpdate()

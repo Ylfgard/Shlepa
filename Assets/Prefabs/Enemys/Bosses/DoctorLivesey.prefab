@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5448345779001117518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.84, y: 0.874, z: 1.88}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -95,6 +95,7 @@ MonoBehaviour:
   _weakPoints:
   - {fileID: 5448345780544284431}
   _animationController: {fileID: 5448345780018720701}
+  _deathDelay: 0
   _activator: {fileID: 5448345779001117525}
   _mover: {fileID: 3166411254749272713}
   _attacker: {fileID: 7924101073188368892}

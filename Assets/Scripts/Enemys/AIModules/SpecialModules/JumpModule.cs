@@ -29,6 +29,8 @@ namespace Enemys.AIModules
         protected bool _jumpStarted;
         protected float _speed;
         protected bool _isAttacking;
+        protected Vector3 _startPos;
+        protected bool _startLanding;
 
         protected Transform _transform;
         protected Transform _target;
@@ -51,10 +53,14 @@ namespace Enemys.AIModules
             _dir = Vector3.zero;
         }
 
-        public void Activate()
+        public void Activate(Vector3 position)
         {
-            _controller.Move(_transform.position - _controller.center);
-            _agent.Move(_transform.position - _controller.center);
+            position += Vector3.up * 5;
+            _controller.Move(position);
+            _agent.Move(position);
+            _transform.position = position;
+            _startPos = position;
+            _startLanding = true;
         }
 
         public void Move()
@@ -81,8 +87,16 @@ namespace Enemys.AIModules
                 _curVerSpeed = _maxFallSpeed;
 
             step.y = _curVerSpeed * Time.fixedDeltaTime;
-            _agent.Move(step);
-            _controller.Move(step);
+            if (_startLanding)
+            {
+                _transform.position = _startPos;
+                _startLanding = false;
+            }
+            else
+            {
+                _agent.Move(step);
+                _controller.Move(step);
+            }
         }
 
         public void TryJump()
