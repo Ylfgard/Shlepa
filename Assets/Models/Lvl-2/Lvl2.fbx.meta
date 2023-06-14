@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: T_Desert_MountWall
+    second: {fileID: 2100000, guid: 012166459a06bd942ad9a2c703370a14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: T_Desert_Wall
     second: {fileID: 2100000, guid: 22a47e8e7e08f9648a0374bf33d1dd8e, type: 2}
   - first:
