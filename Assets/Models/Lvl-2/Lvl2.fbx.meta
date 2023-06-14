@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Decals_Vegetables
+    second: {fileID: 2100000, guid: b4d6923abdd6f4b45adcac44d46a7a5a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: T_Desert_MountWall
     second: {fileID: 2100000, guid: 012166459a06bd942ad9a2c703370a14, type: 2}
   - first:
