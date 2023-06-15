@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Decals_Vegetables
-    second: {fileID: 2100000, guid: b4d6923abdd6f4b45adcac44d46a7a5a, type: 2}
+    second: {fileID: 2100000, guid: 8f613b9b76c8bac4aaf40bea78ddb195, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

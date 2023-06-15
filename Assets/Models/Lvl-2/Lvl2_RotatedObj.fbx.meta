@@ -3,12 +3,7 @@ guid: 1cf532b3211e38d4da202e9b627f9243
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: T_Desert__HouseDetails
-    second: {fileID: 2100000, guid: 27a6f6daf9b6c584aae4aca4c648b54b, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
