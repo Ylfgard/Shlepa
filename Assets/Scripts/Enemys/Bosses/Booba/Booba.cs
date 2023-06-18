@@ -1,11 +1,12 @@
 using UnityEngine;
 using Enemys.AIModules;
+using System.Collections;
 
 namespace Enemys.Bosses
 {
     public class Booba : Boss
     {
-        [SerializeField] protected JumpModule _jumper;
+        [SerializeField] protected GroundSpikesModule _spikes;
 
         [Header ("Stages")]
         [SerializeField] private BoobaStage[] _stages;
@@ -14,31 +15,42 @@ namespace Enemys.Bosses
         {
             base.Awake();
             var controller = GetComponent<CharacterController>();
-            _jumper.Initialize(this, controller);
+            _spikes.Initialize(this, controller);
             foreach (BoobaStage stage in _stages)
                 stage.Initialize(this);
         }
 
         public override void Initialize(Vector3 position)
         {
-            base.Initialize(position);
-            _jumper.Activate(position);
+            _transform.position = position;
+            _curHealth = _maxHealth;
+            _isAlive = true;
+            _spikes.Activate(position);
         }
 
         protected virtual void FixedUpdate()
         {
             if (_isAlive == false) return;
 
-            _jumper.Move();
-            
+            _spikes.Move();
+
             if (_activator.CheckActivation() == false) return;
 
-            _jumper.TryJump();
+            _spikes.TryJump();
         }
 
         public override void ActivateStage(BossStage stage)
         {
-            _jumper.ChangeParameters(stage as BoobaStage);
+            _spikes.ChangeParameters(stage as BoobaStage);
+        }
+
+        protected override IEnumerator DeathDelay()
+        {
+            _animationController.SetTrigger("Death");
+            _isAlive = false;
+            yield return new WaitForSeconds(_deathDelay);
+            SendDeath?.Invoke(this);
+            gameObject.SetActive(false);
         }
     }
 }

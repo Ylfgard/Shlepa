@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PlayerController
@@ -5,6 +6,8 @@ namespace PlayerController
     public class PlayerMovement : MonoBehaviour
     {
         private const float JumpCooldown = 0.1f;
+
+        public event Action Landed;
 
         [Header("Moving")]
         [SerializeField] private float _speed;
@@ -27,6 +30,7 @@ namespace PlayerController
         private Vector3 _curDir;
 
         public Transform Transform => _transform;
+        public bool Grounded => _grounded;
 
         private void Awake()
         {
@@ -41,7 +45,11 @@ namespace PlayerController
 
         private void FixedUpdate()
         {
-            _grounded = Physics.OverlapSphere(_groundCheck.position, 0.25f, _groundMask).Length > 0;
+            var grounded = Physics.OverlapSphere(_groundCheck.position, 0.25f, _groundMask).Length > 0;
+            if (_grounded == false && grounded)
+                Landed?.Invoke();
+
+            _grounded = grounded;
 
             if (_ySpeed > _maxFallSpeed)
                 _ySpeed += _gravity * Time.fixedDeltaTime;
