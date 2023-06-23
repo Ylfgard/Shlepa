@@ -11,7 +11,6 @@ namespace Enemys.AIModules
         [SerializeField] protected int _damage;
         [SerializeField] protected float _attackDelay;
         [SerializeField] protected float _jumpTime;
-        [SerializeField] protected float _activeTime;
         [SerializeField] protected float _jumpHight;
         [SerializeField] protected Transform _groundCheck;
         [SerializeField] protected LayerMask _ground;
@@ -19,7 +18,6 @@ namespace Enemys.AIModules
         protected Transform _transform;
         protected Player _player;
         protected CharacterController _controller;
-        protected AnimationController _animationController;
         protected Spikes _spikes;
 
         protected bool _readyToJump;
@@ -31,7 +29,6 @@ namespace Enemys.AIModules
         protected Vector3 _startPos;
         protected bool _startLanding;
         protected bool _firstLanding;
-        protected bool _spikesActive;
 
         public void Initialize(Enemy enemy, CharacterController controller)
         {
@@ -42,7 +39,7 @@ namespace Enemys.AIModules
             _spikes = FindObjectOfType<Spikes>();
             if (_spikes == null)
                 Debug.LogError("Can't find spikes!");
-            _animationController = _spikes.Controller;
+            _spikes.Initialize(_player.Parameters, _damage);
 
             _readyToJump = true;
             _fallSpeed = 0;
@@ -104,35 +101,8 @@ namespace Enemys.AIModules
                 return;
             }
 
-            _animationController.SetTrigger("Spikes");
-            if (_player.Mover.Grounded)
-            {
-                _player.Parameters.TakeDamage(_damage);
-            }   
-            else
-            {
-                _player.Mover.Landed += MakeDamage;
-                _spikesActive = true;
-                StartCoroutine(DeactivateSpikes());
-            }
+            _spikes.AttackSpikes();
             StartCoroutine(PrepareAttack());
-        }
-
-        protected void MakeDamage()
-        {
-            _player.Parameters.TakeDamage(_damage);
-            _player.Mover.Landed -= MakeDamage;
-            _spikesActive = false;
-        }
-
-        protected IEnumerator DeactivateSpikes()
-        {
-            yield return new WaitForSeconds(_activeTime);
-            if (_spikesActive)
-            {
-                _spikesActive = false;
-                _player.Mover.Landed -= MakeDamage;
-            }
         }
 
         protected void Jump()
@@ -163,12 +133,6 @@ namespace Enemys.AIModules
         {
             _attackDelay = stage.AttackDelay;
             _jumpTime = stage.JumpTime;
-        }
-
-        public override void Deactivate(Enemy enemy)
-        {
-            base.Deactivate(enemy);
-
         }
     }
 }

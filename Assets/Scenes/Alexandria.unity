@@ -183,8 +183,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _wavesData:
   - _index: 1
-    _timeDelay: 10
-    _enemyClearPercent: 0
+    _timeDelay: 0
+    _enemyClearPercent: 100
   - _index: 2
     _timeDelay: 0
     _enemyClearPercent: 100
@@ -4871,15 +4871,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2227547261328555231, guid: 4fd374ef3a1efca4782fcf6bc1567e85, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.27
+      value: -8.84
       objectReference: {fileID: 0}
     - target: {fileID: 2227547261328555231, guid: 4fd374ef3a1efca4782fcf6bc1567e85, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.11
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 2227547261328555231, guid: 4fd374ef3a1efca4782fcf6bc1567e85, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.6
+      value: -10.01
       objectReference: {fileID: 0}
     - target: {fileID: 2227547261328555231, guid: 4fd374ef3a1efca4782fcf6bc1567e85, type: 3}
       propertyPath: m_LocalRotation.w
