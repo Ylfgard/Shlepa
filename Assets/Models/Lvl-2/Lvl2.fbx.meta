@@ -13,7 +13,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Decals_Vegetables
-    second: {fileID: 2100000, guid: 8f613b9b76c8bac4aaf40bea78ddb195, type: 2}
+    second: {fileID: 2100000, guid: 772c7ba5044c18a41ad2e75dc1deb611, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dirt
+    second: {fileID: 2100000, guid: f59cf00281e0c5443b9728094916f4db, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -24,6 +29,16 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: T_Desert_Wall
     second: {fileID: 2100000, guid: 22a47e8e7e08f9648a0374bf33d1dd8e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Desert_Wall_Brick
+    second: {fileID: 2100000, guid: 51487cbcdbc8fa94e955e2c4a7ce971a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Desert_Wall_Ierogliphs
+    second: {fileID: 2100000, guid: 981bee9a89ed3444fab8835c406f7f0f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
