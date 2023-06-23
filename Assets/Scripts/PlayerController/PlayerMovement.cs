@@ -7,8 +7,6 @@ namespace PlayerController
     {
         private const float JumpCooldown = 0.1f;
 
-        public event Action Landed;
-
         [Header("Moving")]
         [SerializeField] private float _speed;
 
@@ -45,11 +43,7 @@ namespace PlayerController
 
         private void FixedUpdate()
         {
-            var grounded = Physics.OverlapSphere(_groundCheck.position, 0.25f, _groundMask).Length > 0;
-            if (_grounded == false && grounded)
-                Landed?.Invoke();
-
-            _grounded = grounded;
+            _grounded = Physics.OverlapSphere(_groundCheck.position, 0.25f, _groundMask).Length > 0;
 
             if (_ySpeed > _maxFallSpeed)
                 _ySpeed += _gravity * Time.fixedDeltaTime;
