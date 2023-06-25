@@ -49,7 +49,7 @@ namespace Enemys.AIModules
 
         public void Activate(Vector3 position)
         {
-            position += Vector3.up * 5;
+            position += Vector3.up * 2;
             _controller.Move(position);
             _transform.position = position;
             _startPos = position;
@@ -98,6 +98,7 @@ namespace Enemys.AIModules
             if (_firstLanding)
             {
                 _firstLanding = false;
+                StartCoroutine(PrepareAttack());
                 return;
             }
 
