@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3155587
 Transform:
   m_ObjectHideFlags: 0
@@ -3259,7 +3259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b845acda6545ef1439e139d8bfa64cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 428984347564802953, guid: b1c78bf557e573f45b084dde52ea26d0, type: 3}
+  _enemy: {fileID: 4965385716526617345, guid: 0233d154d49f2344aa7d5a4dd47af589, type: 3}
   _stagesData:
   - _index: 5
     _spawnPoints:
@@ -3584,7 +3584,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &936972234
 Transform:
   m_ObjectHideFlags: 0

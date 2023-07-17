@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 748ae8b33df036b46a86e0387f1602cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 880d29abf3788d24eae37017d06f8ef5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 8750517174623450464}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 50e3f1cf181cdd54b89ff6a65aa6c56a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9b64c0697a23af4419be921f91139736, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -179,10 +179,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.75
+  m_Radius: 0.35
+  m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: -0.3, z: 0}
+  m_Center: {x: 0, y: -0.2, z: 0}
 --- !u!195 &8750517175380089941
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -221,6 +221,7 @@ MonoBehaviour:
   _maxHealth: 1
   _weakPoints: []
   _animationController: {fileID: 8750517174623450466}
+  _deathDelay: 0.5
   _lander: {fileID: 1071489278099712760}
   _attacker: {fileID: 8116783758839973650}
   _mover: {fileID: 3728636578444362477}
