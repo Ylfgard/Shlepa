@@ -18,6 +18,7 @@ namespace Enemys.AIModules
         protected Transform _transform;
         protected Player _player;
         protected CharacterController _controller;
+        protected AnimationController _animationController;
         protected Spikes _spikes;
 
         protected bool _readyToJump;
@@ -41,6 +42,7 @@ namespace Enemys.AIModules
                 Debug.LogError("Can't find spikes!");
             _spikes.Initialize(_player.Parameters, _damage);
 
+            _animationController = enemy.AnimationController;
             _readyToJump = true;
             _fallSpeed = 0;
             _gravity = -20;
@@ -108,6 +110,7 @@ namespace Enemys.AIModules
 
         protected void Jump()
         {
+            _animationController.SetTrigger("Jump");
             float t = _jumpTime / 2;
             _gravity = (-2 * _jumpHight) / Mathf.Pow(t, 2);
             _fallSpeed = -_gravity * t;
