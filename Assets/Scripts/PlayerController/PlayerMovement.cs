@@ -50,7 +50,23 @@ namespace PlayerController
             else
                 _ySpeed = _maxFallSpeed;
         }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Platform")
+            {
+                transform.parent = other.transform;
+            }
+        }
 
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.tag == "Platform")
+            {
+                transform.parent = null;
+            }
+        }
+        
         public void Move(Vector3 dir)
         {
             dir = _transform.right * dir.x + _transform.forward * dir.z + Vector3.up * dir.y;
