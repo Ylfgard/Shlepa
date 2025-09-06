@@ -22,6 +22,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: T_Desert_ClearWall
+    second: {fileID: 2100000, guid: 8ec5c90f484acea41bd946dc39f33528, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: T_Desert_MountWall
     second: {fileID: 2100000, guid: 012166459a06bd942ad9a2c703370a14, type: 2}
   - first:
@@ -44,6 +49,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: T_Desert__HouseDetails
     second: {fileID: 2100000, guid: 121f8f670dbd73641a98bbf2d3eee700, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Mine_Wall
+    second: {fileID: 2100000, guid: 86f282de87afdde4898fc7a0d709b582, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

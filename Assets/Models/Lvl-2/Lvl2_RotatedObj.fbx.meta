@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: T_Desert__HouseDetails
     second: {fileID: 2100000, guid: 121f8f670dbd73641a98bbf2d3eee700, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vegetables_2
+    second: {fileID: 2100000, guid: 505bab044b2d7774c83795ef19f38b0e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
