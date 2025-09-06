@@ -105,5 +105,11 @@ namespace PlayerController
         {
             _isLocked = state;
         }
+
+        public void SetMouseSensitivity(float sensitivity)
+        {
+            sensX = sensitivity;
+            sensY = sensitivity;
+        }
     }
 }
