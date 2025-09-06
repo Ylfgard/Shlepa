@@ -62,6 +62,7 @@ namespace UI
         public void OpenMainMenu()
         {
             Debug.Log("Open main menu");
+            Application.Quit();
         }
     }
 }
